@@ -1,0 +1,226 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br">
+@using StackExchange.Profiling;
+@MiniProfiler.RenderIncludes()
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Organograma ES</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.6 -->
+    <link rel="stylesheet" href="~/Scripts/bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/css/AdminLTE.css">
+    <link rel="stylesheet" href="~/css/skins/_all-skins.css">
+    <link rel="stylesheet" href="~/css/wizardForm.css">
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+
+    <style>
+        .error {
+            color: indianred;
+        }
+    </style>
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+        <!-- Main Header -->
+        <header class="main-header">
+            <!-- Logo -->
+            <a href="/" class="logo">
+                <!-- mini logo for sidebar mini 50x50 pixels -->
+                <span class="logo-mini"><i class="fa fa-sitemap" aria-hidden="true"></i></span>
+                <!-- logo for regular state and mobile devices -->
+                <span class="logo-lg"><i class="fa fa-sitemap" aria-hidden="true"></i> Organograma <b>ES</b></span>
+            </a>
+            <!-- Header Navbar -->
+            <nav class="navbar navbar-static-top" role="navigation">
+                <!-- Sidebar toggle button-->
+                <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                </a>
+                <!-- Navbar Right Menu -->
+                <div class="navbar-custom-menu">
+                    <div id=”Menu”>
+                        @{ Html.RenderAction("GetUsuarioLogado", "Home"); }
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <!-- Left side column. contains the logo and sidebar -->
+        <aside class="main-sidebar">
+            <!-- sidebar: style can be found in sidebar.less -->
+            <section class="sidebar">
+                <!-- Sidebar user panel (optional) -->
+                <a href="http://www.es.gov.br" target="_blank" title="Ir para o site do Governo do Estado do Espírito Santo" class="logotipo">
+                    <span class="logotipo-mini"><img src="~/img/Brasao.png" class="img-responsive" /></span>
+                    <span class="logotipo-lg"><img src="~/img/Brasao_Governo_horizontal_white_left_small.png" class="img-responsive" /></span>
+                </a>
+                <!-- search form (Optional) -->
+                <form id="formConsultaProcesso" class="sidebar-form">
+                    <div class="input-group">
+                        <input type="text" required name="numeroProcesso" id="numeroProcesso" class="form-control" placeholder="Organização...">
+                        <span class="input-group-btn">
+                            <button type="submit" name="search" id="search-btn" class="btn btn-flat">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </span>
+                    </div>
+                </form>
+                <!-- /.search form -->
+                <!-- Sidebar Menu -->
+                <ul class="sidebar-menu">
+                    <li class="header">MENU PRINCIPAL</li>
+                    <!-- Optionally, you can add icons to the links -->
+                    <li class="active"><a href=""><i class="fa fa-sitemap" aria-hidden="true"></i> <span>Minha Organização</span></a></li>
+                    <li><a href=""><i class="fa fa-building" aria-hidden="true"></i> <span>Organizações</span></a></li>
+                    <li><a href=""><i class="fa fa-building-o"></i> <span>Unidades</span></a></li>
+                    <li><a href=""><i class="fa fa-file-text-o"></i> <span>Tipo de Organização</span></a></li>
+                    <li><a href=""><i class="fa fa-file-text-o"></i> <span>Tipo de Unidade</span></a></li>
+                </ul>
+                <!-- /.sidebar-menu -->
+            </section>
+            <!-- /.sidebar -->
+        </aside>
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            @RenderBody()
+        </div>
+        <!-- /.content-wrapper -->
+        <!-- Main Footer -->
+        <footer class="main-footer">
+            <!-- To the right -->
+            <div class="pull-right hidden-xs">
+
+            </div>
+            <!-- Default to the left -->
+            <strong>Copyright &copy; 2016 <a href="#">Prodest</a></strong>
+        </footer>
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar control-sidebar-dark">
+            <!-- Create the tabs -->
+            <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
+                <li class="active"><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
+                <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
+            </ul>
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <!-- Home tab content -->
+                <div class="tab-pane active" id="control-sidebar-home-tab">
+                    <h3 class="control-sidebar-heading"><i class="fa fa-tasks"></i> Atividades Recentes</h3>
+                </div>
+                <!-- /.tab-pane -->
+                <!-- Settings tab content -->
+                <div class="tab-pane" id="control-sidebar-settings-tab">
+                    <h3 class="control-sidebar-heading">Configurações Gerais</h3>
+                </div>
+                <!-- /.tab-pane -->
+            </div>
+        </aside>
+        <!-- /.control-sidebar -->
+        <!-- Add the sidebar's background. This div must be placed
+             immediately after the control sidebar -->
+        <div class="control-sidebar-bg"></div>
+    </div>
+    <!-- ./wrapper -->
+    <!--Modal Visualizacao Processo-->
+    <div class="modal fade" id="modalProcesso" tabindex="-1" role="dialog" aria-labelledby="modalProcessoLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                    <h4 class="modal-title" id="modalProcessoLabel">Visualização do Processo</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="visualizarProcesso">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-close"></i> Fechar</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+    <!--Modal Despacho Processo-->
+    <div class="modal fade" id="modalDespacho" tabindex="-1" role="dialog" aria-labelledby="modalDespachoLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                    <h4 class="modal-title" id="modalProcessoLabel">Despacho</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="despachoProcesso">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-close"></i> Fechar</button>
+                    <button class="btn btn-danger" id="btnDespacharProcesso" type="button"><i class="fa fa-check"></i> Despachar Processo</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+    <!-- Modal Error -->
+    <div class="modal fade" id="modalError" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="modalErrorLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <h3>Sua sessão expirou!</h3>
+                    <p>Clique no botão abaixo para iniciar uma nova sessão.</p>
+                    <a href="@Url.Action("Index", "Home")" title="Iniciar nova sessão" class="btn btn-success"><i class="fa fa-refresh" aria-hidden="true"></i> Iniciar nova sessão</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Waiting -->
+    <div class="modal fade" id="modalWaiting" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p class="text-center">
+                        <i class="fa fa-circle-o-notch fa-spin fa-2x fa-fw"></i>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- REQUIRED JS SCRIPTS -->
+    <!-- jQuery 2.2.3 -->
+    <script src="~/Scripts/jQuery/jquery-2.2.3.min.js"></script>
+    <!-- Bootstrap 3.3.6 -->
+    <script src="~/Scripts/bootstrap/js/bootstrap.min.js"></script>
+    <!--jQueryMask-->
+    <script src="~/Scripts/jQueryMask/jquery.mask.min.js"></script>
+    <!--Validate-->
+    <script src="~/Scripts/validate/jquery.validate.min.js"></script>
+    <!--Toastr-->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <!--Select2-->
+    <link href="~/Scripts/select2/css/select2.css" rel="stylesheet" />
+    <link href="~/Scripts/select2/css/select2-bootstrap.css" rel="stylesheet" />
+    <script src="~/Scripts/select2/js/select2.min.js"></script>
+
+    <!-- AdminLTE App -->
+    <script src="~/js/app.min.js"></script>    
+    <script src="~/js/site.js"></script>    
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>
