@@ -1,7 +1,7 @@
-﻿@model WebApp.Models.TelaTipoUnidade
+﻿@model WebApp.Models.TelaTipoOrganizacao
 @{
-    ViewBag.Title = "Tipo de Unidade";
-    ViewBag.SubTitle = "Tipos de Unidade Cadastrados";    
+    ViewBag.Title = "Tipo de Organização";
+    ViewBag.SubTitle = "Tipos de Organização Cadastrados";    
 }
 
 <div class="box box-info">
@@ -10,7 +10,7 @@
         <h3 class="box-title">@ViewBag.SubTitle</h3>       
         
         <div class="pull-right box-tools">
-            <a href="@Url.Action("Criar","TipoUnidade")" data-evento="1" class="btn btn-info btn-sm btnModalTipoUnidade" data-toggle="tooltip" title="Cadastrar tipo de unidade.">
+            <a href="@Url.Action("Criar","TipoOrganizacao")" data-evento="1" class="btn btn-info btn-sm btnModalTipoOrganizacao" data-toggle="tooltip" title="Cadastrar tipo de organização.">
                 <i class="fa fa-plus"></i> Novo
             </a>            
         </div>
@@ -21,19 +21,19 @@
             <thead>
                 <tr>
                     <th class="col-xs-1">ID</th>
-                    <th>Tipo de Unidade</th>
+                    <th>Tipo de Organização</th>
                     <th class="col-xs-2">Ações</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model.tiposUnidade)
+                @foreach (var item in Model.tiposOrganizacao)
                 {
                     <tr>
                         <th>@item.id</th>
                         <td>@item.descricao</td>
                         <td class="text-center">
-                            <a href="@Url.Action("Editar","TipoUnidade",new { id = item.id })" data-evento="2" class="btn btn-xs btn-primary btnModalTipoUnidade" data-toggle="tooltip" title="Editar Tipo de Unidade"><i class="fa fa-edit" aria-hidden="true"></i></a>
-                            <a href="@Url.Action("ExcluirVerItem","TipoUnidade",new { id = item.id })" data-evento="3" class="btn btn-xs btn-danger btnModalTipoUnidade" data-toggle="tooltip" title="Excluir Tipo de Unidade"><i class="fa fa-close" aria-hidden="true"></i></a>                            
+                            <a href="@Url.Action("Editar","TipoOrganizacao",new { id = item.id })" data-evento="2" class="btn btn-xs btn-primary btnModalTipoOrganizacao" data-toggle="tooltip" title="Editar Tipo de Organização."><i class="fa fa-edit" aria-hidden="true"></i></a>
+                            <a href="@Url.Action("ExcluirVerItem","TipoOrganizacao",new { id = item.id })" data-evento="3" class="btn btn-xs btn-danger btnModalTipoOrganizacao" data-toggle="tooltip" title="Excluir Tipo de Organização."><i class="fa fa-close" aria-hidden="true"></i></a>                            
                         </td>
                     </tr>
                 }

@@ -6,14 +6,14 @@ using System.Web;
 
 namespace WebApp.Models
 {
-    public class TelaTipoUnidade
+    public class TelaTipoOrganizacao
     {
         public RetornoAjaxModel retornoAjax { get; set; }
-        public List<TipoUnidadeModel> tiposUnidade { get; set; }
-        public TipoUnidadeModel tipoUnidade { get; set; }
+        public List<TipoOrganizacaoModel> tiposOrganizacao { get; set; }
+        public TipoOrganizacaoModel tipoOrganizacao { get; set; }
     }
 
-    public class TipoUnidadeModel
+    public class TipoOrganizacaoModel
     {
         [Display(Name = "ID")]
         public int id { get; set; }
@@ -21,7 +21,7 @@ namespace WebApp.Models
         [Display(Name = "Fim da Vigência")]
         public string observacaoFimVigencia { get; set; }
 
-        [Display(Name = "Tipo de Unidade"), Required(ErrorMessage = "Informe o Tipo de Unidade.")]
+        [Display(Name = "Tipo de Organização"), Required(ErrorMessage = "Informe o Tipo de Organização.")]
         public string descricao { get; set; }
     }    
 }

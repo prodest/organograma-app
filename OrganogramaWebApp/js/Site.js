@@ -55,7 +55,7 @@ $('body').on('click', '.btnModalTipoUnidade', function () {
                   $('#modalTipoUnidadeLabel').text('Excluir Tipo de Unidade');                  
           }
 
-          $('#updateTipoUnidade').html(tela);
+          $('#update').html(tela);
           $('#modalCriar').modal('show');
       })
       .fail(function () {
@@ -74,6 +74,47 @@ function onSuccessTipoUnidade(dados) {
       })
       .fail(function () {
           toastr["warning"]("Não foi possível atualizar a lista de Tipo de Unidades!");
+      });
+}
+
+/****************************************************************************************************************************************************************************/
+/*EXIBE TELA DE EDICAO DE TIPO DE ORGANIZACAO*/
+$('body').on('click', '.btnModalTipoOrganizacao', function () {
+    var evento = $(this).attr('data-evento');
+
+    $.ajax(this.href)
+      .done(function (tela) {
+
+          switch (evento) {
+              case '1':
+                  $('#modalTipoUnidadeLabel').text('Cadastrar Tipo de Organização');
+                  break;
+              case '2':
+                  $('#modalTipoUnidadeLabel').text('Editar Tipo de Organização');
+                  break;
+              case '3':
+                  $('#modalTipoUnidadeLabel').text('Excluir Tipo de Organização');
+          }
+
+          $('#update').html(tela);
+          $('#modalCriar').modal('show');
+      })
+      .fail(function () {
+          //toastr["warning"]("Não foi possível realizar esta operação!");
+      });
+
+    return false;
+});
+
+/****************************************************************************************************************************************************************************/
+/*ATUALIZA LISTA DE TIPOS DE ORGANIZACAO*/
+function onSuccessTipoOrganizacao(dados) {
+    $.ajax('/TipoOrganizacao/Listar')
+      .done(function (tela) {
+          $('#listaTipoOrganizacao').html(tela);
+      })
+      .fail(function () {
+          toastr["warning"]("Não foi possível atualizar a lista de Tipo de Organização!");
       });
 }
 

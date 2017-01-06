@@ -80,7 +80,7 @@
                     <li class="active"><a href=""><i class="fa fa-sitemap" aria-hidden="true"></i> <span>Minha Organização</span></a></li>
                     <li><a href=""><i class="fa fa-building" aria-hidden="true"></i> <span>Organizações</span></a></li>
                     <li><a href=""><i class="fa fa-building-o"></i> <span>Unidades</span></a></li>
-                    <li><a href=""><i class="fa fa-file-text-o"></i> <span>Tipo de Organização</span></a></li>
+                    <li><a href="@Url.Action("Index", "TipoOrganizacao")"><i class="fa fa-file-text-o"></i> <span>Tipo de Organização</span></a></li>
                     <li><a href="@Url.Action("Index", "TipoUnidade")"><i class="fa fa-file-text-o"></i> <span>Tipo de Unidade</span></a></li>
                 </ul>
                 <!-- /.sidebar-menu -->
@@ -199,6 +199,24 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <!--Modal Visualizacao Processo-->
+    <div class="modal fade" id="modalCriar" tabindex="-1" role="dialog" aria-labelledby="modalTipoUnidadeLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                    <h4 class="modal-title" id="modalTipoUnidadeLabel">Cadastrar Tipo de Organização</h4>
+                </div>
+                <div class="modal-body" id="update">
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
     </div>
 
     @Scripts.Render("~/bundles/jquery")
