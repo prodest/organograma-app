@@ -1,0 +1,31 @@
+﻿@model WebApp.Models.TelaTipoUnidade
+
+@{
+    ViewBag.Title = "Tipo de Unidade";
+    ViewBag.SubTitle = "Cadastrar Tipo de Unidade";
+}
+
+@using (Ajax.BeginForm("Criar", "TipoUnidade",
+                                new AjaxOptions
+                                {
+                                    HttpMethod = "POST",
+                                    InsertionMode = InsertionMode.Replace,
+                                    UpdateTargetId = "updateTipoUnidade",
+                                    OnSuccess = "onSuccessTipoUnidade"
+                                },
+                                new { @id = "formCadastrarTipoUnidade" }))
+{
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.tipoUnidade.descricao, htmlAttributes: new { @class = "control-label" })
+        @Html.EditorFor(model => model.tipoUnidade.descricao, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.tipoUnidade.descricao, "", new { @class = "text-danger" })
+    </div>
+    
+    <div id="resultForm" class="form-group text-right">
+        <button class="btn btn-default" type="button" data-dismiss="modal">Fechar</button>
+        <button class="btn btn-danger" type="submit"><i class="fa fa-floppy-o" aria-hidden="true"></i> Cadastrar</button>
+    </div>
+    
+}

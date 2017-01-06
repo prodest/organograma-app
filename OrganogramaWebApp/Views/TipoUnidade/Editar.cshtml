@@ -1,0 +1,28 @@
+﻿@model WebApp.Models.TelaTipoUnidade
+
+
+@using (Ajax.BeginForm("Editar", "TipoUnidade",
+                                            new AjaxOptions
+                                            {
+                                                HttpMethod = "POST",
+                                                InsertionMode = InsertionMode.Replace,
+                                                UpdateTargetId = "updateTipoUnidade",
+                                                OnSuccess = "onSuccessTipoUnidade"
+                                            },
+                                            new { @id = "formEditarTipoUnidade" }))
+{
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.tipoUnidade.id)    
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.tipoUnidade.descricao, htmlAttributes: new { @class = "control-label" })
+        @Html.EditorFor(model => model.tipoUnidade.descricao, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.tipoUnidade.descricao, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group text-right">        
+        <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-close"></i> Fechar</button>
+        <button type="submit" class="btn btn-danger"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar</button>
+    </div>
+}

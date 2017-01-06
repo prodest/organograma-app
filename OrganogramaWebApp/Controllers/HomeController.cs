@@ -11,27 +11,13 @@ namespace WebApp.Controllers
 
         public ActionResult Index()
         {
-            ViewBag.Message = usuario.Nome;
+            ViewBag.Message = usuario.SiglaOrganizacao;
             return View();
         }
 
         public ActionResult GetUsuarioLogado()
         {
             return PartialView("_usuario", usuario);
-        }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
+        }        
     }
 }

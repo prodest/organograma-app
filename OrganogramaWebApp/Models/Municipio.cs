@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace WebApp.Models.Organograma
+namespace WebApp.Models
 {
     public class MunicipioModel
     {

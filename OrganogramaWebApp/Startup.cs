@@ -150,13 +150,13 @@ namespace WebApp
             }
 
             var url = ConfigurationManager.AppSettings["OrganogramaAPIBase"] + "organizacoes/sigla/" + siglaOrganizacao;
-            var organizacaoString = WorkServiceBase.download_data(url, token);
-            id.AddClaim(new Claim("organizacao", organizacaoString));
+            var organizacaoString = WorkServiceBase.Get(url, token);
+            id.AddClaim(new Claim("organizacao", organizacaoString.result));
 
-            var organizacao = JsonConvert.DeserializeObject<OrganizacaoModel>(organizacaoString);
+            var organizacao = JsonConvert.DeserializeObject<OrganizacaoModel>(organizacaoString.result);
             url = ConfigurationManager.AppSettings["OrganogramaAPIBase"] + "organizacoes/" + organizacao.guid + "/patriarca";
-            var patriarcaString = WorkServiceBase.download_data(url, token);
-            id.AddClaim(new Claim("organizacao_patriarca", patriarcaString));
+            var patriarcaString = WorkServiceBase.Get(url, token);
+            id.AddClaim(new Claim("organizacao_patriarca", patriarcaString.result));
         }
     }
 }

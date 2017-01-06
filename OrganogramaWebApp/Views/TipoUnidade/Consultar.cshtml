@@ -1,0 +1,49 @@
+﻿@model WebApp.Models.TelaTipoUnidade
+@{
+    ViewBag.Title = "Tipo de Unidade";
+    ViewBag.SubTitle = "Tipos de Unidade Cadastrados";    
+}
+
+<div class="box box-info">
+    <!-- /.box-header -->
+    <div class="box-header with-border">
+        <h3 class="box-title">@ViewBag.SubTitle</h3>       
+        
+        <div class="pull-right box-tools">
+            <a href="@Url.Action("Criar","TipoUnidade")" data-evento="1" class="btn btn-info btn-sm btnModalTipoUnidade" data-toggle="tooltip" title="">
+                <i class="fa fa-plus"></i> Novo
+            </a>            
+        </div>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body table-responsive">                
+        <table id="tabelaTipoUnidades" class="table table-condensed table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th class="col-xs-1">ID</th>
+                    <th>Descrição</th>
+                    <th class="col-xs-2">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.tiposUnidade)
+                {
+                    <tr>
+                        <th>@item.id</th>
+                        <td>@item.descricao</td>
+                        <td class="text-center">
+                            <a href="@Url.Action("Editar","TipoUnidade",new { id = item.id })" data-evento="2" class="btn btn-xs btn-primary btnModalTipoUnidade" title="Editar Tipo de Unidade"><i class="fa fa-edit" aria-hidden="true"></i></a>
+                            <a href="@Url.Action("ExcluirVerItem","TipoUnidade",new { id = item.id })" data-evento="3" class="btn btn-xs btn-danger btnModalTipoUnidade" title="Excluir Tipo de Unidade"><i class="fa fa-close" aria-hidden="true"></i></a>                            
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <!-- /.box-body -->
+    @*<div class="box-footer text-center">
+            <a href="javascript:void(0)" class="uppercase"><i class="fa fa-expand" aria-hidden="true"></i> Ver Todos</a>
+        </div>*@
+    <!-- /.box-footer -->
+</div>
+<!-- /.box -->
