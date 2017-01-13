@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
 using StackExchange.Profiling;
 using System;
+using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Net;
 using System.Net.Http;
@@ -157,5 +159,19 @@ namespace WebApp.Controllers
             }
         }
 
+        public RetornoAjaxModel GetMunicipios(string uf, string token)
+        {               
+            var url = ConfigurationManager.AppSettings["OrganogramaAPIBase"] + "municipios?uf=" + uf;
+            var retorno_ws = Get(url, token);
+
+            RetornoAjaxModel retorno = new RetornoAjaxModel()
+            {
+                IsSuccessStatusCode = retorno_ws.IsSuccessStatusCode,
+                content = retorno_ws.content,
+                statusCode = retorno_ws.statusCode
+            };
+
+            return retorno;
+        }
     }
 }

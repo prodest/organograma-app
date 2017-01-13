@@ -1,0 +1,55 @@
+﻿@model IEnumerable<WebApp.Models.UnidadeGetModel>
+
+@{    
+    ViewBag.SubTitle = "Unidades Cadastradas";
+}
+
+<div class="box box-info">
+    <!-- /.box-header -->
+    <div class="box-header with-border">
+        <h3 class="box-title">@ViewBag.SubTitle</h3>
+
+        <div class="pull-right box-tools">
+            <a href="@Url.Action("Cadastrar","Unidade")" class="btn btn-info btn-sm" data-toggle="tooltip" title="Cadastrar Unidade.">
+                <i class="fa fa-plus"></i> Novo
+            </a>
+        </div>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body table-responsive">
+        <table id="tabelaTipoUnidades" class="table table-condensed table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th class="col-xs-8">@Html.DisplayNameFor(model => model.nome)</th>
+                    <th class="col-xs-2">@Html.DisplayNameFor(model => model.sigla)</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.nome)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.sigla)
+                        </td>
+                        <td>
+                            <a href="@Url.Action("Editar","Unidade",new { id = item.guid })" data-evento="2" class="btn btn-xs btn-primary btnModalTipoUnidade" data-toggle="tooltip" title="Editar Tipo de Unidade"><i class="fa fa-edit" aria-hidden="true"></i></a>
+                            <a href="@Url.Action("Visualizar","Unidade",new { id = item.guid })" data-evento="4" class="btn btn-xs btn-success btnModalTipoUnidade" data-toggle="tooltip" title="Excluir Tipo de Unidade"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                            <a href="@Url.Action("Excluir","Unidade",new { id = item.guid })" data-evento="3" class="btn btn-xs btn-danger btnModalTipoUnidade" data-toggle="tooltip" title="Excluir Tipo de Unidade"><i class="fa fa-close" aria-hidden="true"></i></a>
+
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <!-- /.box-body -->
+    @*<div class="box-footer text-center">
+            <a href="javascript:void(0)" class="uppercase"><i class="fa fa-expand" aria-hidden="true"></i> Ver Todos</a>
+        </div>*@
+    <!-- /.box-footer -->
+</div>
+<!-- /.box -->

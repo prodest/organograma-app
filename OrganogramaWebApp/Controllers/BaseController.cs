@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Security.Claims;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
-using WebApp.Autorizacao;
 using WebApp.Autorizacao;
 using WebApp.Models;
 
@@ -37,12 +38,14 @@ namespace WebApp.Controllers
             }
         }
 
+        [NonAction]
         public string ConvertAnexoBase64(string anexo)
         {
             byte[] plainTextBytes = Encoding.UTF8.GetBytes(anexo);
             return Convert.ToBase64String(plainTextBytes);           
         }
 
+        [NonAction]
         public string ConvertAnexoBase64_2(string anexo)
         {
             byte[] byteArray = Encoding.UTF8.GetBytes(anexo);            
@@ -53,6 +56,7 @@ namespace WebApp.Controllers
             return conteudo;
         }
 
+        [NonAction]
         public string ConvertAnexoBase64_3(string anexo)
         {
             byte[] byteArray = new byte[(int)anexo.Length + 1];
@@ -86,5 +90,14 @@ namespace WebApp.Controllers
             Response.Cache.SetExpires(DateTime.Now);
         }
 
+        [HttpGet]
+        public ActionResult Municipios(string uf)
+        {
+            WorkServiceBase base_ws = new WorkServiceBase();
+
+            var municipios = JsonConvert.DeserializeObject<List<Municipio>>(base_ws.GetMunicipios(uf, usuario.Token).content);
+
+            return Json(municipios, JsonRequestBehavior.AllowGet);
+        }
     }
 }

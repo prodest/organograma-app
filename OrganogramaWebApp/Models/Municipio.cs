@@ -5,7 +5,7 @@ using System.Web;
 
 namespace WebApp.Models
 {
-    public class MunicipioModel
+    public class Municipio
     {
         public string guid { get; set; }
         public int codigoIbge { get; set; }

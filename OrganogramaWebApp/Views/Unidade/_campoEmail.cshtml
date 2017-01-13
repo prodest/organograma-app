@@ -1,0 +1,7 @@
+﻿@model WebApp.Models.TelaUnidadeModel
+
+<div class="form-group">
+    @Html.LabelFor(model => model.emails[1].endereco, htmlAttributes: new { @class = "control-label" })
+    @Html.EditorFor(model => model.emails[1].endereco, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(model => model.emails[1].endereco, "", new { @class = "text-danger" })
+</div>

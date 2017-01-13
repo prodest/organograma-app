@@ -10,7 +10,7 @@ namespace WebApp.Models
     {
         public RetornoAjaxModel retornoAjax { get; set; }
         public List<TipoUnidadeModel> tiposUnidade { get; set; }
-        public TipoUnidadeModel tipoUnidade { get; set; }
+        public TipoUnidadeModel tipoUnidade { get; set; }        
     }
 
     public class TipoUnidadeModel

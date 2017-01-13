@@ -209,19 +209,27 @@
     <Compile Include="Controllers\TipoOrganizacao\TipoOrganizacaoWorkService.cs" />
     <Compile Include="Controllers\TipoUnidade\TipoUnidadeController.cs" />
     <Compile Include="Controllers\TipoUnidade\TipoUnidadeWorkService.cs" />
+    <Compile Include="Controllers\Unidade\UnidadeController.cs" />
+    <Compile Include="Controllers\Unidade\UnidadeWorkService.cs" />
     <Compile Include="Controllers\WorkServiceBase.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Contato.cs" />
+    <Compile Include="Models\Email.cs" />
+    <Compile Include="Models\Endereco.cs" />
     <Compile Include="Models\ListaMensagens.cs" />
     <Compile Include="Models\Mensagem.cs" />
     <Compile Include="Models\Municipio.cs" />
     <Compile Include="Models\OrganizacaoModel.cs" />
-    <Compile Include="Models\PoderModel.cs" />
     <Compile Include="Models\RetornoAjaxModel.cs" />
+    <Compile Include="Models\Site.cs" />
+    <Compile Include="Models\TelaUnidadeModel.cs" />
     <Compile Include="Models\TipoMensagem.cs" />
     <Compile Include="Models\TipoOrganizacaoModel.cs" />
     <Compile Include="Models\TipoUnidadeModel.cs" />
+    <Compile Include="Models\UnidadeGetModel.cs" />
+    <Compile Include="Models\UnidadePostModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -309,6 +317,8 @@
     <Content Include="Scripts\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Scripts\bootstrap\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Scripts\bootstrap\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Json\uf.json" />
+    <Content Include="Json\tiposcontato.json" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap\css\bootstrap.css" />
     <Content Include="Scripts\bootstrap\css\bootstrap.min.css" />
@@ -530,6 +540,13 @@
     <Content Include="Views\TipoOrganizacao\Editar.cshtml" />
     <Content Include="Views\TipoOrganizacao\ExcluirVerItem.cshtml" />
     <Content Include="Views\TipoOrganizacao\Index.cshtml" />
+    <Content Include="Views\Unidade\Index.cshtml" />
+    <Content Include="Views\Unidade\Listagem.cshtml" />
+    <Content Include="Views\Unidade\Cadastrar.cshtml" />
+    <Content Include="Views\Unidade\CadastrarEndereco.cshtml" />
+    <Content Include="Views\Unidade\_campoSite.cshtml" />
+    <Content Include="Views\Unidade\_campoEmail.cshtml" />
+    <Content Include="Views\Unidade\_campoTelefone.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

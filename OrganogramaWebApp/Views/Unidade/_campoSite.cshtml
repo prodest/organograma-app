@@ -1,0 +1,11 @@
+﻿@model WebApp.Models.TelaUnidadeModel
+
+@{ 
+    var i = ViewBag.count;
+}
+
+<div class="form-group">
+    @Html.LabelFor(model => model.sites[0].url, htmlAttributes: new { @class = "control-label" })
+    @Html.EditorFor(model => model.sites[0].url, new { htmlAttributes = new { @class = "form-control", @id = "sites["+ @i +"].url" } })
+    @Html.ValidationMessageFor(model => model.sites[0].url, "", new { @class = "text-danger" })
+</div>

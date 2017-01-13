@@ -1,0 +1,226 @@
+﻿@model WebApp.Models.TelaUnidadeModel
+
+@{
+    ViewBag.Title = "Unidade";
+    ViewBag.SubTitle = "Cadastrar Unidade";
+}
+
+<section class="content-header">
+    <h1>
+        @ViewBag.Title
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> MENU PRINCIPAL</a></li>
+        <li class="active">@ViewBag.Title</li>
+    </ol>
+</section>
+
+<div class="col-lg-12 col-md-12 col-xs-12">
+
+</div>
+
+
+<!-- Main content -->
+<section id="content" class="content">
+    <div class="row">
+        <div id="formCadastroUnidade" class="col-lg-12 col-md-12 col-xs-12">
+            @using (Ajax.BeginForm("Create", "Unidade",
+                                            new AjaxOptions
+                                            {
+                                                HttpMethod = "POST"
+                                                ,
+                                                InsertionMode = InsertionMode.Replace
+                                                ,
+                                                UpdateTargetId = "formcadastrounidade"
+                                                //,OnSuccess = "onSuccessTipoUnidade"
+                                            },
+                                            new { @id = "formCadastrarUnidade" }))
+            {
+                @*<form id="formCadastrarUnidade" method="post">*@
+                <!--Início do TABS-->
+                <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#tab_1" title="Dados Gerais" data-toggle="tab" aria-expanded="false"><h4><i class="fa fa-file-text-o"></i> Dados Gerais</h4></a></li>
+                        <li class=""><a href="#tab_2" title="Endereço" data-toggle="tab" aria-expanded="false"><h4><i class="fa fa-map-marker" aria-hidden="true"></i> Endereço</h4></a></li>
+                        <li class=""><a href="#tab_3" title="Telefone" data-toggle="tab" aria-expanded="false"><h4><i class="fa fa-phone" aria-hidden="true"></i> Telefone</h4></a></li>
+                        <li class=""><a href="#tab_4" title="E-mail" data-toggle="tab" aria-expanded="false"><h4><i class="fa fa-envelope-o" aria-hidden="true"></i> E-mail</h4></a></li>
+                        <li class=""><a href="#tab_5" title="Site" data-toggle="tab" aria-expanded="false"><h4><i class="fa fa-globe" aria-hidden="true"></i> Site</h4></a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tab_1">
+                            <h4>Dados Gerais</h4>
+
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.nome, htmlAttributes: new { @class = "control-label" })
+                                @Html.EditorFor(model => model.nome, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.nome, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.sigla, htmlAttributes: new { @class = "control-label" })
+                                @Html.EditorFor(model => model.sigla, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.sigla, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-group">
+                                @foreach (var organizacao in Model.organizacao)
+                                {
+                                    organizacao.nomeFantasia = organizacao.nomeFantasia + " - " + organizacao.sigla;
+                                }
+                                @Html.LabelFor(model => model.idOrganizacao, htmlAttributes: new { @class = "control-label" })
+                                @*@Html.DropDownListFor(m => m.organizacao, new SelectList(Model.organizacao, "guid", "nomeFantasia"), "Selecione uma Organizacao", new { @class = "form-control", })*@
+                                @Html.DropDownListFor(m => m.idOrganizacao, new SelectList(Model.organizacao, "id", "nomeFantasia"), "Selecione uma Organizacao", new { @class = "form-control", })
+                                @Html.ValidationMessageFor(model => model.idOrganizacao, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.tipoUnidade, htmlAttributes: new { @class = "control-label" })
+                                @Html.DropDownListFor(m => m.idTipoUnidade, new SelectList(Model.tipoUnidade, "id", "descricao"), "Selecione um Tipo de Unidade", new { @class = "form-control", })
+                                @Html.ValidationMessageFor(model => model.tipoUnidade, "", new { @class = "text-danger" })
+
+                            </div>
+
+                            <div class="form-group">
+                                @{
+                                    foreach (var unidadePai in Model.unidadePai)
+                                    {
+                                        unidadePai.nome = unidadePai.nome + " - " + unidadePai.sigla;
+                                    }
+                                }
+                                @Html.LabelFor(model => model.idUnidadePai, htmlAttributes: new { @class = "control-label" })
+                                @*@Html.DropDownListFor(m => m.unidadePai, new SelectList(Model.unidadePai, "guid", "nome"), "Selecione uma Unidade", new { @class = "form-control", })*@
+                                @Html.DropDownListFor(m => m.idUnidadePai, new SelectList(Model.unidadePai, "id", "nome"), "Selecione uma Unidade", new { @class = "form-control", })
+                                @Html.ValidationMessageFor(model => model.idUnidadePai, "", new { @class = "text-danger" })
+                            </div>
+
+                            @*<div class="form-group">
+                                    <a href="@Url.Action("CadastrarEndereco","Unidade")" data-evento="1" class="btn btn-info btnModalTipoUnidade" data-toggle="tooltip" title="Cadastrar Endereço.">
+                                        <i class="fa fa-home"></i> Cadastrar Endereço
+                                    </a>
+                                </div>*@
+
+                            <div class="box-footer">
+                                <ul class="list-inline pull-right">
+                                    <li><a href="#tab_2" class="btn btn-primary pull-right next-step" data-toggle="tab">Próximo <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="tab_2">
+                            <h4>Endereço</h4>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.endereco.logradouro, htmlAttributes: new { @class = "control-label" })
+                                @Html.EditorFor(model => model.endereco.logradouro, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.endereco.logradouro, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.endereco.numero, htmlAttributes: new { @class = "control-label" })
+                                @Html.EditorFor(model => model.endereco.numero, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.endereco.numero, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.endereco.complemento, htmlAttributes: new { @class = "control-label" })
+                                @Html.EditorFor(model => model.endereco.complemento, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.endereco.complemento, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.endereco.bairro, htmlAttributes: new { @class = "control-label" })
+                                @Html.EditorFor(model => model.endereco.bairro, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.endereco.bairro, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.endereco.cep, htmlAttributes: new { @class = "control-label" })
+                                @Html.EditorFor(model => model.endereco.cep, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.endereco.cep, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-group">                                
+                                @Html.LabelFor(model => model.endereco.estados, htmlAttributes: new { @class = "control-label" })
+                                @Html.DropDownListFor(m => m.endereco.estados, new SelectList(Model.endereco.estados, "Sigla", "Nome"), "Selecione um Estado", new { @class = "form-control"})
+                                @Html.ValidationMessageFor(model => model.endereco.estados, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.endereco.guidMunicipio, htmlAttributes: new { @class = "control-label" })                                
+                                @Html.DropDownListFor(m => m.endereco.guidMunicipio, new SelectList(Model.endereco.municipios), "Selecione um Município", new { @class = "form-control", })
+                                @Html.ValidationMessageFor(model => model.endereco.guidMunicipio, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="box-footer">
+                                <ul class="list-inline pull-right">
+                                    <li><a href="#tab_1" class="btn btn-default pull-right prev-step" data-toggle="tab"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Anterior</a></li>
+                                    <li><a href="#tab_3" class="btn btn-primary pull-right next-step" data-toggle="tab">Próximo <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="tab_3">                            
+                            <div class="box-body" id="campotelefone">
+                                <div class="form-group text-right">
+                                    <button type="button" data-value="0" class="btn btn-sm btn-info" id="addCampoTelefone"><i class="fa fa-plus" aria-hidden="true"></i> Telefone</button>                                    
+                                </div>                                     
+                                <div class="form-group col-md-4">
+                                    @Html.LabelFor(model => model.contatos[0].idTipoContato, htmlAttributes: new { @class = "control-label" })                                    
+                                    @Html.DropDownListFor(m => m.contatos[0].idTipoContato, new SelectList(Model.listaTiposContato, "id", "descricao", "quantidadeDigitos"), "Selecione um Tipo", new { @class = "form-control", })
+                                    @Html.ValidationMessageFor(model => model.contatos[0].idTipoContato, "", new { @class = "text-danger" })                                    
+                                </div>
+                                <div class="form-group col-md-8">
+                                    @Html.LabelFor(model => model.contatos[0].telefone, htmlAttributes: new { @class = "control-label" })
+                                    @Html.EditorFor(model => model.contatos[0].telefone, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.contatos[0].telefone, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="box-footer">
+                                <ul class="list-inline pull-right">
+                                    <li><a href="#tab_2" class="btn btn-default pull-right prev-step" data-toggle="tab"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Anterior</a></li>
+                                    <li><a href="#tab_4" class="btn btn-primary pull-right next-step" data-toggle="tab">Próximo <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="tab_4">                            
+                            <div class="box-body" id="campoemail">
+                                <div class="form-group text-right">                                    
+                                    <button type="button" data-value="0" class="btn btn-sm btn-info" id="addCampoEmail"><i class="fa fa-plus" aria-hidden="true"></i> E-mail</button>
+                                </div>                                
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.emails[0].endereco, htmlAttributes: new { @class = "control-label" })
+                                    @Html.EditorFor(model => model.emails[0].endereco, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.emails[0].endereco, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="box-footer">
+                                <ul class="list-inline pull-right">
+                                    <li><a href="#tab_3" class="btn btn-default pull-right prev-step" data-toggle="tab"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Anterior</a></li>
+                                    <li><a href="#tab_5" class="btn btn-primary pull-right next-step" data-toggle="tab">Próximo <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="tab_5">                            
+                            <div class="box-body" id="camposite">
+                                <div class="form-group text-right">
+                                    <button type="button" data-value="0" class="btn btn-sm btn-info" id="addCampoSite"><i class="fa fa-plus" aria-hidden="true"></i> Url</button>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.sites[0].url, htmlAttributes: new { @class = "control-label" })
+                                    @Html.EditorFor(model => model.sites[0].url, new { htmlAttributes = new { @class = "form-control", @name = "sites[0}.url" } })
+                                    @Html.ValidationMessageFor(model => model.sites[0].url, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="box-footer">
+                                <ul class="list-inline pull-right">
+                                    <li><a href="#tab_4" class="btn btn-default prev-step" data-toggle="tab"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Anterior</a></li>
+                                    <li><button type="submit" class="btn btn-danger"><i class="fa fa-save"></i> Cadastrar</button></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                                    }
+            @*</form>*@
+
+        </div>
+    </div>
+</section>
