@@ -32,7 +32,8 @@
                                                 InsertionMode = InsertionMode.Replace
                                                 ,
                                                 UpdateTargetId = "formcadastrounidade"
-                                                //,OnSuccess = "onSuccessTipoUnidade"
+                                                ,
+                                                OnSuccess = "onSuccessUnidades"
                                             },
                                             new { @id = "formCadastrarUnidade" }))
             {
@@ -64,6 +65,13 @@
                             </div>
 
                             <div class="form-group">
+                                @Html.LabelFor(model => model.tipoUnidade, htmlAttributes: new { @class = "control-label" })
+                                @Html.DropDownListFor(m => m.idTipoUnidade, new SelectList(Model.tipoUnidade, "id", "descricao"), "Selecione um Tipo de Unidade", new { @class = "form-control", })
+                                @Html.ValidationMessageFor(model => model.tipoUnidade, "", new { @class = "text-danger" })
+
+                            </div>
+
+                            <div class="form-group">
                                 @foreach (var organizacao in Model.organizacao)
                                 {
                                     organizacao.nomeFantasia = organizacao.nomeFantasia + " - " + organizacao.sigla;
@@ -75,30 +83,17 @@
                             </div>
 
                             <div class="form-group">
-                                @Html.LabelFor(model => model.tipoUnidade, htmlAttributes: new { @class = "control-label" })
-                                @Html.DropDownListFor(m => m.idTipoUnidade, new SelectList(Model.tipoUnidade, "id", "descricao"), "Selecione um Tipo de Unidade", new { @class = "form-control", })
-                                @Html.ValidationMessageFor(model => model.tipoUnidade, "", new { @class = "text-danger" })
 
-                            </div>
-
-                            <div class="form-group">
-                                @{
-                                    foreach (var unidadePai in Model.unidadePai)
-                                    {
-                                        unidadePai.nome = unidadePai.nome + " - " + unidadePai.sigla;
-                                    }
+                                @foreach (var unidadePai in Model.unidadePai)
+                                {
+                                    unidadePai.nome = unidadePai.nome + " - " + unidadePai.sigla;
                                 }
+
                                 @Html.LabelFor(model => model.idUnidadePai, htmlAttributes: new { @class = "control-label" })
                                 @*@Html.DropDownListFor(m => m.unidadePai, new SelectList(Model.unidadePai, "guid", "nome"), "Selecione uma Unidade", new { @class = "form-control", })*@
-                                @Html.DropDownListFor(m => m.idUnidadePai, new SelectList(Model.unidadePai, "id", "nome"), "Selecione uma Unidade", new { @class = "form-control", })
+                                @Html.DropDownListFor(m => m.idUnidadePai, new SelectList(Model.unidadePai), "Selecione uma Unidade", new { @class = "form-control", })
                                 @Html.ValidationMessageFor(model => model.idUnidadePai, "", new { @class = "text-danger" })
-                            </div>
-
-                            @*<div class="form-group">
-                                    <a href="@Url.Action("CadastrarEndereco","Unidade")" data-evento="1" class="btn btn-info btnModalTipoUnidade" data-toggle="tooltip" title="Cadastrar Endereço.">
-                                        <i class="fa fa-home"></i> Cadastrar Endereço
-                                    </a>
-                                </div>*@
+                            </div>                            
 
                             <div class="box-footer">
                                 <ul class="list-inline pull-right">
@@ -138,14 +133,14 @@
                                 @Html.ValidationMessageFor(model => model.endereco.cep, "", new { @class = "text-danger" })
                             </div>
 
-                            <div class="form-group">                                
+                            <div class="form-group">
                                 @Html.LabelFor(model => model.endereco.estados, htmlAttributes: new { @class = "control-label" })
-                                @Html.DropDownListFor(m => m.endereco.estados, new SelectList(Model.endereco.estados, "Sigla", "Nome"), "Selecione um Estado", new { @class = "form-control"})
+                                @Html.DropDownListFor(m => m.endereco.estados, new SelectList(Model.endereco.estados, "Sigla", "Nome"), "Selecione um Estado", new { @class = "form-control" })
                                 @Html.ValidationMessageFor(model => model.endereco.estados, "", new { @class = "text-danger" })
                             </div>
 
                             <div class="form-group">
-                                @Html.LabelFor(model => model.endereco.guidMunicipio, htmlAttributes: new { @class = "control-label" })                                
+                                @Html.LabelFor(model => model.endereco.guidMunicipio, htmlAttributes: new { @class = "control-label" })
                                 @Html.DropDownListFor(m => m.endereco.guidMunicipio, new SelectList(Model.endereco.municipios), "Selecione um Município", new { @class = "form-control", })
                                 @Html.ValidationMessageFor(model => model.endereco.guidMunicipio, "", new { @class = "text-danger" })
                             </div>
@@ -157,15 +152,15 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="tab-pane" id="tab_3">                            
+                        <div class="tab-pane" id="tab_3">
                             <div class="box-body" id="campotelefone">
                                 <div class="form-group text-right">
-                                    <button type="button" data-value="0" class="btn btn-sm btn-info" id="addCampoTelefone"><i class="fa fa-plus" aria-hidden="true"></i> Telefone</button>                                    
-                                </div>                                     
+                                    <button type="button" data-value="0" class="btn btn-sm btn-info" id="addCampoTelefone"><i class="fa fa-plus" aria-hidden="true"></i> Telefone</button>
+                                </div>
                                 <div class="form-group col-md-4">
-                                    @Html.LabelFor(model => model.contatos[0].idTipoContato, htmlAttributes: new { @class = "control-label" })                                    
+                                    @Html.LabelFor(model => model.contatos[0].idTipoContato, htmlAttributes: new { @class = "control-label" })
                                     @Html.DropDownListFor(m => m.contatos[0].idTipoContato, new SelectList(Model.listaTiposContato, "id", "descricao", "quantidadeDigitos"), "Selecione um Tipo", new { @class = "form-control", })
-                                    @Html.ValidationMessageFor(model => model.contatos[0].idTipoContato, "", new { @class = "text-danger" })                                    
+                                    @Html.ValidationMessageFor(model => model.contatos[0].idTipoContato, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="form-group col-md-8">
                                     @Html.LabelFor(model => model.contatos[0].telefone, htmlAttributes: new { @class = "control-label" })
@@ -180,11 +175,11 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="tab-pane" id="tab_4">                            
+                        <div class="tab-pane" id="tab_4">
                             <div class="box-body" id="campoemail">
-                                <div class="form-group text-right">                                    
+                                <div class="form-group text-right">
                                     <button type="button" data-value="0" class="btn btn-sm btn-info" id="addCampoEmail"><i class="fa fa-plus" aria-hidden="true"></i> E-mail</button>
-                                </div>                                
+                                </div>
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.emails[0].endereco, htmlAttributes: new { @class = "control-label" })
                                     @Html.EditorFor(model => model.emails[0].endereco, new { htmlAttributes = new { @class = "form-control" } })
@@ -198,7 +193,7 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="tab-pane" id="tab_5">                            
+                        <div class="tab-pane" id="tab_5">
                             <div class="box-body" id="camposite">
                                 <div class="form-group text-right">
                                     <button type="button" data-value="0" class="btn btn-sm btn-info" id="addCampoSite"><i class="fa fa-plus" aria-hidden="true"></i> Url</button>
@@ -218,7 +213,7 @@
                         </div>
                     </div>
                 </div>
-                                    }
+            }
             @*</form>*@
 
         </div>

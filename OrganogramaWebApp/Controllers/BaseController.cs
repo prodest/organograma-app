@@ -99,5 +99,15 @@ namespace WebApp.Controllers
 
             return Json(municipios, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpGet]
+        public ActionResult UnidadesPorOrganizacao(string guidOrganizacao)
+        {
+            WorkServiceBase base_ws = new WorkServiceBase();
+
+            var municipios = JsonConvert.DeserializeObject<List<Municipio>>(base_ws.GetUnidadesPorOrganizacao(guidOrganizacao, usuario.Token).content);
+
+            return Json(municipios, JsonRequestBehavior.AllowGet);
+        }
     }
 }

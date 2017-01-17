@@ -1,0 +1,136 @@
+﻿@model WebApp.Models.UnidadeGetModel
+
+<div>
+    <h4>@Html.DisplayFor(model => model.nome)</h4>    
+
+    <table class="table table-bordered table-condensed table-hover table-striped">
+        <tbody>
+            <tr>
+                <th class="text-right col-md-2">
+                    @Html.DisplayNameFor(model => model.nome)
+                </th>
+                <td>
+                    @Html.DisplayFor(model => model.nome)
+                </td>                                
+            </tr>
+
+            <tr>
+                <th class="text-right">
+                    @Html.DisplayNameFor(model => model.sigla)
+                </th>
+                <td>
+                    @Html.DisplayFor(model => model.sigla)
+                </td>
+            </tr>
+
+            <tr>
+                <th class="text-right">
+                    @Html.DisplayNameFor(model => model.tipoUnidade)
+                </th>
+                <td>
+                    @Html.DisplayFor(model => model.tipoUnidade.descricao)
+                </td>
+            </tr>
+
+            <tr>
+                <th class="text-right">
+                    @Html.DisplayNameFor(model => model.organizacao)
+                </th>
+                <td>
+                    @Html.DisplayFor(model => model.organizacao.sigla) - @Html.DisplayFor(model => model.organizacao.razaoSocial)
+                </td>
+            </tr>
+
+            @if (Model.unidadePai != null) { 
+            <tr>
+                <th class="text-right">
+                    @Html.DisplayNameFor(model => model.unidadePai)
+                </th>
+                <td>
+                    @Html.DisplayFor(model => model.unidadePai.sigla) - @Html.DisplayFor(model => model.unidadePai.nome)
+                </td>
+            </tr>
+            }
+
+            @if (Model.endereco != null)
+            {
+                <tr>
+                    <th class="text-right">
+                        @Html.DisplayNameFor(model => model.endereco)
+                    </th>
+                    <td>
+                        <dl class="dl-horizontal">
+                            <dt>Logradouro</dt>
+                            <dd>@Html.DisplayFor(model => model.endereco.logradouro)</dd>
+                            <dt>Número</dt>
+                            <dd>@Html.DisplayFor(model => model.endereco.numero)</dd>
+                            <dt>Complmento</dt>
+                            <dd>@Html.DisplayFor(model => model.endereco.complemento)</dd>
+                            <dt>Bairro</dt>
+                            <dd>@Html.DisplayFor(model => model.endereco.bairro)</dd>
+                            <dt>CEP</dt>
+                            <dd>@Html.DisplayFor(model => model.endereco.cep)</dd>
+                            <dt>Municipio</dt>
+                            <dd>@Html.DisplayFor(model => model.endereco.municipio.nome)</dd>
+                            <dt>Estado</dt>
+                            <dd>@Html.DisplayFor(model => model.endereco.municipio.uf)</dd>
+                        </dl>
+                    </td>
+                </tr>
+            }
+
+            @if (Model.contatos != null)
+            {
+                <tr>
+                    <th class="text-right">
+                        @Html.DisplayNameFor(model => model.contatos)
+                    </th>
+                    <td>
+                        @foreach(var item in Model.contatos) { 
+                        <dl>
+                            <dt>Telefone</dt>
+                            <dd>@item.telefone</dd>                            
+                        </dl>
+                        }
+                    </td>
+                </tr>
+            }
+
+            @if (Model.emails != null)
+            {
+                <tr>
+                    <th class="text-right">
+                        @Html.DisplayNameFor(model => model.emails)
+                    </th>
+                    <td>
+                        @foreach (var item in Model.emails)
+                        {
+                            <dl>
+                                <dt>Endereço</dt>
+                                <dd>@item.endereco</dd>
+                            </dl>
+                        }
+                    </td>
+                </tr>
+            }
+
+            @if (Model.sites != null)
+            {
+                <tr>
+                    <th class="text-right">
+                        @Html.DisplayNameFor(model => model.sites)
+                    </th>
+                    <td>
+                        @foreach (var item in Model.sites)
+                        {
+                            <dl>
+                                <dt>Url</dt>
+                                <dd>@item.url</dd>
+                            </dl>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

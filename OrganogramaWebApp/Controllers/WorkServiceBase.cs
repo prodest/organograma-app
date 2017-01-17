@@ -173,5 +173,20 @@ namespace WebApp.Controllers
 
             return retorno;
         }
+
+        public RetornoAjaxModel GetUnidadesPorOrganizacao(string guidOrganizacao, string token)
+        {
+            var url = ConfigurationManager.AppSettings["OrganogramaAPIBase"] + "unidades/organizacao/" + guidOrganizacao;
+            var retorno_ws = Get(url, token);
+
+            RetornoAjaxModel retorno = new RetornoAjaxModel()
+            {
+                IsSuccessStatusCode = retorno_ws.IsSuccessStatusCode,
+                content = retorno_ws.content,
+                statusCode = retorno_ws.statusCode
+            };
+
+            return retorno;
+        }
     }
 }

@@ -17,13 +17,28 @@ namespace WebApp.Controllers.Unidade
         public ActionResult Index()
         {
             UnidadeWorkService unidade_ws = new UnidadeWorkService();
+            ViewBag.NomeOrgao = usuario.Orgao.nomeFantasia;
             return View(unidade_ws.GetUnidades(usuario.Orgao.guid, usuario.Token));
         }
 
         // GET: Unidade/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Visualizar(string guid)
         {
-            return View();
+            UnidadeWorkService unidade_ws = new UnidadeWorkService();
+            UnidadeGetModel unidade = new UnidadeGetModel();
+
+            var retorno = unidade_ws.GetUnidade(guid, usuario.Token);
+
+            if (retorno.IsSuccessStatusCode)
+            {
+                unidade = JsonConvert.DeserializeObject<UnidadeGetModel>(retorno.content);                
+            }
+            else
+            {
+                AdicionarMensagem(TipoMensagem.Atencao, retorno.content);
+            }
+
+            return PartialView("Visualizar", unidade);
         }
 
         // GET: Unidade/Create
@@ -34,7 +49,7 @@ namespace WebApp.Controllers.Unidade
 
             tela.organizacao = unidade_ws.GeOrganizacoesPorPatriarca(usuario.Patriarca.guid, usuario.Token);
             tela.tipoUnidade = unidade_ws.GetTiposUnidade(usuario.Token);
-            tela.unidadePai = unidade_ws.GetUnidades(usuario.Orgao.guid, usuario.Token);
+            tela.unidadePai = new List<UnidadeGetModel>();
 
             tela.endereco = new Endereco();
             tela.endereco.municipios = new List<Municipio>();
@@ -57,16 +72,17 @@ namespace WebApp.Controllers.Unidade
 
         public ActionResult IncluirCampoSite(int i)
         {
-            ViewBag.count = i++;
+            ViewBag.i = ++i;
             return PartialView("_campoSite");
         }
 
-        public ActionResult IncluirCampoEmail()
+        public ActionResult IncluirCampoEmail(int i)
         {
+            ViewBag.i = ++i;
             return PartialView("_campoEmail");
         }
 
-        public ActionResult IncluirCampoTelefone()
+        public ActionResult IncluirCampoTelefone(int i)
         {
             TelaUnidadeModel tela = new TelaUnidadeModel();
             tela.listaTiposContato = new List<TipoContato>();
@@ -76,7 +92,7 @@ namespace WebApp.Controllers.Unidade
                 tela.listaTiposContato = JsonConvert.DeserializeObject<List<TipoContato>>(json);
             }
 
-            ViewBag.i = 10;
+            ViewBag.i = ++i;
 
             return PartialView("_campoTelefone", tela);
         }
@@ -96,15 +112,41 @@ namespace WebApp.Controllers.Unidade
             {
                 // TODO: Add insert logic here
                 UnidadePostModel unidadePost = new UnidadePostModel();
-                unidadePost.contatos = tela.contatos;
-                unidadePost.emails = tela.emails;
+
+                unidadePost.contatos = new List<Contato>();
+                unidadePost.emails = new List<Email>();
+                unidadePost.sites = new List<Site>();
+                
+                foreach (var contato in tela.contatos)
+                {
+                    if (!string.IsNullOrEmpty(contato.telefone))
+                    {
+                        unidadePost.contatos.Add(contato);
+                    }
+                }
+
+                foreach (var email in tela.emails)
+                {
+                    if (!string.IsNullOrEmpty(email.endereco))
+                    {
+                        unidadePost.emails.Add(email);
+                    }
+                }
+
+                foreach (var site in tela.sites)
+                {
+                    if (!string.IsNullOrEmpty(site.url))
+                    {
+                        unidadePost.sites.Add(site);
+                    }
+                }
+
                 //unidadePost.endereco = tela.endereco;
                 unidadePost.idOrganizacao = tela.idOrganizacao;
                 unidadePost.idTipoUnidade = tela.idTipoUnidade;
                 unidadePost.idUnidadePai = tela.idUnidadePai;
                 unidadePost.nome = tela.nome;
-                unidadePost.sigla = tela.sigla;
-                unidadePost.sites = tela.sites;
+                unidadePost.sigla = tela.sigla;                
 
                 UnidadeWorkService unidade_ws = new UnidadeWorkService();
                 var retorno = unidade_ws.PostUnidade(unidadePost, usuario.Token);
@@ -113,12 +155,12 @@ namespace WebApp.Controllers.Unidade
                 {
                     ModelState.Clear();
                     AdicionarMensagem(TipoMensagem.Sucesso, "Unidade cadastrada com sucesso!");
-                    return RedirectToAction("Index");
+                    return Json(retorno, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
                     AdicionarMensagem(TipoMensagem.Atencao, retorno.content);
-                    return View();
+                    return Json(retorno, JsonRequestBehavior.AllowGet);
                 }                                
             }
             catch(Exception e)

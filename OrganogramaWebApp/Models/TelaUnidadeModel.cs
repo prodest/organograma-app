@@ -12,7 +12,8 @@ namespace WebApp.Models
         [Display(Name = "Nome"), Required(ErrorMessage = "Informe o Nome da unidade.")]
         public string nome { get; set; }
         [Display(Name = "Sigla"), Required(ErrorMessage = "Informe a Sigla da unidade.")]
-        public string sigla { get; set; }        
+        public string sigla { get; set; }
+        [Display(Name = "Tipo de Unidade"), Required(ErrorMessage = "Informe o Tipo de unidade.")]
         public List<TipoUnidadeModel> tipoUnidade { get; set; }
         [Display(Name = "Tipo de Unidade"), Required(ErrorMessage = "Informe o Tipo de unidade.")]
         public int idTipoUnidade { get; set; }

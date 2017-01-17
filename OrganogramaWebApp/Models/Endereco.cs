@@ -24,6 +24,7 @@ namespace WebApp.Models
         [Display(Name = "Estado")]
         public List<Estado> estados { get; set; }
         public List<Municipio> municipios { get; set; }
+        public Municipio municipio { get; set; }
 
         public class Estado
         {

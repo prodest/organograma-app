@@ -32,6 +32,21 @@ namespace WebApp.Controllers.Unidade
             return unidades;
         }
 
+        public RetornoAjaxModel GetUnidade(string guidOrganizacao, string token)
+        {
+            var url = ConfigurationManager.AppSettings["OrganogramaAPIBase"] + "unidades/" + guidOrganizacao;
+            var retorno_ws = Get(url, token);
+
+            RetornoAjaxModel retorno = new RetornoAjaxModel()
+            {
+                IsSuccessStatusCode = retorno_ws.IsSuccessStatusCode,
+                content = retorno_ws.content,
+                statusCode = retorno_ws.statusCode
+            };
+            
+            return retorno;
+        }
+
         public List<OrganizacaoModel> GeOrganizacoesPorPatriarca(string guidPatriarca, string token)
         {
             List<OrganizacaoModel> organizacoes = new List<OrganizacaoModel>();
