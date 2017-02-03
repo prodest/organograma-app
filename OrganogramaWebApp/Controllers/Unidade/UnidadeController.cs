@@ -1,18 +1,15 @@
 ﻿using Newtonsoft.Json;
+using OrganogramaApp.WebApp.Models;
 using ProcessoEletronicoWebApp.Apresentacao.Models;
 using ProcessoEletronicoWebApp.Apresentacao.Unidade;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Configuration;
 using System.IO;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using WebApp.Models;
 using static ProcessoEletronicoWebApp.Apresentacao.Models.Endereco;
 
-namespace WebApp.Controllers.Unidade
+namespace OrganogramaApp.WebApp.Controllers.Unidade
 {
     public class UnidadeController : BaseController
     {

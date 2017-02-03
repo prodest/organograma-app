@@ -3,9 +3,8 @@ using ProcessoEletronicoWebApp.Apresentacao.Models;
 using System;
 using System.Security.Claims;
 using System.Web;
-using WebApp.Models;
 
-namespace WebApp.Autorizacao
+namespace OrganogramaApp.WebApp.Autorizacao
 {
     public class UsuarioLogado : ClaimsPrincipal
     {

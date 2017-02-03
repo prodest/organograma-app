@@ -1,4 +1,6 @@
 ﻿using Newtonsoft.Json;
+using OrganogramaApp.WebApp.Autorizacao;
+using OrganogramaApp.WebApp.Models;
 using ProcessoEletronicoWebApp.Apresentacao.Base;
 using ProcessoEletronicoWebApp.Apresentacao.Models;
 using System;
@@ -9,10 +11,8 @@ using System.Security.Claims;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
-using WebApp.Autorizacao;
-using WebApp.Models;
 
-namespace WebApp.Controllers
+namespace OrganogramaApp.WebApp.Controllers
 {
     [Authorize]
     public class BaseController: Controller

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Web;
 using Thinktecture.IdentityModel.Owin.ResourceAuthorization;
 
-namespace WebApp.Autorizacao
+namespace OrganogramaApp.WebApp.Autorizacao
 {
     public class AuthorizationManager : ResourceAuthorizationManager
     {

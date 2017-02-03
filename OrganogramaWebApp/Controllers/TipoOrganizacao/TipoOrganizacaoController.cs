@@ -1,14 +1,10 @@
-﻿using ProcessoEletronicoWebApp.Apresentacao.Models;
+﻿using OrganogramaApp.WebApp.Models;
+using ProcessoEletronicoWebApp.Apresentacao.Models;
 using ProcessoEletronicoWebApp.Apresentacao.TipoOrganizacao;
-using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using WebApp.Models;
 
-namespace WebApp.Controllers
+namespace OrganogramaApp.WebApp.Controllers.TipoOrganizacao
 {
     public class TipoOrganizacaoController : BaseController
     {

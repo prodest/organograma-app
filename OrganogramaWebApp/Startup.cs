@@ -6,6 +6,7 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OpenIdConnect;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using OrganogramaApp.WebApp.Autorizacao;
 using Owin;
 using ProcessoEletronicoWebApp.Apresentacao.Base;
 using ProcessoEletronicoWebApp.Apresentacao.Models;
@@ -16,9 +17,6 @@ using System.IdentityModel.Tokens;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using WebApp.Autorizacao;
-using WebApp.Controllers;
-using WebApp.Models;
 
 [assembly: OwinStartup(typeof(WebApp.Startup))]
 
