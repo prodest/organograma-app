@@ -7,6 +7,8 @@ using Microsoft.Owin.Security.OpenIdConnect;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Owin;
+using ProcessoEletronicoWebApp.Apresentacao.Base;
+using ProcessoEletronicoWebApp.Apresentacao.Models;
 using System;
 using System.Collections.Generic;
 using System.Configuration;

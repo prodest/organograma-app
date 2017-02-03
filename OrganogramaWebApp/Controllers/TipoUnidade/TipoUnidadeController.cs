@@ -1,9 +1,11 @@
-﻿using System;
+﻿using ProcessoEletronicoWebApp.Apresentacao.Models;
+using ProcessoEletronicoWebApp.Apresentacao.TipoUnidade;
+using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using WebApp.Controllers.TipoUnidade;
 using WebApp.Models;
 
 namespace WebApp.Controllers
@@ -13,14 +15,14 @@ namespace WebApp.Controllers
         // GET: TipoUnidade
         public ActionResult Index()
         {
-            TipoUnidadeWorkService tipoUnidade_ws = new TipoUnidadeWorkService();
+            TipoUnidadeWorkService tipoUnidade_ws = new TipoUnidadeWorkService(ConfigurationManager.AppSettings["OrganogramaAPIBase"]);
             return View(tipoUnidade_ws.GetTiposUnidade(usuario.Token));
         }
 
         // GET: TipoUnidade/Details/5
         public ActionResult Listar()
         {
-            TipoUnidadeWorkService tipoUnidade_ws = new TipoUnidadeWorkService();
+            TipoUnidadeWorkService tipoUnidade_ws = new TipoUnidadeWorkService(ConfigurationManager.AppSettings["OrganogramaAPIBase"]);
             return PartialView("Consultar", tipoUnidade_ws.GetTiposUnidade(usuario.Token));
         }
 
@@ -38,7 +40,7 @@ namespace WebApp.Controllers
         {
             try
             {
-                TipoUnidadeWorkService tipoUnidade_ws = new TipoUnidadeWorkService();
+                TipoUnidadeWorkService tipoUnidade_ws = new TipoUnidadeWorkService(ConfigurationManager.AppSettings["OrganogramaAPIBase"]);
                 var retorno = tipoUnidade_ws.PostTipoUnidade(tipoUnidade, usuario.Token);
                 
                 if (retorno.retornoAjax.IsSuccessStatusCode)
@@ -62,7 +64,7 @@ namespace WebApp.Controllers
         // GET: TipoUnidade/Edit/5
         public ActionResult Editar(int id)
         {
-            TipoUnidadeWorkService tipoUnidade_ws = new TipoUnidadeWorkService();
+            TipoUnidadeWorkService tipoUnidade_ws = new TipoUnidadeWorkService(ConfigurationManager.AppSettings["OrganogramaAPIBase"]);
 
             TelaTipoUnidade tela = new TelaTipoUnidade();
             tela = tipoUnidade_ws.GetTipoUnidade(id, usuario.Token);
@@ -85,7 +87,7 @@ namespace WebApp.Controllers
         {
             try
             {
-                TipoUnidadeWorkService tipoUnidade_ws = new TipoUnidadeWorkService();
+                TipoUnidadeWorkService tipoUnidade_ws = new TipoUnidadeWorkService(ConfigurationManager.AppSettings["OrganogramaAPIBase"]);
 
                 var retorno = tipoUnidade_ws.PutTipoUnidade(tipoUnidade.id, tipoUnidade, usuario.Token);
 
@@ -110,7 +112,7 @@ namespace WebApp.Controllers
         // GET: TipoUnidade/Edit/5
         public ActionResult ExcluirVerItem(int id)
         {
-            TipoUnidadeWorkService tipoUnidade_ws = new TipoUnidadeWorkService();
+            TipoUnidadeWorkService tipoUnidade_ws = new TipoUnidadeWorkService(ConfigurationManager.AppSettings["OrganogramaAPIBase"]);
 
             TelaTipoUnidade tela = new TelaTipoUnidade();
             tela = tipoUnidade_ws.GetTipoUnidade(id, usuario.Token);
@@ -134,7 +136,7 @@ namespace WebApp.Controllers
         {
             try
             {
-                TipoUnidadeWorkService tipoUnidade_ws = new TipoUnidadeWorkService();
+                TipoUnidadeWorkService tipoUnidade_ws = new TipoUnidadeWorkService(ConfigurationManager.AppSettings["OrganogramaAPIBase"]);
                 var retorno = tipoUnidade_ws.DeleteTipoUnidade(tipoUnidade.id, usuario.Token);
 
                 if (retorno.retornoAjax.IsSuccessStatusCode)

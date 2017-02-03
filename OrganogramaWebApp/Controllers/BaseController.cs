@@ -1,6 +1,9 @@
 ﻿using Newtonsoft.Json;
+using ProcessoEletronicoWebApp.Apresentacao.Base;
+using ProcessoEletronicoWebApp.Apresentacao.Models;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Security.Claims;
 using System.Text;
@@ -93,7 +96,7 @@ namespace WebApp.Controllers
         [HttpGet]
         public ActionResult Municipios(string uf)
         {
-            WorkServiceBase base_ws = new WorkServiceBase();
+            WorkServiceBase base_ws = new WorkServiceBase(ConfigurationManager.AppSettings["OrganogramaAPIBase"]);
 
             var municipios = JsonConvert.DeserializeObject<List<Municipio>>(base_ws.GetMunicipios(uf, usuario.Token).content);
 
@@ -103,7 +106,7 @@ namespace WebApp.Controllers
         [HttpGet]
         public ActionResult UnidadesPorOrganizacao(string guidOrganizacao)
         {
-            WorkServiceBase base_ws = new WorkServiceBase();
+            WorkServiceBase base_ws = new WorkServiceBase(ConfigurationManager.AppSettings["OrganogramaAPIBase"]);
 
             var municipios = JsonConvert.DeserializeObject<List<Municipio>>(base_ws.GetUnidadesPorOrganizacao(guidOrganizacao, usuario.Token).content);
 

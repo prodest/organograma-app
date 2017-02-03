@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using ProcessoEletronicoWebApp.Apresentacao.Models;
 using System;
 using System.Security.Claims;
 using System.Web;

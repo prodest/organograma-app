@@ -53,13 +53,11 @@
     <Compile Include="Models\Contato.cs" />
     <Compile Include="Models\Email.cs" />
     <Compile Include="Models\Endereco.cs" />
-    <Compile Include="Models\Mensagem.cs" />
     <Compile Include="Models\Municipio.cs" />
     <Compile Include="Models\OrganizacaoModel.cs" />
     <Compile Include="Models\RetornoAjaxModel.cs" />
     <Compile Include="Models\Site.cs" />
     <Compile Include="Models\TelaUnidadeModel.cs" />
-    <Compile Include="Models\TipoMensagem.cs" />
     <Compile Include="Models\TipoOrganizacaoModel.cs" />
     <Compile Include="Models\TipoUnidadeModel.cs" />
     <Compile Include="Models\UnidadeGetModel.cs" />

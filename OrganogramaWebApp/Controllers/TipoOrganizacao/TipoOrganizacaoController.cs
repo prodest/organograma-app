@@ -1,9 +1,11 @@
-﻿using System;
+﻿using ProcessoEletronicoWebApp.Apresentacao.Models;
+using ProcessoEletronicoWebApp.Apresentacao.TipoOrganizacao;
+using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using WebApp.Controllers.TipoOrganizacao;
 using WebApp.Models;
 
 namespace WebApp.Controllers
@@ -13,14 +15,14 @@ namespace WebApp.Controllers
         // GET: TipoUnidade
         public ActionResult Index()
         {
-            TipoOrganizacaoWorkService tipoOrganizacao_ws = new TipoOrganizacaoWorkService();
+            TipoOrganizacaoWorkService tipoOrganizacao_ws = new TipoOrganizacaoWorkService(ConfigurationManager.AppSettings["OrganogramaAPIBase"]);
             return View(tipoOrganizacao_ws.GetTiposOrganizacao(usuario.Token));
         }
 
         // GET: TipoUnidade/Details/5
         public ActionResult Listar()
         {
-            TipoOrganizacaoWorkService tipoOrganizacao_ws = new TipoOrganizacaoWorkService();
+            TipoOrganizacaoWorkService tipoOrganizacao_ws = new TipoOrganizacaoWorkService(ConfigurationManager.AppSettings["OrganogramaAPIBase"]);
             return PartialView("Consultar", tipoOrganizacao_ws.GetTiposOrganizacao(usuario.Token));
         }
 
@@ -38,7 +40,7 @@ namespace WebApp.Controllers
         {
             try
             {
-                TipoOrganizacaoWorkService tipoOrganizacao_ws = new TipoOrganizacaoWorkService();
+                TipoOrganizacaoWorkService tipoOrganizacao_ws = new TipoOrganizacaoWorkService(ConfigurationManager.AppSettings["OrganogramaAPIBase"]);
                 var retorno = tipoOrganizacao_ws.PostTipoOrganizacao(tipoOrganizacao, usuario.Token);
 
                 if (retorno.retornoAjax.IsSuccessStatusCode)
@@ -62,7 +64,7 @@ namespace WebApp.Controllers
         // GET: TipoUnidade/Edit/5
         public ActionResult Editar(int id)
         {
-            TipoOrganizacaoWorkService tipoOrganizacao_ws = new TipoOrganizacaoWorkService();
+            TipoOrganizacaoWorkService tipoOrganizacao_ws = new TipoOrganizacaoWorkService(ConfigurationManager.AppSettings["OrganogramaAPIBase"]);
 
             TelaTipoOrganizacao tela = new TelaTipoOrganizacao();
             tela = tipoOrganizacao_ws.GetTipoOrganizacao(id, usuario.Token);
@@ -85,7 +87,7 @@ namespace WebApp.Controllers
         {
             try
             {
-                TipoOrganizacaoWorkService tipoOrganizacao_ws = new TipoOrganizacaoWorkService();
+                TipoOrganizacaoWorkService tipoOrganizacao_ws = new TipoOrganizacaoWorkService(ConfigurationManager.AppSettings["OrganogramaAPIBase"]);
 
                 var retorno = tipoOrganizacao_ws.PutTipoOrganizacao(tipoOrganizacao.id, tipoOrganizacao, usuario.Token);
 
@@ -110,7 +112,7 @@ namespace WebApp.Controllers
         // GET: TipoUnidade/Edit/5
         public ActionResult ExcluirVerItem(int id)
         {
-            TipoOrganizacaoWorkService tipoOrganizacao_ws = new TipoOrganizacaoWorkService();
+            TipoOrganizacaoWorkService tipoOrganizacao_ws = new TipoOrganizacaoWorkService(ConfigurationManager.AppSettings["OrganogramaAPIBase"]);
 
             TelaTipoOrganizacao tela = new TelaTipoOrganizacao();
             tela = tipoOrganizacao_ws.GetTipoOrganizacao(id, usuario.Token);
@@ -134,7 +136,7 @@ namespace WebApp.Controllers
         {
             try
             {
-                TipoOrganizacaoWorkService tipoOrganizacao_ws = new TipoOrganizacaoWorkService();
+                TipoOrganizacaoWorkService tipoOrganizacao_ws = new TipoOrganizacaoWorkService(ConfigurationManager.AppSettings["OrganogramaAPIBase"]);
                 var retorno = tipoOrganizacao_ws.DeleteTipoOrganizacao(tipoOrganizacao.id, usuario.Token);
 
                 if (retorno.retornoAjax.IsSuccessStatusCode)

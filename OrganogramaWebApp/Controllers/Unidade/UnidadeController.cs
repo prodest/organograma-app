@@ -1,13 +1,16 @@
 ﻿using Newtonsoft.Json;
+using ProcessoEletronicoWebApp.Apresentacao.Models;
+using ProcessoEletronicoWebApp.Apresentacao.Unidade;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WebApp.Models;
-using static WebApp.Models.Endereco;
+using static ProcessoEletronicoWebApp.Apresentacao.Models.Endereco;
 
 namespace WebApp.Controllers.Unidade
 {
@@ -16,7 +19,7 @@ namespace WebApp.Controllers.Unidade
         // GET: Unidade
         public ActionResult Index()
         {
-            UnidadeWorkService unidade_ws = new UnidadeWorkService();
+            UnidadeWorkService unidade_ws = new UnidadeWorkService(ConfigurationManager.AppSettings["OrganogramaAPIBase"]);
             ViewBag.NomeOrgao = usuario.Orgao.nomeFantasia;
             return View(unidade_ws.GetUnidades(usuario.Orgao.guid, usuario.Token));
         }
@@ -24,7 +27,7 @@ namespace WebApp.Controllers.Unidade
         // GET: Unidade/Details/5
         public ActionResult Visualizar(string guid)
         {
-            UnidadeWorkService unidade_ws = new UnidadeWorkService();
+            UnidadeWorkService unidade_ws = new UnidadeWorkService(ConfigurationManager.AppSettings["OrganogramaAPIBase"]);
             UnidadeGetModel unidade = new UnidadeGetModel();
 
             var retorno = unidade_ws.GetUnidade(guid, usuario.Token);
@@ -45,7 +48,7 @@ namespace WebApp.Controllers.Unidade
         public ActionResult Cadastrar()
         {
             TelaUnidadeModel tela = new TelaUnidadeModel();
-            UnidadeWorkService unidade_ws = new UnidadeWorkService();            
+            UnidadeWorkService unidade_ws = new UnidadeWorkService(ConfigurationManager.AppSettings["OrganogramaAPIBase"]);
 
             tela.organizacao = unidade_ws.GeOrganizacoesPorPatriarca(usuario.Patriarca.guid, usuario.Token);
             tela.tipoUnidade = unidade_ws.GetTiposUnidade(usuario.Token);
@@ -148,7 +151,7 @@ namespace WebApp.Controllers.Unidade
                 unidadePost.nome = tela.nome;
                 unidadePost.sigla = tela.sigla;                
 
-                UnidadeWorkService unidade_ws = new UnidadeWorkService();
+                UnidadeWorkService unidade_ws = new UnidadeWorkService(ConfigurationManager.AppSettings["OrganogramaAPIBase"]);
                 var retorno = unidade_ws.PostUnidade(unidadePost, usuario.Token);
 
                 if (retorno.IsSuccessStatusCode)
