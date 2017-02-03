@@ -1,6 +1,6 @@
-﻿using OrganogramaApp.WebApp.Models;
-using ProcessoEletronicoWebApp.Apresentacao.Models;
-using ProcessoEletronicoWebApp.Apresentacao.TipoUnidade;
+﻿using OrganogramaApp.Apresentacao.Models;
+using OrganogramaApp.Apresentacao.TipoUnidade;
+using OrganogramaApp.WebApp.Models;
 using System.Configuration;
 using System.Web.Mvc;
 

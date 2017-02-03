@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
+using OrganogramaApp.Apresentacao.Base;
+using OrganogramaApp.Apresentacao.Models;
 using OrganogramaApp.WebApp.Autorizacao;
 using OrganogramaApp.WebApp.Models;
-using ProcessoEletronicoWebApp.Apresentacao.Base;
-using ProcessoEletronicoWebApp.Apresentacao.Models;
 using System;
 using System.Collections.Generic;
 using System.Configuration;

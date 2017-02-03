@@ -7,8 +7,8 @@
     <ProjectGuid>{6A003084-1C9D-421C-81FA-856662A5E924}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ProcessoEletronicoWebApp.Apresentacao</RootNamespace>
-    <AssemblyName>ProcessoEletronicoWebApp.Apresentacao</AssemblyName>
+    <RootNamespace>OrganogramaApp.Apresentacao</RootNamespace>
+    <AssemblyName>OrganogramaApp.Apresentacao</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

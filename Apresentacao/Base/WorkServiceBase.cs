@@ -8,9 +8,9 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
-using ProcessoEletronicoWebApp.Apresentacao.Models;
+using OrganogramaApp.Apresentacao.Models;
 
-namespace ProcessoEletronicoWebApp.Apresentacao.Base
+namespace OrganogramaApp.Apresentacao.Base
 {
     public class WorkServiceBase
     {

@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Web;
-using ProcessoEletronicoWebApp.Apresentacao.Models;
-using ProcessoEletronicoWebApp.Apresentacao.Base;
+using OrganogramaApp.Apresentacao.Models;
+using OrganogramaApp.Apresentacao.Base;
 
-namespace ProcessoEletronicoWebApp.Apresentacao.TipoOrganizacao
+namespace OrganogramaApp.Apresentacao.TipoOrganizacao
 {
     public class TipoOrganizacaoWorkService : WorkServiceBase
     {
