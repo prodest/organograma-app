@@ -1,43 +1,41 @@
-﻿using OrganogramaApp.Apresentacao.Models;
-using OrganogramaApp.Apresentacao.TipoOrganizacao;
+﻿using OrganogramaApp.Apresentacao.Base;
+using OrganogramaApp.Apresentacao.Models;
 using OrganogramaApp.WebApp.Models;
-using System.Configuration;
 using System.Web.Mvc;
 
 namespace OrganogramaApp.WebApp.Controllers.TipoOrganizacao
 {
     public class TipoOrganizacaoController : BaseController
     {
-        // GET: TipoUnidade
+        private ITipoOrganizacaoWorkService workService;
+
+        public TipoOrganizacaoController(ITipoOrganizacaoWorkService workService)
+        {
+            this.workService = workService;
+        }
+
         public ActionResult Index()
         {
-            TipoOrganizacaoWorkService tipoOrganizacao_ws = new TipoOrganizacaoWorkService(ConfigurationManager.AppSettings["OrganogramaAPIBase"]);
-            return View(tipoOrganizacao_ws.GetTiposOrganizacao(usuario.Token));
+            return View(workService.GetTiposOrganizacao(usuario.Token));
         }
 
-        // GET: TipoUnidade/Details/5
         public ActionResult Listar()
         {
-            TipoOrganizacaoWorkService tipoOrganizacao_ws = new TipoOrganizacaoWorkService(ConfigurationManager.AppSettings["OrganogramaAPIBase"]);
-            return PartialView("Consultar", tipoOrganizacao_ws.GetTiposOrganizacao(usuario.Token));
+            return PartialView("Consultar", workService.GetTiposOrganizacao(usuario.Token));
         }
 
-        // GET: TipoUnidade/Create
         public ActionResult Criar()
         {
             TelaTipoOrganizacao tela = new TelaTipoOrganizacao();
             return PartialView(tela);
         }
 
-        // POST: TipoUnidade/Create
         [HttpPost]
-        //public ActionResult Criar(FormCollection collection)
         public ActionResult Criar(TipoOrganizacaoModel tipoOrganizacao)
         {
             try
             {
-                TipoOrganizacaoWorkService tipoOrganizacao_ws = new TipoOrganizacaoWorkService(ConfigurationManager.AppSettings["OrganogramaAPIBase"]);
-                var retorno = tipoOrganizacao_ws.PostTipoOrganizacao(tipoOrganizacao, usuario.Token);
+                var retorno = workService.PostTipoOrganizacao(tipoOrganizacao, usuario.Token);
 
                 if (retorno.retornoAjax.IsSuccessStatusCode)
                 {
@@ -57,13 +55,10 @@ namespace OrganogramaApp.WebApp.Controllers.TipoOrganizacao
             }
         }
 
-        // GET: TipoUnidade/Edit/5
         public ActionResult Editar(int id)
         {
-            TipoOrganizacaoWorkService tipoOrganizacao_ws = new TipoOrganizacaoWorkService(ConfigurationManager.AppSettings["OrganogramaAPIBase"]);
-
             TelaTipoOrganizacao tela = new TelaTipoOrganizacao();
-            tela = tipoOrganizacao_ws.GetTipoOrganizacao(id, usuario.Token);
+            tela = workService.GetTipoOrganizacao(id, usuario.Token);
 
             if (tela.retornoAjax.IsSuccessStatusCode)
             {
@@ -77,15 +72,12 @@ namespace OrganogramaApp.WebApp.Controllers.TipoOrganizacao
 
         }
 
-        // POST: TipoUnidade/Edit/5
         [HttpPost]
         public ActionResult Editar(TipoOrganizacaoModel tipoOrganizacao)
         {
             try
             {
-                TipoOrganizacaoWorkService tipoOrganizacao_ws = new TipoOrganizacaoWorkService(ConfigurationManager.AppSettings["OrganogramaAPIBase"]);
-
-                var retorno = tipoOrganizacao_ws.PutTipoOrganizacao(tipoOrganizacao.id, tipoOrganizacao, usuario.Token);
+                var retorno = workService.PutTipoOrganizacao(tipoOrganizacao.id, tipoOrganizacao, usuario.Token);
 
                 if (retorno.retornoAjax.IsSuccessStatusCode)
                 {
@@ -105,13 +97,10 @@ namespace OrganogramaApp.WebApp.Controllers.TipoOrganizacao
             }
         }
 
-        // GET: TipoUnidade/Edit/5
         public ActionResult ExcluirVerItem(int id)
         {
-            TipoOrganizacaoWorkService tipoOrganizacao_ws = new TipoOrganizacaoWorkService(ConfigurationManager.AppSettings["OrganogramaAPIBase"]);
-
             TelaTipoOrganizacao tela = new TelaTipoOrganizacao();
-            tela = tipoOrganizacao_ws.GetTipoOrganizacao(id, usuario.Token);
+            tela = workService.GetTipoOrganizacao(id, usuario.Token);
 
             if (tela.retornoAjax.IsSuccessStatusCode)
             {
@@ -125,15 +114,12 @@ namespace OrganogramaApp.WebApp.Controllers.TipoOrganizacao
 
         }
 
-
-        // Get: TipoUnidade/Delete/5
         [HttpGet]
         public ActionResult Excluir(TipoOrganizacaoModel tipoOrganizacao)
         {
             try
             {
-                TipoOrganizacaoWorkService tipoOrganizacao_ws = new TipoOrganizacaoWorkService(ConfigurationManager.AppSettings["OrganogramaAPIBase"]);
-                var retorno = tipoOrganizacao_ws.DeleteTipoOrganizacao(tipoOrganizacao.id, usuario.Token);
+                var retorno = workService.DeleteTipoOrganizacao(tipoOrganizacao.id, usuario.Token);
 
                 if (retorno.retornoAjax.IsSuccessStatusCode)
                 {

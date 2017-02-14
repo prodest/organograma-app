@@ -1,15 +1,11 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Web;
-using OrganogramaApp.Apresentacao.Models;
 using OrganogramaApp.Apresentacao.Base;
+using OrganogramaApp.Apresentacao.Models;
+using System.Collections.Generic;
 
-namespace OrganogramaApp.Apresentacao.TipoUnidade
+namespace OrganogramaApp.Apresentacao
 {
-    public class TipoUnidadeWorkService: WorkServiceBase
+    public class TipoUnidadeWorkService: WorkServiceBase, ITipoUnidadeWorkService
     {
         public TipoUnidadeWorkService(string urlBase) : base(urlBase)
         {
@@ -19,7 +15,7 @@ namespace OrganogramaApp.Apresentacao.TipoUnidade
         {
             List<TipoUnidadeModel> tiposUnidade = new List<TipoUnidadeModel>();
             
-            var url = urlBase + "tipos-unidade";
+            var url = urlOrganogramaApiBase + "tipos-unidade";
             var retorno_ws = Get(url, token);
 
             if (retorno_ws.IsSuccessStatusCode)
@@ -44,7 +40,7 @@ namespace OrganogramaApp.Apresentacao.TipoUnidade
         {
             TipoUnidadeModel tipoUnidade = new TipoUnidadeModel();
 
-            var url = urlBase + "tipos-unidade/" + id;
+            var url = urlOrganogramaApiBase + "tipos-unidade/" + id;
             var retorno_ws = Get(url, token);
 
             if (retorno_ws.IsSuccessStatusCode)
@@ -68,7 +64,7 @@ namespace OrganogramaApp.Apresentacao.TipoUnidade
 
         public TelaTipoUnidade PutTipoUnidade(int id, TipoUnidadeModel tipoUnidade, string token)
         {
-            var url = urlBase + "tipos-unidade/" + id;
+            var url = urlOrganogramaApiBase + "tipos-unidade/" + id;
             var retorno_ws = Put(tipoUnidade, url, token);         
 
             RetornoAjaxModel retorno = new RetornoAjaxModel()
@@ -86,7 +82,7 @@ namespace OrganogramaApp.Apresentacao.TipoUnidade
 
         public TelaTipoUnidade PostTipoUnidade(TipoUnidadeModel tipoUnidade, string token)
         {
-            var url = urlBase + "tipos-unidade";
+            var url = urlOrganogramaApiBase + "tipos-unidade";
             var retorno_ws = Post(tipoUnidade, url, token);
 
             RetornoAjaxModel retorno = new RetornoAjaxModel()
@@ -104,7 +100,7 @@ namespace OrganogramaApp.Apresentacao.TipoUnidade
 
         public TelaTipoUnidade DeleteTipoUnidade(int id, string token)
         {
-            var url = urlBase + "tipos-unidade/" + id;
+            var url = urlOrganogramaApiBase + "tipos-unidade/" + id;
             var retorno_ws = Delete(url, token);
 
             RetornoAjaxModel retorno = new RetornoAjaxModel()

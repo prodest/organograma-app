@@ -1,10 +1,9 @@
 ﻿using Newtonsoft.Json;
+using OrganogramaApp.Apresentacao.Base;
 using OrganogramaApp.Apresentacao.Models;
-using OrganogramaApp.Apresentacao.Unidade;
 using OrganogramaApp.WebApp.Models;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.IO;
 using System.Web.Mvc;
 using static OrganogramaApp.Apresentacao.Models.Endereco;
@@ -13,21 +12,24 @@ namespace OrganogramaApp.WebApp.Controllers.Unidade
 {
     public class UnidadeController : BaseController
     {
-        // GET: Unidade
-        public ActionResult Index()
+        private IUnidadeWorkService workService;
+
+        public UnidadeController(IUnidadeWorkService workService)
         {
-            UnidadeWorkService unidade_ws = new UnidadeWorkService(ConfigurationManager.AppSettings["OrganogramaAPIBase"]);
-            ViewBag.NomeOrgao = usuario.Orgao.nomeFantasia;
-            return View(unidade_ws.GetUnidades(usuario.Orgao.guid, usuario.Token));
+            this.workService = workService;
         }
 
-        // GET: Unidade/Details/5
+        public ActionResult Index()
+        {
+            ViewBag.NomeOrgao = usuario.Orgao.nomeFantasia;
+            return View(workService.GetUnidades(usuario.Orgao.guid, usuario.Token));
+        }
+
         public ActionResult Visualizar(string guid)
         {
-            UnidadeWorkService unidade_ws = new UnidadeWorkService(ConfigurationManager.AppSettings["OrganogramaAPIBase"]);
             UnidadeGetModel unidade = new UnidadeGetModel();
 
-            var retorno = unidade_ws.GetUnidade(guid, usuario.Token);
+            var retorno = workService.GetUnidade(guid, usuario.Token);
 
             if (retorno.IsSuccessStatusCode)
             {
@@ -41,14 +43,12 @@ namespace OrganogramaApp.WebApp.Controllers.Unidade
             return PartialView("Visualizar", unidade);
         }
 
-        // GET: Unidade/Create
         public ActionResult Cadastrar()
         {
             TelaUnidadeModel tela = new TelaUnidadeModel();
-            UnidadeWorkService unidade_ws = new UnidadeWorkService(ConfigurationManager.AppSettings["OrganogramaAPIBase"]);
 
-            tela.organizacao = unidade_ws.GeOrganizacoesPorPatriarca(usuario.Patriarca.guid, usuario.Token);
-            tela.tipoUnidade = unidade_ws.GetTiposUnidade(usuario.Token);
+            tela.organizacao = workService.GeOrganizacoesPorPatriarca(usuario.Patriarca.guid, usuario.Token);
+            tela.tipoUnidade = workService.GetTiposUnidade(usuario.Token);
             tela.unidadePai = new List<UnidadeGetModel>();
 
             tela.endereco = new Endereco();
@@ -97,16 +97,13 @@ namespace OrganogramaApp.WebApp.Controllers.Unidade
             return PartialView("_campoTelefone", tela);
         }
 
-        // GET: Unidade/CadastrarEndereco
         public ActionResult CadastrarEndereco()
         {
             return PartialView("CadastrarEndereco");
         }
 
-        // POST: Unidade/Create
         [HttpPost]
         public ActionResult Create(TelaUnidadeModel tela)
-        //public ActionResult Create(FormCollection collection)
         {
             try
             {
@@ -148,8 +145,7 @@ namespace OrganogramaApp.WebApp.Controllers.Unidade
                 unidadePost.nome = tela.nome;
                 unidadePost.sigla = tela.sigla;                
 
-                UnidadeWorkService unidade_ws = new UnidadeWorkService(ConfigurationManager.AppSettings["OrganogramaAPIBase"]);
-                var retorno = unidade_ws.PostUnidade(unidadePost, usuario.Token);
+                var retorno = workService.PostUnidade(unidadePost, usuario.Token);
 
                 if (retorno.IsSuccessStatusCode)
                 {
@@ -169,20 +165,17 @@ namespace OrganogramaApp.WebApp.Controllers.Unidade
             }
         }
 
-        // GET: Unidade/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: Unidade/Edit/5
         [HttpPost]
         public ActionResult Edit(int id, FormCollection collection)
         {
             try
             {
                 // TODO: Add update logic here
-
                 return RedirectToAction("Index");
             }
             catch
@@ -191,20 +184,17 @@ namespace OrganogramaApp.WebApp.Controllers.Unidade
             }
         }
 
-        // GET: Unidade/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: Unidade/Delete/5
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {
             try
             {
                 // TODO: Add delete logic here
-
                 return RedirectToAction("Index");
             }
             catch

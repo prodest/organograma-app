@@ -1,24 +1,20 @@
 ﻿using Newtonsoft.Json;
+using OrganogramaApp.Apresentacao.Models;
 using StackExchange.Profiling;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
-using OrganogramaApp.Apresentacao.Models;
 
 namespace OrganogramaApp.Apresentacao.Base
 {
     public class WorkServiceBase
     {
-        protected string urlBase;
+        protected string urlOrganogramaApiBase;
 
-        public WorkServiceBase(string urlBase)
+        public WorkServiceBase(string urlOrganogramaApiBase)
         {
-            this.urlBase = urlBase;
+            this.urlOrganogramaApiBase = urlOrganogramaApiBase;
         }
 
         public static RetornoAjaxModel Get(string url, string token, int i = 0)
@@ -167,7 +163,7 @@ namespace OrganogramaApp.Apresentacao.Base
 
         public RetornoAjaxModel GetMunicipios(string uf, string token)
         {               
-            var url = urlBase + "municipios?uf=" + uf;
+            var url = urlOrganogramaApiBase + "municipios?uf=" + uf;
             var retorno_ws = Get(url, token);
 
             RetornoAjaxModel retorno = new RetornoAjaxModel()
@@ -182,7 +178,7 @@ namespace OrganogramaApp.Apresentacao.Base
 
         public RetornoAjaxModel GetUnidadesPorOrganizacao(string guidOrganizacao, string token)
         {
-            var url = urlBase + "unidades/organizacao/" + guidOrganizacao;
+            var url = urlOrganogramaApiBase + "unidades/organizacao/" + guidOrganizacao;
             var retorno_ws = Get(url, token);
 
             RetornoAjaxModel retorno = new RetornoAjaxModel()

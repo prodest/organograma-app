@@ -49,6 +49,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Base\ITipoOrganizacaoWorkService.cs" />
+    <Compile Include="Base\ITipoUnidadeWorkService.cs" />
+    <Compile Include="Base\IUnidadeWorkService.cs" />
     <Compile Include="Base\WorkServiceBase.cs" />
     <Compile Include="Models\Contato.cs" />
     <Compile Include="Models\Email.cs" />

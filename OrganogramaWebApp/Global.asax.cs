@@ -1,4 +1,5 @@
 ﻿using OrganogramaApp.WebApp.App_Start;
+using OrganogramaApp.WebApp.Config;
 using StackExchange.Profiling;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ namespace OrganogramaApp.WebApp
     {
         protected void Application_Start()
         {
+            InjecaoDependencia.Injetar();
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);

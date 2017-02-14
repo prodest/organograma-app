@@ -1,17 +1,13 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Web;
-using OrganogramaApp.Apresentacao.Models;
 using OrganogramaApp.Apresentacao.Base;
+using OrganogramaApp.Apresentacao.Models;
+using System.Collections.Generic;
 
-namespace OrganogramaApp.Apresentacao.TipoOrganizacao
+namespace OrganogramaApp.Apresentacao
 {
-    public class TipoOrganizacaoWorkService : WorkServiceBase
+    public class TipoOrganizacaoWorkService : WorkServiceBase, ITipoOrganizacaoWorkService
     {
-        public TipoOrganizacaoWorkService(string urlBase) : base (urlBase)
+        public TipoOrganizacaoWorkService(string urlOrganogramaApiBase) : base (urlOrganogramaApiBase)
         {
         }
 
@@ -19,7 +15,7 @@ namespace OrganogramaApp.Apresentacao.TipoOrganizacao
         {
             List<TipoOrganizacaoModel> tiposOrganizacao = new List<TipoOrganizacaoModel>();
 
-            var url = urlBase + "tipos-organizacao";
+            var url = urlOrganogramaApiBase + "tipos-organizacao";
             var retorno_ws = Get(url, token);
 
             if (retorno_ws.IsSuccessStatusCode)
@@ -45,7 +41,7 @@ namespace OrganogramaApp.Apresentacao.TipoOrganizacao
         {
             TipoOrganizacaoModel tipoOrganizacao = new TipoOrganizacaoModel();
 
-            var url = urlBase + "tipos-organizacao/" + id;
+            var url = urlOrganogramaApiBase + "tipos-organizacao/" + id;
             var retorno_ws = Get(url, token);
 
             if (retorno_ws.IsSuccessStatusCode)
@@ -69,7 +65,7 @@ namespace OrganogramaApp.Apresentacao.TipoOrganizacao
 
         public TelaTipoOrganizacao PutTipoOrganizacao(int id, TipoOrganizacaoModel tipoOrganizacao, string token)
         {
-            var url = urlBase + "tipos-organizacao/" + id;
+            var url = urlOrganogramaApiBase + "tipos-organizacao/" + id;
             var retorno_ws = Put(tipoOrganizacao, url, token);
 
             RetornoAjaxModel retorno = new RetornoAjaxModel()
@@ -87,7 +83,7 @@ namespace OrganogramaApp.Apresentacao.TipoOrganizacao
 
         public TelaTipoOrganizacao PostTipoOrganizacao(TipoOrganizacaoModel tipoOrganizacao, string token)
         {
-            var url = urlBase + "tipos-organizacao";
+            var url = urlOrganogramaApiBase + "tipos-organizacao";
             var retorno_ws = Post(tipoOrganizacao, url, token);
 
             RetornoAjaxModel retorno = new RetornoAjaxModel()
@@ -105,7 +101,7 @@ namespace OrganogramaApp.Apresentacao.TipoOrganizacao
 
         public TelaTipoOrganizacao DeleteTipoOrganizacao(int id, string token)
         {
-            var url = urlBase + "tipos-organizacao/" + id;
+            var url = urlOrganogramaApiBase + "tipos-organizacao/" + id;
             var retorno_ws = Delete(url, token);
 
             RetornoAjaxModel retorno = new RetornoAjaxModel()

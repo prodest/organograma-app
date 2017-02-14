@@ -1,15 +1,11 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Web;
-using OrganogramaApp.Apresentacao.Models;
 using OrganogramaApp.Apresentacao.Base;
+using OrganogramaApp.Apresentacao.Models;
+using System.Collections.Generic;
 
-namespace OrganogramaApp.Apresentacao.Unidade
+namespace OrganogramaApp.Apresentacao
 {
-    public class UnidadeWorkService: WorkServiceBase
+    public class UnidadeWorkService: WorkServiceBase, IUnidadeWorkService
     {
         public UnidadeWorkService(string urlBase) : base(urlBase)
         {
@@ -19,7 +15,7 @@ namespace OrganogramaApp.Apresentacao.Unidade
         {
             List<UnidadeGetModel> unidades = new List<UnidadeGetModel>();
             //...
-            var url = urlBase + "unidades/organizacao/" + guidOrganizacao;
+            var url = urlOrganogramaApiBase + "unidades/organizacao/" + guidOrganizacao;
             var retorno_ws = Get(url, token);
 
             if (retorno_ws.IsSuccessStatusCode)
@@ -39,7 +35,7 @@ namespace OrganogramaApp.Apresentacao.Unidade
 
         public RetornoAjaxModel GetUnidade(string guidOrganizacao, string token)
         {
-            var url = urlBase + "unidades/" + guidOrganizacao;
+            var url = urlOrganogramaApiBase + "unidades/" + guidOrganizacao;
             var retorno_ws = Get(url, token);
 
             RetornoAjaxModel retorno = new RetornoAjaxModel()
@@ -56,7 +52,7 @@ namespace OrganogramaApp.Apresentacao.Unidade
         {
             List<OrganizacaoModel> organizacoes = new List<OrganizacaoModel>();
             //...
-            var url = urlBase + "organizacoes/" + guidPatriarca + "/filhas";
+            var url = urlOrganogramaApiBase + "organizacoes/" + guidPatriarca + "/filhas";
             var retorno_ws = Get(url, token);
 
             if (retorno_ws.IsSuccessStatusCode)
@@ -78,7 +74,7 @@ namespace OrganogramaApp.Apresentacao.Unidade
         {
             List<TipoUnidadeModel> tiposUnidade = new List<TipoUnidadeModel>();
 
-            var url = urlBase + "tipos-unidade";
+            var url = urlOrganogramaApiBase + "tipos-unidade";
             var retorno_ws = Get(url, token);
 
             if (retorno_ws.IsSuccessStatusCode)
@@ -98,7 +94,7 @@ namespace OrganogramaApp.Apresentacao.Unidade
 
         public RetornoAjaxModel PostUnidade(UnidadePostModel unidade, string token)
         {            
-            var url = urlBase + "unidades";
+            var url = urlOrganogramaApiBase + "unidades";
             var retorno_ws = Post(unidade, url, token);
 
             RetornoAjaxModel retorno = new RetornoAjaxModel()
