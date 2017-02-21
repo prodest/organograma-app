@@ -1,7 +1,7 @@
-﻿@model IEnumerable<OrganogramaApp.Apresentacao.Models.UnidadeGetModel>
+﻿@model IEnumerable<OrganogramaApp.Apresentacao.ViewModel.UnidadeListagemViewModel>
 
 @{    
-    ViewBag.SubTitle = "Unidades da Organização " + ViewBag.NomeOrgao;
+    ViewBag.SubTitle = "Unidades da Organização ";
 }
 
 <div class="box box-info">
@@ -20,10 +20,10 @@
         <table id="tabelaUnidades" class="table table-condensed table-striped table-bordered">
             <thead>
                 <tr>
-                    <th class="col-xs-4">@Html.DisplayNameFor(model => model.nome)</th>
-                    <th class="col-xs-2">@Html.DisplayNameFor(model => model.sigla)</th>
-                    <th class="col-xs-2">@Html.DisplayNameFor(model => model.tipoUnidade)</th> 
-                    <th class="col-xs-2">@Html.DisplayNameFor(model => model.unidadePai)</th> 
+                    <th class="col-xs-4">@Html.DisplayNameFor(model => model.Nome)</th>
+                    <th class="col-xs-2">@Html.DisplayNameFor(model => model.Sigla)</th>
+                    <th class="col-xs-2">@Html.DisplayNameFor(model => model.Tipo)</th> 
+                    <th class="col-xs-2">@Html.DisplayNameFor(model => model.UnidadePai)</th> 
                     <th>Ações</th>
                 </tr>
             </thead>
@@ -32,21 +32,21 @@
                 {
                     <tr>
                         <td>
-                            @Html.DisplayFor(modelItem => item.nome)
+                            @Html.DisplayFor(modelItem => item.Nome)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.sigla)
+                            @Html.DisplayFor(modelItem => item.Sigla)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.tipoUnidade.descricao)
+                            @Html.DisplayFor(modelItem => item.Tipo)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.unidadePai.sigla)
+                            @Html.DisplayFor(modelItem => item.UnidadePai)
                         </td>
                         <td>
-                            <a href="@Url.Action("Editar","Unidade",new { guid = item.guid })" data-evento="2" class="btn btn-xs btn-primary btnModalUnidade" data-toggle="tooltip" title="Editar Unidade"><i class="fa fa-edit" aria-hidden="true"></i></a>
-                            <a href="@Url.Action("Visualizar","Unidade",new { guid = item.guid })" data-evento="4" class="btn btn-xs btn-success btnModalUnidade" data-toggle="tooltip" title="Visualizar Unidade"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                            <a href="@Url.Action("Excluir","Unidade",new { guid = item.guid })" data-evento="3" class="btn btn-xs btn-danger btnModalUnidade" data-toggle="tooltip" title="Excluir Unidade"><i class="fa fa-close" aria-hidden="true"></i></a>
+                            <a href="@Url.Action("Editar","Unidade",new { guid = item.Guid })" data-evento="2" class="btn btn-xs btn-primary btnModalUnidade" data-toggle="tooltip" title="Editar Unidade"><i class="fa fa-edit" aria-hidden="true"></i></a>
+                            <a href="@Url.Action("Visualizar","Unidade",new { guid = item.Guid })" data-evento="4" class="btn btn-xs btn-success btnModalUnidade" data-toggle="tooltip" title="Visualizar Unidade"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                            <a href="@Url.Action("Excluir","Unidade",new { guid = item.Guid })" data-evento="3" class="btn btn-xs btn-danger btnModalUnidade" data-toggle="tooltip" title="Excluir Unidade"><i class="fa fa-close" aria-hidden="true"></i></a>
 
                         </td>
                     </tr>
@@ -54,10 +54,5 @@
             </tbody>
         </table>
     </div>
-    <!-- /.box-body -->
-    @*<div class="box-footer text-center">
-            <a href="javascript:void(0)" class="uppercase"><i class="fa fa-expand" aria-hidden="true"></i> Ver Todos</a>
-        </div>*@
-    <!-- /.box-footer -->
 </div>
-<!-- /.box -->
+

@@ -1,9 +1,7 @@
-﻿@model IEnumerable<OrganogramaApp.Apresentacao.Models.UnidadeGetModel>
-
+﻿@model OrganogramaApp.Apresentacao.ViewModel.UnidadeViewModel
 @{
-    ViewBag.Title = "Unidades"; 
+    ViewBag.Title = "Unidades";
 }
-
 <section class="content-header">
     <h1>
         @ViewBag.Title
@@ -16,14 +14,70 @@
 <!-- Main content -->
 <section id="content" class="content">
     <div class="row">
-        <div class="col-lg-12" id="listaTipoUnidade">
-            @Html.Partial("Listagem", Model)
+        <div class="col-lg-12">
+            <div class="box box-warning">
+                <!-- /.box-header -->
+                <div class="box-header with-border">
+                    <h3 class="box-title">@ViewBag.SubTitle</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body table-responsive">
+                    @using (Ajax.BeginForm("Consultar", "Unidade",
+                                    new AjaxOptions
+                                    {
+                                        HttpMethod = "POST",
+                                        InsertionMode = InsertionMode.Replace,
+                                        UpdateTargetId = "listaUnidades",
+                                        OnBegin = "load",
+                                        OnComplete = "complete"
+                                    }
+                    , new { @id = "formUnidade" }))
+                    {
+                        if (Model.Organizacoes != null)
+                        {
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.GuidOrganizacao, htmlAttributes: new { @class = "control-label" })
+                                @Html.DropDownListFor(model => model.GuidOrganizacao, new SelectList(Model.Organizacoes, "Guid", "SiglaNome"), "Selecione uma Organização", new { @class = "form-control", @onchange = "javascript:limpalista();", required = "required" })
+                                @Html.ValidationMessageFor(model => model.GuidOrganizacao, "", new { @class = "text-danger" })
+                            </div>
+                        }
+
+                        if (Model.Organizacoes != null && Model.Organizacoes.Count > 0)
+                        {
+                            <div class="form-group pull-right">
+                                <button class="btn btn-warning" type="submit"><i class="fa fa-filter" aria-hidden="true"></i> Carregar Funções</button>
+                            </div>
+                        }
+
+                    }
+                </div>
+            </div>
+
+            <div id="listaUnidades">
+                @if (Model.Unidades != null && Model.Unidades.Count > 0)
+                {
+                    @Html.Partial("Listagem", Model.Unidades)
+                }
+            </div>
         </div>
     </div>
 </section>
+<script>
+    function limpalista() {
+        $("#listaUnidades").html("");
+    }
 
+    function load() {
+        $('#modalWaiting').modal('show');
+    }
+
+    function complete() {
+        $('#modalWaiting').modal('hide');
+    }
+
+</script>
 @section scripts{
     <script src="~/Scripts/datatables/jquery.dataTables.min.js"></script>
-    <script src="~/Scripts/datatables/dataTables.bootstrap.min.js"></script>    
+    <script src="~/Scripts/datatables/dataTables.bootstrap.min.js"></script>
     <script src="~/js/unidade.js"></script>
 }

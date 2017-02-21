@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
 using OrganogramaApp.Apresentacao.Base;
+using OrganogramaApp.Apresentacao.Comum;
 using OrganogramaApp.Apresentacao.Models;
+using OrganogramaApp.Apresentacao.ViewModel;
 using OrganogramaApp.WebApp.Models;
 using System;
 using System.Collections.Generic;
@@ -21,8 +23,30 @@ namespace OrganogramaApp.WebApp.Controllers.Unidade
 
         public ActionResult Index()
         {
-            ViewBag.NomeOrgao = usuario.Orgao.nomeFantasia;
-            return View(workService.GetUnidades(usuario.Orgao.guid, usuario.Token));
+            try
+            {
+                return View(workService.Pesquisar(usuario.Organizacoes, usuario.Token));
+            }
+            catch (OrganogramaException oe)
+            {
+                AdicionarMensagem(TipoMensagem.Erro, oe.Message);
+
+                return View(new UnidadeViewModel());
+            }
+        }
+
+        public ActionResult Consultar(UnidadeViewModel unidadeViewModel)
+        {
+            try
+            {
+                return PartialView("Listagem", workService.Pesquisar(unidadeViewModel.GuidOrganizacao, usuario.Token));
+            }
+            catch (OrganogramaException oe)
+            {
+                AdicionarMensagem(TipoMensagem.Erro, oe.Message);
+
+                return View(new UnidadeViewModel());
+            }
         }
 
         public ActionResult Visualizar(string guid)
@@ -47,7 +71,8 @@ namespace OrganogramaApp.WebApp.Controllers.Unidade
         {
             TelaUnidadeModel tela = new TelaUnidadeModel();
 
-            tela.organizacao = workService.GeOrganizacoesPorPatriarca(usuario.Patriarca.guid, usuario.Token);
+            //TODO: Passar o guid da patriarca
+            tela.organizacao = workService.GeOrganizacoesPorPatriarca("", usuario.Token);
             tela.tipoUnidade = workService.GetTiposUnidade(usuario.Token);
             tela.unidadePai = new List<UnidadeGetModel>();
 

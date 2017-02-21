@@ -53,6 +53,7 @@
     <Compile Include="Base\ITipoUnidadeWorkService.cs" />
     <Compile Include="Base\IUnidadeWorkService.cs" />
     <Compile Include="Base\WorkServiceBase.cs" />
+    <Compile Include="Comum\OrganogramaException.cs" />
     <Compile Include="Models\Contato.cs" />
     <Compile Include="Models\Email.cs" />
     <Compile Include="Models\Endereco.cs" />
@@ -69,6 +70,8 @@
     <Compile Include="TipoOrganizacaoWorkService.cs" />
     <Compile Include="TipoUnidadeWorkService.cs" />
     <Compile Include="UnidadeWorkService.cs" />
+    <Compile Include="ViewModel\OrganizacaoViewModel.cs" />
+    <Compile Include="ViewModel\UnidadeViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

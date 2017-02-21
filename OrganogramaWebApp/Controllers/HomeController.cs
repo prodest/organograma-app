@@ -11,7 +11,6 @@ namespace OrganogramaApp.WebApp.Controllers
 
         public ActionResult Index()
         {
-            ViewBag.Message = usuario.SiglaOrganizacao;
             return View();
         }
 

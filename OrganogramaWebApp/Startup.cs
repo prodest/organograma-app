@@ -85,12 +85,22 @@ namespace WebApp
                         var userInfoList = userInfoResponse.Claims.ToList();
                         foreach (var ui in userInfoList)
                         {
-                            if (ui.Type != "permissao")
+                            if (ui.Type != "permissao" && ui.Type != "orgao")
                             {
                                 id.AddClaim(new Claim(ui.Type, ui.Value));
                             }
                         }
 
+                        //Adicionando as Claims de organização
+                        var organizacaoClaims = userInfoResponse.Claims.Where(x => x.Type == "orgao").ToList();
+                        foreach (var organizacaoClaim in organizacaoClaims)
+                        {
+                            string organizacaoSigla = organizacaoClaim.Value;
+
+                            FillOrgaoEPatriarca(organizacaoSigla, id, tokenResponse.AccessToken);
+                        }
+
+                        //Adicionando as Claims de permissão
                         var permissaoClaims = userInfoResponse.Claims.Where(x => x.Type == "permissao").ToList();
                         foreach (var permissaoClaim in permissaoClaims)
                         {
@@ -103,10 +113,6 @@ namespace WebApp
                                 id.AddClaim(new Claim("Acao$" + recurso, acao));
                             }
                         }
-
-                        id.AddClaims(userInfoResponse.Claims);
-
-                        FillOrgaoEPatriarca(id, tokenResponse.AccessToken);
 
                         id.AddClaim(new Claim("access_token", tokenResponse.AccessToken));
                         id.AddClaim(new Claim("expires_at", DateTime.Now.AddSeconds(tokenResponse.ExpiresIn).ToLocalTime().ToString()));
@@ -141,22 +147,30 @@ namespace WebApp
             app.UseResourceAuthorization(new AuthorizationManager());
         }
 
-        private void FillOrgaoEPatriarca(ClaimsIdentity id, string token)
+        private void FillOrgaoEPatriarca(string organizacaoSigla, ClaimsIdentity id, string token)
         {
-            string siglaOrganizacao = string.Empty;
-            if (id.HasClaim(a => a.Type == "orgao"))
-            {
-                siglaOrganizacao = id.FindFirst("orgao").Value;
-            }
-
-            var url = ConfigurationManager.AppSettings["OrganogramaAPIBase"] + "organizacoes/sigla/" + siglaOrganizacao;
+            var url = ConfigurationManager.AppSettings["OrganogramaAPIBase"] + "organizacoes/sigla/" + organizacaoSigla;
             var organizacaoString = WorkServiceBase.Get(url, token);
+
             id.AddClaim(new Claim("organizacao", organizacaoString.result));
 
             var organizacao = JsonConvert.DeserializeObject<OrganizacaoModel>(organizacaoString.result);
-            url = ConfigurationManager.AppSettings["OrganogramaAPIBase"] + "organizacoes/" + organizacao.guid + "/patriarca";
-            var patriarcaString = WorkServiceBase.Get(url, token);
-            id.AddClaim(new Claim("organizacao_patriarca", patriarcaString.result));
+
+            var organizacoesPatriarcas = id.Claims.Where(x => x.Type == "organizacao_patriarca")
+                                                      .Select(x => JsonConvert.DeserializeObject<OrganizacaoModel>(x.Value))
+                                                      .ToList();
+
+            OrganizacaoModel organizacaoPatriarca = null;
+
+            if (organizacoesPatriarcas.Count > 0)
+                organizacaoPatriarca = organizacoesPatriarcas.Where(op => op.guid.Equals(organizacao.organizacaoPai.guid)).SingleOrDefault();
+
+            if (organizacaoPatriarca == null)
+            {
+                url = ConfigurationManager.AppSettings["OrganogramaAPIBase"] + "organizacoes/" + organizacao.guid + "/patriarca";
+                var patriarcaString = WorkServiceBase.Get(url, token);
+                id.AddClaim(new Claim("organizacao_patriarca", patriarcaString.result));
+            }
         }
     }
 }

@@ -1,35 +1,79 @@
 ﻿using Newtonsoft.Json;
 using OrganogramaApp.Apresentacao.Base;
+using OrganogramaApp.Apresentacao.Comum;
 using OrganogramaApp.Apresentacao.Models;
+using OrganogramaApp.Apresentacao.ViewModel;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace OrganogramaApp.Apresentacao
 {
-    public class UnidadeWorkService: WorkServiceBase, IUnidadeWorkService
+    public class UnidadeWorkService : WorkServiceBase, IUnidadeWorkService
     {
         public UnidadeWorkService(string urlBase) : base(urlBase)
         {
         }
 
-        public List<UnidadeGetModel> GetUnidades(string guidOrganizacao, string token)
+        public UnidadeViewModel Pesquisar(List<OrganizacaoModel> organizacoes, string token)
         {
-            List<UnidadeGetModel> unidades = new List<UnidadeGetModel>();
-            //...
-            var url = urlOrganogramaApiBase + "unidades/organizacao/" + guidOrganizacao;
-            var retorno_ws = Get(url, token);
-
-            if (retorno_ws.IsSuccessStatusCode)
+            UnidadeViewModel unidadeViewModel = new UnidadeViewModel();
+            unidadeViewModel.Organizacoes = organizacoes.Select(o => new OrganizacaoDropDownList
             {
-                unidades = JsonConvert.DeserializeObject<List<UnidadeGetModel>>(retorno_ws.result);
+                Guid = o.guid,
+                Nome = o.razaoSocial,
+                Sigla = o.sigla
+            })
+            .ToList();
+
+            if (unidadeViewModel.Organizacoes != null && unidadeViewModel.Organizacoes.Count == 1)
+            {
+                string guidOrganizacao = organizacoes[0].guid;
+
+                unidadeViewModel.GuidOrganizacao = guidOrganizacao;
+
+                unidadeViewModel.Unidades = PesquisarPorOrganizacao(guidOrganizacao, token);
             }
 
-            RetornoAjaxModel retorno = new RetornoAjaxModel()
+            return unidadeViewModel;
+        }
+
+        public List<UnidadeListagemViewModel> Pesquisar(string guidOrganizacao, string token)
+        {
+            List<UnidadeListagemViewModel> unidades = null;
+
+            if (!string.IsNullOrWhiteSpace(guidOrganizacao))
+                unidades = PesquisarPorOrganizacao(guidOrganizacao, token);
+
+            return unidades;
+        }
+
+        private List<UnidadeListagemViewModel> PesquisarPorOrganizacao(string guidOrganizacao, string token)
+        {
+            List<UnidadeListagemViewModel> unidades = null;
+
+            string url = urlOrganogramaApiBase + "unidades/organizacao/" + guidOrganizacao;
+
+            RetornoAjaxModel retornoAjaxModel = Get(url, token);
+
+            if (retornoAjaxModel.IsSuccessStatusCode)
             {
-                IsSuccessStatusCode = retorno_ws.IsSuccessStatusCode,
-                content = retorno_ws.content,
-                statusCode = retorno_ws.statusCode
-            };
-            //...
+                List<UnidadeGetModel> ugm = JsonConvert.DeserializeObject<List<UnidadeGetModel>>(retornoAjaxModel.result);
+                unidades = ugm.Select(u => new UnidadeListagemViewModel
+                {
+                    Guid = u.guid,
+                    Nome = u.nome,
+                    Sigla = u.sigla,
+                    Tipo = u.tipoUnidade.descricao,
+                    UnidadePai = u.unidadePai != null ? u.unidadePai.nome : ""
+                })
+                .ToList();
+            }
+            else
+            {
+                string conteudo = retornoAjaxModel.content.Replace("-------------------------------\n", "");
+                throw new OrganogramaException(retornoAjaxModel.statusCode + ": " + conteudo);
+            }
+
             return unidades;
         }
 
@@ -44,7 +88,7 @@ namespace OrganogramaApp.Apresentacao
                 content = retorno_ws.content,
                 statusCode = retorno_ws.statusCode
             };
-            
+
             return retorno;
         }
 
@@ -93,7 +137,7 @@ namespace OrganogramaApp.Apresentacao
         }
 
         public RetornoAjaxModel PostUnidade(UnidadePostModel unidade, string token)
-        {            
+        {
             var url = urlOrganogramaApiBase + "unidades";
             var retorno_ws = Post(unidade, url, token);
 
@@ -102,7 +146,7 @@ namespace OrganogramaApp.Apresentacao
                 IsSuccessStatusCode = retorno_ws.IsSuccessStatusCode,
                 content = retorno_ws.content,
                 statusCode = retorno_ws.statusCode
-            };            
+            };
             return retorno;
         }
     }

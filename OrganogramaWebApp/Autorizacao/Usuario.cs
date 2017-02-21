@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
 using OrganogramaApp.Apresentacao.Models;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Web;
 
@@ -8,6 +10,9 @@ namespace OrganogramaApp.WebApp.Autorizacao
 {
     public class UsuarioLogado : ClaimsPrincipal
     {
+        private List<OrganizacaoModel> _Organizacoes;
+        private List<OrganizacaoModel> _OrganizacoesPatriarcas;
+
         public UsuarioLogado()
         {
             if (HttpContext.Current.User != null)
@@ -18,6 +23,24 @@ namespace OrganogramaApp.WebApp.Autorizacao
                     throw new Exception("Não foi encontrada uma Identity para o usuário autenticado.");
 
                 this.AddIdentity(identity);
+
+                if (this.HasClaim(c => c.Type == "organizacao"))
+                {
+                    _Organizacoes = this.Claims.Where(x => x.Type == "organizacao")
+                                              .Select(x => JsonConvert.DeserializeObject<OrganizacaoModel>(x.Value))
+                                              .ToList();
+                }
+                //else
+                //    throw new Exception("Não foi possível encontrar uma organização para o usuário autenticado.");
+
+                if (this.HasClaim(c => c.Type == "organizacao_patriarca"))
+                {
+                    _OrganizacoesPatriarcas = this.Claims.Where(x => x.Type == "organizacao_patriarca")
+                                                        .Select(x => JsonConvert.DeserializeObject<OrganizacaoModel>(x.Value))
+                                                        .ToList();
+                }
+                //else
+                //    throw new Exception("Não foi possível encontrar uma organização patriarca para o usuário autenticado.");
             }
         }
 
@@ -46,50 +69,12 @@ namespace OrganogramaApp.WebApp.Autorizacao
             get { return this.FindFirst("email").Value; }
         }
 
-        public string SiglaOrganizacao
+        public List<OrganizacaoModel> Organizacoes
         {
             get
             {
-                if (this.HasClaim(a => a.Type == "orgao"))
-                {
-                    return this.FindFirst("orgao").Value;
-                }
-                else
-                {
-                    throw new Exception($"Usuário {Nome} sem Organização.");
-                }
+                return _Organizacoes;
             }
         }
-
-        public OrganizacaoModel Orgao
-        {
-            get
-            {
-                if (this.HasClaim(a => a.Type == "organizacao"))
-                {
-                    return JsonConvert.DeserializeObject<OrganizacaoModel>(this.FindFirst("organizacao").Value);
-                }
-                else
-                {
-                    throw new Exception($"Usuário {Nome} sem Organização.");
-                }
-            }
-        }
-
-        public OrganizacaoModel Patriarca
-        {
-            get
-            {
-                if (this.HasClaim(a => a.Type == "organizacao_patriarca"))
-                {
-                    return JsonConvert.DeserializeObject<OrganizacaoModel>(this.FindFirst("organizacao_patriarca").Value);
-                }
-                else
-                {
-                    throw new Exception($"Usuário {Nome} sem Organização Patriarca.");
-                }
-            }
-        }
-
     }
 }
