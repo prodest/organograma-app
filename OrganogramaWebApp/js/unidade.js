@@ -87,7 +87,7 @@ $('body').on('click', '#addCampoTelefone', function addCampoSite() {
 /****************************************************************************************************************************************************************************/
 /*CARREGA MUNICIPIOS*/
 
-$('body').on('change', '#endereco_estados', function (e) {
+$('body').on('change', '#siglaEstado', function (e) {
 
     var elemento = this;
 
@@ -95,11 +95,11 @@ $('body').on('change', '#endereco_estados', function (e) {
         $.ajax({ url: '/home/Municipios?uf=' + elemento.value, async: false })
           .done(function (dados) {
 
-              $('#endereco_guidMunicipio option:not([value=""])').remove();
+              $('#Endereco_GuidMunicipio option:not([value=""])').remove();
 
               $.each(dados, function (i) {
                   var optionhtml = '<option value="' + this.guid + '">' + this.nome + '</option>';
-                  $('#endereco_guidMunicipio').append(optionhtml);
+                  $('#Endereco_GuidMunicipio').append(optionhtml);
               });
               console.log(dados);
           })
@@ -137,18 +137,21 @@ $('body').on('change', '#idOrganizacao', function (e) {
 /****************************************************************************************************************************************************************************/
 /*ATUALIZA LISTA DE UNIDADES*/
 function onSuccessUnidades(dados) {
-    $.ajax('/unidade/')
-      .done(function (tela) {
+    //$.ajax('/unidade/')
+      //.done(function (tela) {
           console.log(dados);
-          ExibirMensagens();
-          if (dados.IsSuccessStatusCode) {
-              var delay = 3000;
-              setTimeout(function () { window.location.href = '/Unidade'; }, delay);
+          //ExibirMensagens();
+          if (dados) {
+              var delay = 0;
+              setTimeout(function () { window.location.href = '/Unidade?guidOrganizacao=' + $('#GuidOrganizacao').val(); }, delay);
           }
-      })
-      .fail(function () {
-          toastr["warning"]("Não foi possível cadastrar a unidade!");
-      });
+          else
+              ExibirMensagens();
+          //}
+      //})
+      //.fail(function () {
+      //    toastr["warning"]("Não foi possível cadastrar a unidade!");
+      //});
 }
 
 /****************************************************************************************************************************************************************************/

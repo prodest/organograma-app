@@ -16,6 +16,7 @@ namespace OrganogramaApp.WebApp
         protected void Application_Start()
         {
             InjecaoDependencia.Injetar();
+            AutoMapperConfiguration.CreateMap();
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);

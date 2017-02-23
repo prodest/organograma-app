@@ -30,4 +30,46 @@ namespace OrganogramaApp.Apresentacao.ViewModel
         [Display(Name = "Unidade Pai")]
         public string UnidadePai { get; set; }
     }
+
+    public class UnidadeDropDownViewModel
+    {
+        public string Guid { get; set; }
+        public string Nome { get; set; }
+        public string Sigla { get; set; }
+        public string SiglaNome {
+            get
+            {
+                return Sigla + " - " + Nome;
+            }
+        }
+    }
+
+    public class UnidadeInsercaoViewModel
+    {
+        public string GuidOrganizacao { get; set; }
+        [Display(Name = "Organização")]
+        public string SiglaNomeOrganizacao { get; set; }
+
+        [Display(Name = "Nome"), Required(ErrorMessage = "Informe o Nome da unidade.")]
+        public string Nome { get; set; }
+
+        [Display(Name = "Sigla"), Required(ErrorMessage = "Informe a Sigla da unidade.")]
+        public string Sigla { get; set; }
+
+        [Display(Name = "Tipo de Unidade"), Required(ErrorMessage = "Informe o Tipo de unidade.")]
+        public int IdTipoUnidade { get; set; }
+        public List<TipoUnidadeDropDownViewModel> TiposUnidade { get; set; }
+
+        [Display(Name = "Unidade Pai")]
+        public string GuidUnidadePai { get; set; }
+        public List<UnidadeDropDownViewModel> UnidadesPai { get; set; }
+
+        public EnderecoInsercaoViewModel Endereco { get; set; }
+
+        public List<ContatoInsercaoViewModel> Contatos { get; set; }
+
+        public List<EmailInsercaoViewModel> Emails { get; set; }
+
+        public List<SiteInsercaoViewModel> Sites { get; set; }
+    }
 }

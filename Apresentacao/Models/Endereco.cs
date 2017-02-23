@@ -21,10 +21,6 @@ namespace OrganogramaApp.Apresentacao.Models
         public string cep { get; set; }
         [Display(Name = "Município"), Required(ErrorMessage = "Informe o Município.")]
         public string guidMunicipio { get; set; }
-        [Display(Name = "Estado")]
-        public List<Estado> estados { get; set; }
-        public List<Municipio> municipios { get; set; }
-        public Municipio municipio { get; set; }
 
         public class Estado
         {

@@ -16,12 +16,12 @@ namespace OrganogramaApp.WebApp.Controllers.TipoOrganizacao
 
         public ActionResult Index()
         {
-            return View(workService.GetTiposOrganizacao(usuario.Token));
+            return View(workService.GetTiposOrganizacao(usuario.AccessToken));
         }
 
         public ActionResult Listar()
         {
-            return PartialView("Consultar", workService.GetTiposOrganizacao(usuario.Token));
+            return PartialView("Consultar", workService.GetTiposOrganizacao(usuario.AccessToken));
         }
 
         public ActionResult Criar()
@@ -35,7 +35,7 @@ namespace OrganogramaApp.WebApp.Controllers.TipoOrganizacao
         {
             try
             {
-                var retorno = workService.PostTipoOrganizacao(tipoOrganizacao, usuario.Token);
+                var retorno = workService.PostTipoOrganizacao(tipoOrganizacao, usuario.AccessToken);
 
                 if (retorno.retornoAjax.IsSuccessStatusCode)
                 {
@@ -58,7 +58,7 @@ namespace OrganogramaApp.WebApp.Controllers.TipoOrganizacao
         public ActionResult Editar(int id)
         {
             TelaTipoOrganizacao tela = new TelaTipoOrganizacao();
-            tela = workService.GetTipoOrganizacao(id, usuario.Token);
+            tela = workService.GetTipoOrganizacao(id, usuario.AccessToken);
 
             if (tela.retornoAjax.IsSuccessStatusCode)
             {
@@ -77,7 +77,7 @@ namespace OrganogramaApp.WebApp.Controllers.TipoOrganizacao
         {
             try
             {
-                var retorno = workService.PutTipoOrganizacao(tipoOrganizacao.id, tipoOrganizacao, usuario.Token);
+                var retorno = workService.PutTipoOrganizacao(tipoOrganizacao.id, tipoOrganizacao, usuario.AccessToken);
 
                 if (retorno.retornoAjax.IsSuccessStatusCode)
                 {
@@ -100,7 +100,7 @@ namespace OrganogramaApp.WebApp.Controllers.TipoOrganizacao
         public ActionResult ExcluirVerItem(int id)
         {
             TelaTipoOrganizacao tela = new TelaTipoOrganizacao();
-            tela = workService.GetTipoOrganizacao(id, usuario.Token);
+            tela = workService.GetTipoOrganizacao(id, usuario.AccessToken);
 
             if (tela.retornoAjax.IsSuccessStatusCode)
             {
@@ -119,7 +119,7 @@ namespace OrganogramaApp.WebApp.Controllers.TipoOrganizacao
         {
             try
             {
-                var retorno = workService.DeleteTipoOrganizacao(tipoOrganizacao.id, usuario.Token);
+                var retorno = workService.DeleteTipoOrganizacao(tipoOrganizacao.id, usuario.AccessToken);
 
                 if (retorno.retornoAjax.IsSuccessStatusCode)
                 {

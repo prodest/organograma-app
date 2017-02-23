@@ -16,12 +16,12 @@ namespace OrganogramaApp.WebApp.Controllers.TipoUnidade
 
         public ActionResult Index()
         {
-            return View(workService.GetTiposUnidade(usuario.Token));
+            return View(workService.GetTiposUnidade(usuario.AccessToken));
         }
 
         public ActionResult Listar()
         {
-            return PartialView("Consultar", workService.GetTiposUnidade(usuario.Token));
+            return PartialView("Consultar", workService.GetTiposUnidade(usuario.AccessToken));
         }
 
         public ActionResult Criar()
@@ -35,7 +35,7 @@ namespace OrganogramaApp.WebApp.Controllers.TipoUnidade
         {
             try
             {
-                var retorno = workService.PostTipoUnidade(tipoUnidade, usuario.Token);
+                var retorno = workService.PostTipoUnidade(tipoUnidade, usuario.AccessToken);
                 
                 if (retorno.retornoAjax.IsSuccessStatusCode)
                 {
@@ -58,7 +58,7 @@ namespace OrganogramaApp.WebApp.Controllers.TipoUnidade
         public ActionResult Editar(int id)
         {
             TelaTipoUnidade tela = new TelaTipoUnidade();
-            tela = workService.GetTipoUnidade(id, usuario.Token);
+            tela = workService.GetTipoUnidade(id, usuario.AccessToken);
 
             if (tela.retornoAjax.IsSuccessStatusCode)
             {                
@@ -77,7 +77,7 @@ namespace OrganogramaApp.WebApp.Controllers.TipoUnidade
         {
             try
             {
-                var retorno = workService.PutTipoUnidade(tipoUnidade.id, tipoUnidade, usuario.Token);
+                var retorno = workService.PutTipoUnidade(tipoUnidade.id, tipoUnidade, usuario.AccessToken);
 
                 if (retorno.retornoAjax.IsSuccessStatusCode)
                 {
@@ -100,7 +100,7 @@ namespace OrganogramaApp.WebApp.Controllers.TipoUnidade
         public ActionResult ExcluirVerItem(int id)
         {
             TelaTipoUnidade tela = new TelaTipoUnidade();
-            tela = workService.GetTipoUnidade(id, usuario.Token);
+            tela = workService.GetTipoUnidade(id, usuario.AccessToken);
 
             if (tela.retornoAjax.IsSuccessStatusCode)
             {
@@ -119,7 +119,7 @@ namespace OrganogramaApp.WebApp.Controllers.TipoUnidade
         {
             try
             {
-                var retorno = workService.DeleteTipoUnidade(tipoUnidade.id, usuario.Token);
+                var retorno = workService.DeleteTipoUnidade(tipoUnidade.id, usuario.AccessToken);
 
                 if (retorno.retornoAjax.IsSuccessStatusCode)
                 {

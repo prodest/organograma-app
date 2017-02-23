@@ -17,7 +17,7 @@ namespace OrganogramaApp.Apresentacao.Base
             this.urlOrganogramaApiBase = urlOrganogramaApiBase;
         }
 
-        public static RetornoAjaxModel Get(string url, string token, int i = 0)
+        public static RetornoAjaxModel Get(string url, string accessToken, int i = 0)
         {
             using (MiniProfiler.Current.Step($"url{i}: {url}"))
             {
@@ -27,7 +27,7 @@ namespace OrganogramaApp.Apresentacao.Base
                     ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
 
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));                    
-                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
                     var result = client.GetAsync(url).Result;
 
@@ -42,7 +42,7 @@ namespace OrganogramaApp.Apresentacao.Base
                     {
                         if ((result.StatusCode.Equals(HttpStatusCode.BadGateway) || result.StatusCode.Equals(HttpStatusCode.ServiceUnavailable) || result.StatusCode.Equals(HttpStatusCode.GatewayTimeout)) && i < 5)
                         {
-                            return Get(url, token, i++);
+                            return Get(url, accessToken, i++);
                         }                            
                     }
 
@@ -55,7 +55,7 @@ namespace OrganogramaApp.Apresentacao.Base
             }
         }
         
-        public static RetornoAjaxModel Post(object jsonString, string urlPost, string token, int i = 0)
+        public static RetornoAjaxModel Post(object jsonString, string urlPost, string accessToken, int i = 0)
         {
             var Json = JsonConvert.SerializeObject(jsonString);
             var httpContent = new StringContent(Json, Encoding.UTF8, "application/json");
@@ -63,7 +63,7 @@ namespace OrganogramaApp.Apresentacao.Base
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
                 // Do the actual request and await the response                
                 var result = client.PostAsync(urlPost, httpContent).Result;
@@ -77,7 +77,7 @@ namespace OrganogramaApp.Apresentacao.Base
                 {
                     if ((result.StatusCode.Equals(HttpStatusCode.BadGateway) || result.StatusCode.Equals(HttpStatusCode.ServiceUnavailable) || result.StatusCode.Equals(HttpStatusCode.GatewayTimeout)) && i < 5)
                     {
-                        return Post(jsonString, urlPost, token, i++);
+                        return Post(jsonString, urlPost, accessToken, i++);
                     }                    
                 }
 
@@ -89,7 +89,7 @@ namespace OrganogramaApp.Apresentacao.Base
             }
         }
 
-        public static RetornoAjaxModel Put(object jsonString, string urlPut, string token, int i=0)
+        public static RetornoAjaxModel Put(object jsonString, string urlPut, string accessToken, int i=0)
         {
             var Json = JsonConvert.SerializeObject(jsonString);
             var httpContent = new StringContent(Json, Encoding.UTF8, "application/json");
@@ -97,7 +97,7 @@ namespace OrganogramaApp.Apresentacao.Base
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
                 // Do the actual request and await the response
                 var result  = client.PutAsync(urlPut, httpContent).Result;
@@ -111,7 +111,7 @@ namespace OrganogramaApp.Apresentacao.Base
                 {
                     if ((result.StatusCode.Equals(HttpStatusCode.BadGateway) || result.StatusCode.Equals(HttpStatusCode.ServiceUnavailable) || result.StatusCode.Equals(HttpStatusCode.GatewayTimeout)) && i < 5)
                     {
-                        return Put(jsonString, urlPut, token, i++);
+                        return Put(jsonString, urlPut, accessToken, i++);
                     }
                     
                 }
@@ -125,7 +125,7 @@ namespace OrganogramaApp.Apresentacao.Base
             }
         }
 
-        public static RetornoAjaxModel Delete(string url, string token, int i = 0)
+        public static RetornoAjaxModel Delete(string url, string accessToken, int i = 0)
         {
             using (MiniProfiler.Current.Step($"url{i}: {url}"))
             {
@@ -135,7 +135,7 @@ namespace OrganogramaApp.Apresentacao.Base
                     ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
 
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
                     var result = client.DeleteAsync(url).Result;
                     RetornoAjaxModel retornoAjax = new RetornoAjaxModel();
@@ -148,7 +148,7 @@ namespace OrganogramaApp.Apresentacao.Base
                     {
                         if ((result.StatusCode.Equals(HttpStatusCode.BadGateway) || result.StatusCode.Equals(HttpStatusCode.ServiceUnavailable) || result.StatusCode.Equals(HttpStatusCode.GatewayTimeout)) && i < 5)
                         {
-                            return Delete(url, token, i++);
+                            return Delete(url, accessToken, i++);
                         }
                     }
 
@@ -161,10 +161,10 @@ namespace OrganogramaApp.Apresentacao.Base
             }
         }
 
-        public RetornoAjaxModel GetMunicipios(string uf, string token)
+        public RetornoAjaxModel GetMunicipios(string uf, string accessToken)
         {               
             var url = urlOrganogramaApiBase + "municipios?uf=" + uf;
-            var retorno_ws = Get(url, token);
+            var retorno_ws = Get(url, accessToken);
 
             RetornoAjaxModel retorno = new RetornoAjaxModel()
             {
@@ -176,10 +176,10 @@ namespace OrganogramaApp.Apresentacao.Base
             return retorno;
         }
 
-        public RetornoAjaxModel GetUnidadesPorOrganizacao(string guidOrganizacao, string token)
+        public RetornoAjaxModel GetUnidadesPorOrganizacao(string guidOrganizacao, string accessToken)
         {
             var url = urlOrganogramaApiBase + "unidades/organizacao/" + guidOrganizacao;
-            var retorno_ws = Get(url, token);
+            var retorno_ws = Get(url, accessToken);
 
             RetornoAjaxModel retorno = new RetornoAjaxModel()
             {

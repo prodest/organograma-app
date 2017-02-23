@@ -11,12 +11,12 @@ namespace OrganogramaApp.Apresentacao
         {
         }
 
-        public object GetTiposOrganizacao(string token)
+        public object GetTiposOrganizacao(string accessToken)
         {
             List<TipoOrganizacaoModel> tiposOrganizacao = new List<TipoOrganizacaoModel>();
 
             var url = urlOrganogramaApiBase + "tipos-organizacao";
-            var retorno_ws = Get(url, token);
+            var retorno_ws = Get(url, accessToken);
 
             if (retorno_ws.IsSuccessStatusCode)
             {
@@ -37,12 +37,12 @@ namespace OrganogramaApp.Apresentacao
             };
         }
 
-        public TelaTipoOrganizacao GetTipoOrganizacao(int id, string token)
+        public TelaTipoOrganizacao GetTipoOrganizacao(int id, string accessToken)
         {
             TipoOrganizacaoModel tipoOrganizacao = new TipoOrganizacaoModel();
 
             var url = urlOrganogramaApiBase + "tipos-organizacao/" + id;
-            var retorno_ws = Get(url, token);
+            var retorno_ws = Get(url, accessToken);
 
             if (retorno_ws.IsSuccessStatusCode)
             {

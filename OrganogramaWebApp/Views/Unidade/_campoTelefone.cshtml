@@ -1,12 +1,12 @@
-﻿@model OrganogramaApp.Apresentacao.Models.TelaUnidadeModel
+﻿@model OrganogramaApp.Apresentacao.ViewModel.UnidadeInsercaoViewModel
 
 <div class="form-group col-md-4">
-    @Html.LabelFor(model => model.contatos[0].idTipoContato, htmlAttributes: new { @class = "control-label", @For = "contatos["+ViewBag.i+"].idTipoContato" })
-    @Html.DropDownListFor(model => model.contatos[0].idTipoContato, new SelectList(Model.listaTiposContato, "id", "descricao", "quantidadeDigitos"), "Selecione um Tipo", new { @class = "form-control", @Name = "contatos[" + ViewBag.i + "].idTipoContato", @Id = "contatos[" + ViewBag.i + "].idTipoContato" })
-    @Html.ValidationMessageFor(model => model.contatos[0].idTipoContato, "", new { @class = "text-danger" })
+    @Html.LabelFor(model => model.Contatos[0].IdTipoContato, htmlAttributes: new { @class = "control-label", @For = "contatos["+ViewBag.i+"].idTipoContato" })
+    @Html.DropDownListFor(model => model.Contatos[0].IdTipoContato, new SelectList(Model.Contatos[0].TiposContato, "id", "descricao", "quantidadeDigitos"), "Selecione um Tipo", new { @class = "form-control", @Name = "contatos[" + ViewBag.i + "].idTipoContato", @Id = "contatos[" + ViewBag.i + "].idTipoContato" })
+    @Html.ValidationMessageFor(model => model.Contatos[0].IdTipoContato, "", new { @class = "text-danger" })
 </div>
 <div class="form-group col-md-8">
-    @Html.LabelFor(model => model.contatos[0].telefone, htmlAttributes: new { @class = "control-label", @For = "contatos[" + ViewBag.i + "].telefone" })
-    @Html.EditorFor(model => model.contatos[0].telefone, new { htmlAttributes = new { @class = "form-control", @Name = "contatos[" + ViewBag.i + "].telefone", @Id = "contatos[" + ViewBag.i + "].telefone" } })
-    @Html.ValidationMessageFor(model => model.contatos[0].telefone, "", new { @class = "text-danger", @Name = "contatos[" + ViewBag.i + "].telefone"  })
+    @Html.LabelFor(model => model.Contatos[0].Telefone, htmlAttributes: new { @class = "control-label", @For = "contatos[" + ViewBag.i + "].telefone" })
+    @Html.EditorFor(model => model.Contatos[0].Telefone, new { htmlAttributes = new { @class = "form-control", @Name = "contatos[" + ViewBag.i + "].telefone", @Id = "contatos[" + ViewBag.i + "].telefone" } })
+    @Html.ValidationMessageFor(model => model.Contatos[0].Telefone, "", new { @class = "text-danger", @Name = "contatos[" + ViewBag.i + "].telefone"  })
 </div>

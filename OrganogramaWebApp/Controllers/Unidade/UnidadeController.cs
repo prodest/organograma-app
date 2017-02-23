@@ -7,6 +7,7 @@ using OrganogramaApp.WebApp.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Web.Mvc;
 using static OrganogramaApp.Apresentacao.Models.Endereco;
 
@@ -21,11 +22,16 @@ namespace OrganogramaApp.WebApp.Controllers.Unidade
             this.workService = workService;
         }
 
-        public ActionResult Index()
+        public ActionResult Index(string guidOrganizacao)
         {
             try
             {
-                return View(workService.Pesquisar(usuario.Organizacoes, usuario.Token));
+                var uvm = workService.Pesquisar(usuario.Organizacoes, guidOrganizacao, usuario.AccessToken);
+
+                if (uvm.Unidades != null && uvm.Unidades.Count > 0)
+                    ViewBag.GuidOrganizacao = uvm.GuidOrganizacao;
+
+                return View(uvm);
             }
             catch (OrganogramaException oe)
             {
@@ -39,7 +45,8 @@ namespace OrganogramaApp.WebApp.Controllers.Unidade
         {
             try
             {
-                return PartialView("Listagem", workService.Pesquisar(unidadeViewModel.GuidOrganizacao, usuario.Token));
+                ViewBag.GuidOrganizacao = unidadeViewModel.GuidOrganizacao;
+                return PartialView("Listagem", workService.Pesquisar(unidadeViewModel.GuidOrganizacao, usuario.AccessToken));
             }
             catch (OrganogramaException oe)
             {
@@ -53,11 +60,11 @@ namespace OrganogramaApp.WebApp.Controllers.Unidade
         {
             UnidadeGetModel unidade = new UnidadeGetModel();
 
-            var retorno = workService.GetUnidade(guid, usuario.Token);
+            var retorno = workService.GetUnidade(guid, usuario.AccessToken);
 
             if (retorno.IsSuccessStatusCode)
             {
-                unidade = JsonConvert.DeserializeObject<UnidadeGetModel>(retorno.content);                
+                unidade = JsonConvert.DeserializeObject<UnidadeGetModel>(retorno.content);
             }
             else
             {
@@ -67,126 +74,111 @@ namespace OrganogramaApp.WebApp.Controllers.Unidade
             return PartialView("Visualizar", unidade);
         }
 
-        public ActionResult Cadastrar()
+        public ActionResult Cadastrar(string guidOrganizacao)
         {
-            TelaUnidadeModel tela = new TelaUnidadeModel();
-
-            //TODO: Passar o guid da patriarca
-            tela.organizacao = workService.GeOrganizacoesPorPatriarca("", usuario.Token);
-            tela.tipoUnidade = workService.GetTiposUnidade(usuario.Token);
-            tela.unidadePai = new List<UnidadeGetModel>();
-
-            tela.endereco = new Endereco();
-            tela.endereco.municipios = new List<Municipio>();
-
-            using (StreamReader r = new StreamReader(Server.MapPath("~/Json/uf.json")))
+            try
             {
-                string json = r.ReadToEnd();
-                tela.endereco.estados = JsonConvert.DeserializeObject<List<Estado>>(json);
-            }
-                        
-            tela.listaTiposContato = new List<TipoContato>();
-            using (StreamReader r = new StreamReader(Server.MapPath("~/Json/tiposcontato.json")))
-            {
-                string json = r.ReadToEnd();
-                tela.listaTiposContato = JsonConvert.DeserializeObject<List<TipoContato>>(json);
-            }
+                var uivm = workService.Inserir(guidOrganizacao, usuario.AccessToken);
 
-            return View(tela);
-        }        
+                uivm.Endereco = new EnderecoInsercaoViewModel();
+
+                using (StreamReader r = new StreamReader(Server.MapPath("~/Json/uf.json")))
+                {
+                    string json = r.ReadToEnd();
+                    var estados = JsonConvert.DeserializeObject<List<Estado>>(json);
+
+                    uivm.Endereco.Estados = estados
+                        .Select(e => new EstadoDropDownViewModel
+                        {
+                            Nome = e.Nome,
+                            Sigla = e.Sigla
+                        })
+                        .OrderBy(e => e.Sigla)
+                        .ToList();
+                }
+                uivm.Endereco.Municipios = new List<MunicipioDropDownViewModel>();
+
+                return View(uivm);
+            }
+            catch (OrganogramaException oe)
+            {
+                AdicionarMensagem(TipoMensagem.Erro, oe.Message);
+
+                return View(new UnidadeViewModel());
+            }
+        }
 
         public ActionResult IncluirCampoSite(int i)
         {
-            ViewBag.i = ++i;
+            ViewBag.i = i;
             return PartialView("_campoSite");
         }
 
         public ActionResult IncluirCampoEmail(int i)
         {
-            ViewBag.i = ++i;
+            ViewBag.i = i;
             return PartialView("_campoEmail");
         }
 
         public ActionResult IncluirCampoTelefone(int i)
         {
-            TelaUnidadeModel tela = new TelaUnidadeModel();
-            tela.listaTiposContato = new List<TipoContato>();
+            var uivm = new UnidadeInsercaoViewModel();
+
+            uivm.Contatos = new List<ContatoInsercaoViewModel>();
+            uivm.Contatos.Add(new ContatoInsercaoViewModel());
+
             using (StreamReader r = new StreamReader(Server.MapPath("~/Json/tiposcontato.json")))
             {
                 string json = r.ReadToEnd();
-                tela.listaTiposContato = JsonConvert.DeserializeObject<List<TipoContato>>(json);
+                List<TipoContato> tiposContato = JsonConvert.DeserializeObject<List<TipoContato>>(json);
+
+                uivm.Contatos[0].TiposContato = tiposContato
+                    .Select(tc => new TipoContatoDropDownViewModel
+                    {
+                        Id = tc.id,
+                        Descricao = tc.descricao
+                    })
+                    .OrderBy(tc => tc.Descricao)
+                    .ToList();
             }
 
-            ViewBag.i = ++i;
+            ViewBag.i = i;
 
-            return PartialView("_campoTelefone", tela);
-        }
-
-        public ActionResult CadastrarEndereco()
-        {
-            return PartialView("CadastrarEndereco");
+            return PartialView("_campoTelefone", uivm);
         }
 
         [HttpPost]
-        public ActionResult Create(TelaUnidadeModel tela)
+        public ActionResult Create(UnidadeInsercaoViewModel uivm)
         {
             try
             {
-                // TODO: Add insert logic here
-                UnidadePostModel unidadePost = new UnidadePostModel();
-
-                unidadePost.contatos = new List<Contato>();
-                unidadePost.emails = new List<Email>();
-                unidadePost.sites = new List<Site>();
-                
-                foreach (var contato in tela.contatos)
+                if (string.IsNullOrWhiteSpace(uivm.Endereco.Bairro) &&
+                    string.IsNullOrWhiteSpace(uivm.Endereco.Cep) &&
+                    string.IsNullOrWhiteSpace(uivm.Endereco.Complemento) &&
+                    string.IsNullOrWhiteSpace(uivm.Endereco.GuidMunicipio) &&
+                    string.IsNullOrWhiteSpace(uivm.Endereco.Logradouro) &&
+                    string.IsNullOrWhiteSpace(uivm.Endereco.Numero))
                 {
-                    if (!string.IsNullOrEmpty(contato.telefone))
-                    {
-                        unidadePost.contatos.Add(contato);
-                    }
+                    uivm.Endereco = null;
                 }
 
-                foreach (var email in tela.emails)
-                {
-                    if (!string.IsNullOrEmpty(email.endereco))
-                    {
-                        unidadePost.emails.Add(email);
-                    }
-                }
+                workService.Inserir(uivm, usuario.AccessToken);
 
-                foreach (var site in tela.sites)
-                {
-                    if (!string.IsNullOrEmpty(site.url))
-                    {
-                        unidadePost.sites.Add(site);
-                    }
-                }
-
-                //unidadePost.endereco = tela.endereco;
-                unidadePost.idOrganizacao = tela.idOrganizacao;
-                unidadePost.idTipoUnidade = tela.idTipoUnidade;
-                unidadePost.idUnidadePai = tela.idUnidadePai;
-                unidadePost.nome = tela.nome;
-                unidadePost.sigla = tela.sigla;                
-
-                var retorno = workService.PostUnidade(unidadePost, usuario.Token);
-
-                if (retorno.IsSuccessStatusCode)
-                {
-                    ModelState.Clear();
-                    AdicionarMensagem(TipoMensagem.Sucesso, "Unidade cadastrada com sucesso!");
-                    return Json(retorno, JsonRequestBehavior.AllowGet);
-                }
-                else
-                {
-                    AdicionarMensagem(TipoMensagem.Atencao, retorno.content);
-                    return Json(retorno, JsonRequestBehavior.AllowGet);
-                }                                
+                ModelState.Clear();
+                AdicionarMensagem(TipoMensagem.Sucesso, "Unidade cadastrada com sucesso!");
+                return Json(true, JsonRequestBehavior.AllowGet);
             }
-            catch(Exception e)
+            catch (OrganogramaException oe)
             {
-                return View();
+                AdicionarMensagem(TipoMensagem.Atencao, oe.Message);
+
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                AdicionarMensagem(TipoMensagem.Erro, e.Message);
+
+                return Json(false, JsonRequestBehavior.AllowGet);
             }
         }
 

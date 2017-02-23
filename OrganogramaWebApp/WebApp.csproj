@@ -211,6 +211,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Autorizacao\AuthorizationManager.cs" />
     <Compile Include="Autorizacao\Usuario.cs" />
+    <Compile Include="Config\AutoMapperConfiguration.cs" />
     <Compile Include="Config\InjecaoDependencia.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />

@@ -5,16 +5,24 @@ using OrganogramaApp.Apresentacao.Models;
 using OrganogramaApp.Apresentacao.ViewModel;
 using System.Collections.Generic;
 using System.Linq;
+using System;
+using AutoMapper;
+using System.Threading.Tasks;
 
 namespace OrganogramaApp.Apresentacao
 {
     public class UnidadeWorkService : WorkServiceBase, IUnidadeWorkService
     {
-        public UnidadeWorkService(string urlBase) : base(urlBase)
+        private IOrganizacaoWorkService organizacaoWS;
+        private ITipoUnidadeWorkService tipoUnidadeWS;
+
+        public UnidadeWorkService(string urlBaseurlOrganogramaApiBase) : base(urlBaseurlOrganogramaApiBase)
         {
+            this.organizacaoWS = new OrganizacaoWorkService(urlBaseurlOrganogramaApiBase);
+            this.tipoUnidadeWS = new TipoUnidadeWorkService(urlBaseurlOrganogramaApiBase);
         }
 
-        public UnidadeViewModel Pesquisar(List<OrganizacaoModel> organizacoes, string token)
+        public UnidadeViewModel Pesquisar(List<OrganizacaoModel> organizacoes, string guidOrganizacao, string token)
         {
             UnidadeViewModel unidadeViewModel = new UnidadeViewModel();
             unidadeViewModel.Organizacoes = organizacoes.Select(o => new OrganizacaoDropDownList
@@ -25,13 +33,19 @@ namespace OrganogramaApp.Apresentacao
             })
             .ToList();
 
-            if (unidadeViewModel.Organizacoes != null && unidadeViewModel.Organizacoes.Count == 1)
+            if (!string.IsNullOrWhiteSpace(guidOrganizacao) && unidadeViewModel.Organizacoes.Where(o => o.Guid.Equals(guidOrganizacao)).SingleOrDefault() != null)
             {
-                string guidOrganizacao = organizacoes[0].guid;
+                unidadeViewModel.GuidOrganizacao = guidOrganizacao;
+
+                unidadeViewModel.Unidades = ListarPorOrganizacao(guidOrganizacao, token);
+            }
+            else if(unidadeViewModel.Organizacoes != null && unidadeViewModel.Organizacoes.Count == 1)
+            {
+                guidOrganizacao =  organizacoes[0].guid;
 
                 unidadeViewModel.GuidOrganizacao = guidOrganizacao;
 
-                unidadeViewModel.Unidades = PesquisarPorOrganizacao(guidOrganizacao, token);
+                unidadeViewModel.Unidades = ListarPorOrganizacao(guidOrganizacao, token);
             }
 
             return unidadeViewModel;
@@ -42,39 +56,56 @@ namespace OrganogramaApp.Apresentacao
             List<UnidadeListagemViewModel> unidades = null;
 
             if (!string.IsNullOrWhiteSpace(guidOrganizacao))
-                unidades = PesquisarPorOrganizacao(guidOrganizacao, token);
+                unidades = ListarPorOrganizacao(guidOrganizacao, token);
 
             return unidades;
         }
 
-        private List<UnidadeListagemViewModel> PesquisarPorOrganizacao(string guidOrganizacao, string token)
+        public UnidadeInsercaoViewModel Inserir(string guidOrganizacao, string accessToken)
         {
-            List<UnidadeListagemViewModel> unidades = null;
+            UnidadeInsercaoViewModel unidadeIVM = new UnidadeInsercaoViewModel();
 
-            string url = urlOrganogramaApiBase + "unidades/organizacao/" + guidOrganizacao;
+            OrganizacaoModel organizacao = organizacaoWS.Pesquisar(guidOrganizacao, accessToken);
+            unidadeIVM.GuidOrganizacao = organizacao.guid;
+            unidadeIVM.SiglaNomeOrganizacao = organizacao.sigla + " - " + organizacao.razaoSocial;
 
-            RetornoAjaxModel retornoAjaxModel = Get(url, token);
+            unidadeIVM.TiposUnidade = tipoUnidadeWS.Listar(accessToken)
+                                                   .Select(tu => new TipoUnidadeDropDownViewModel
+                                                   {
+                                                       Id = tu.id,
+                                                       Descricao = tu.descricao
+                                                   })
+                                                   .OrderBy(tu => tu.Descricao)
+                                                   .ToList();
 
-            if (retornoAjaxModel.IsSuccessStatusCode)
-            {
-                List<UnidadeGetModel> ugm = JsonConvert.DeserializeObject<List<UnidadeGetModel>>(retornoAjaxModel.result);
-                unidades = ugm.Select(u => new UnidadeListagemViewModel
+            unidadeIVM.UnidadesPai = PesquisarPorOrganizacao(guidOrganizacao, accessToken)
+                .Select(u => new UnidadeDropDownViewModel
                 {
                     Guid = u.guid,
                     Nome = u.nome,
-                    Sigla = u.sigla,
-                    Tipo = u.tipoUnidade.descricao,
-                    UnidadePai = u.unidadePai != null ? u.unidadePai.nome : ""
+                    Sigla = u.sigla
                 })
+                .OrderBy(u => u.Nome)
                 .ToList();
-            }
-            else
+
+            return unidadeIVM;
+        }
+
+        public void Inserir(UnidadeInsercaoViewModel unidadeIVM, string accessToken)
+        {
+            UnidadePostModel unidade = Mapper.Map<UnidadeInsercaoViewModel, UnidadePostModel>(unidadeIVM);
+
+            string a = unidade.guidOrganizacao;
+
+            var url = urlOrganogramaApiBase + "unidades";
+
+            RetornoAjaxModel retornoAjaxModel = Post(unidade, url, accessToken);
+
+            if (!retornoAjaxModel.IsSuccessStatusCode)
             {
                 string conteudo = retornoAjaxModel.content.Replace("-------------------------------\n", "");
                 throw new OrganogramaException(retornoAjaxModel.statusCode + ": " + conteudo);
             }
-
-            return unidades;
         }
 
         public RetornoAjaxModel GetUnidade(string guidOrganizacao, string token)
@@ -92,7 +123,7 @@ namespace OrganogramaApp.Apresentacao
             return retorno;
         }
 
-        public List<OrganizacaoModel> GeOrganizacoesPorPatriarca(string guidPatriarca, string token)
+        public List<OrganizacaoModel> GetOrganizacoesPorPatriarca(string guidPatriarca, string token)
         {
             List<OrganizacaoModel> organizacoes = new List<OrganizacaoModel>();
             //...
@@ -148,6 +179,46 @@ namespace OrganogramaApp.Apresentacao
                 statusCode = retorno_ws.statusCode
             };
             return retorno;
+        }
+
+        private List<UnidadeListagemViewModel> ListarPorOrganizacao(string guidOrganizacao, string accessToken)
+        {
+            List<UnidadeListagemViewModel> unidades = null;
+
+            List<UnidadeGetModel> ugm = PesquisarPorOrganizacao(guidOrganizacao, accessToken);
+
+            if (ugm != null)
+                unidades = ugm.Select(u => new UnidadeListagemViewModel
+                {
+                    Guid = u.guid,
+                    Nome = u.nome,
+                    Sigla = u.sigla,
+                    Tipo = u.tipoUnidade.descricao,
+                    UnidadePai = u.unidadePai != null ? u.unidadePai.nome : ""
+                })
+                .OrderBy(u => u.Nome)
+                .ToList();
+
+            return unidades;
+        }
+
+        private List<UnidadeGetModel> PesquisarPorOrganizacao(string guidOrganizacao, string accessToken)
+        {
+            List<UnidadeGetModel> unidades = null;
+
+            string url = urlOrganogramaApiBase + "unidades/organizacao/" + guidOrganizacao;
+
+            RetornoAjaxModel retornoAjaxModel = Get(url, accessToken);
+
+            if (retornoAjaxModel.IsSuccessStatusCode)
+                unidades = JsonConvert.DeserializeObject<List<UnidadeGetModel>>(retornoAjaxModel.result);
+            else
+            {
+                string conteudo = retornoAjaxModel.content.Replace("-------------------------------\n", "");
+                throw new OrganogramaException(retornoAjaxModel.statusCode + ": " + conteudo);
+            }
+
+            return unidades;
         }
     }
 }

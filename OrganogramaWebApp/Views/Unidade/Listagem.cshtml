@@ -10,7 +10,7 @@
         <h3 class="box-title">@ViewBag.SubTitle</h3>
 
         <div class="pull-right box-tools">
-            <a href="@Url.Action("Cadastrar","Unidade")" class="btn btn-info btn-sm" data-toggle="tooltip" title="Cadastrar Unidade.">
+            <a href="@Url.Action("Cadastrar","Unidade", new {guidOrganizacao = ViewData["GuidOrganizacao"] })" class="btn btn-info btn-sm" data-toggle="tooltip" title="Cadastrar Unidade.">
                 <i class="fa fa-plus"></i> Novo
             </a>
         </div>

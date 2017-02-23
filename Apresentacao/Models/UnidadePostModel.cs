@@ -10,9 +10,9 @@ namespace OrganogramaApp.Apresentacao.Models
     {   
         public string nome { get; set; }        
         public string sigla { get; set; }        
-        public int idOrganizacao { get; set; }
+        public string guidOrganizacao { get; set; }
         public int idTipoUnidade { get; set; }
-        public int idUnidadePai { get; set; }
+        public string guidUnidadePai { get; set; }
         public Endereco endereco { get; set; }
         public List<Contato> contatos { get; set; }
         public List<Email> emails { get; set; }

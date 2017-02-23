@@ -98,7 +98,7 @@ namespace OrganogramaApp.WebApp.Controllers
         {
             WorkServiceBase base_ws = new WorkServiceBase(ConfigurationManager.AppSettings["OrganogramaAPIBase"]);
 
-            var municipios = JsonConvert.DeserializeObject<List<Municipio>>(base_ws.GetMunicipios(uf, usuario.Token).content);
+            var municipios = JsonConvert.DeserializeObject<List<Municipio>>(base_ws.GetMunicipios(uf, usuario.AccessToken).content);
 
             return Json(municipios, JsonRequestBehavior.AllowGet);
         }
@@ -108,7 +108,7 @@ namespace OrganogramaApp.WebApp.Controllers
         {
             WorkServiceBase base_ws = new WorkServiceBase(ConfigurationManager.AppSettings["OrganogramaAPIBase"]);
 
-            var municipios = JsonConvert.DeserializeObject<List<Municipio>>(base_ws.GetUnidadesPorOrganizacao(guidOrganizacao, usuario.Token).content);
+            var municipios = JsonConvert.DeserializeObject<List<Municipio>>(base_ws.GetUnidadesPorOrganizacao(guidOrganizacao, usuario.AccessToken).content);
 
             return Json(municipios, JsonRequestBehavior.AllowGet);
         }

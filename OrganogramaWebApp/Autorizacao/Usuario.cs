@@ -49,7 +49,7 @@ namespace OrganogramaApp.WebApp.Autorizacao
             get { return this.Identity.IsAuthenticated; }
         }
 
-        public string Token
+        public string AccessToken
         {
             get { return this.FindFirst("access_token").Value; }
         }

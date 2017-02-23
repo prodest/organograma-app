@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=5.2.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.5.2.0\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="MiniProfiler, Version=3.2.0.157, Culture=neutral, PublicKeyToken=b44f9351044011a3, processorArchitecture=MSIL">
       <HintPath>..\packages\MiniProfiler.3.2.0.157\lib\net40\MiniProfiler.dll</HintPath>
       <Private>True</Private>
@@ -49,11 +53,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Base\IComumWorkService.cs" />
+    <Compile Include="Base\IOrganizacaoWorkService.cs" />
     <Compile Include="Base\ITipoOrganizacaoWorkService.cs" />
     <Compile Include="Base\ITipoUnidadeWorkService.cs" />
     <Compile Include="Base\IUnidadeWorkService.cs" />
     <Compile Include="Base\WorkServiceBase.cs" />
+    <Compile Include="ComumWorkService.cs" />
     <Compile Include="Comum\OrganogramaException.cs" />
+    <Compile Include="Config\AutoMapperConfiguration.cs" />
     <Compile Include="Models\Contato.cs" />
     <Compile Include="Models\Email.cs" />
     <Compile Include="Models\Endereco.cs" />
@@ -66,11 +74,20 @@
     <Compile Include="Models\TipoUnidadeModel.cs" />
     <Compile Include="Models\UnidadeGetModel.cs" />
     <Compile Include="Models\UnidadePostModel.cs" />
+    <Compile Include="OrganizacaoWorkService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TipoOrganizacaoWorkService.cs" />
     <Compile Include="TipoUnidadeWorkService.cs" />
     <Compile Include="UnidadeWorkService.cs" />
+    <Compile Include="ViewModel\ContatoViewModel.cs" />
+    <Compile Include="ViewModel\EmailViewModel.cs" />
+    <Compile Include="ViewModel\EnderecoViewModel.cs" />
+    <Compile Include="ViewModel\EstadoViewModel.cs" />
+    <Compile Include="ViewModel\MunicipioViewModel.cs" />
     <Compile Include="ViewModel\OrganizacaoViewModel.cs" />
+    <Compile Include="ViewModel\SiteViewModel.cs" />
+    <Compile Include="ViewModel\TipoContatoViewModel.cs" />
+    <Compile Include="ViewModel\TipoUnidadeViewModel.cs" />
     <Compile Include="ViewModel\UnidadeViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
