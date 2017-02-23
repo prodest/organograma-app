@@ -35,4 +35,19 @@ namespace OrganogramaApp.Apresentacao.ViewModel
         public string GuidMunicipio { get; set; }
         public List<MunicipioDropDownViewModel> Municipios { get; set; }
     }
+
+    public class EnderecoConsultarUnidadeViewModel
+    {
+        [Display(Name = "Logradouro")]
+        public string Logradouro { get; set; }
+        [Display(Name = "Número")]
+        public string Numero { get; set; }
+        [Display(Name = "Complemento")]
+        public string Complemento { get; set; }
+        [Display(Name = "Bairro")]
+        public string Bairro { get; set; }
+        [Display(Name = "CEP")]
+        public string Cep { get; set; }
+        public MunicipioConsultarUnidadeViewModel Municipio { get; set; }
+    }
 }

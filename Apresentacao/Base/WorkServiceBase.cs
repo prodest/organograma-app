@@ -73,13 +73,6 @@ namespace OrganogramaApp.Apresentacao.Base
                 {
                     retornoAjax.result = result.Content.ReadAsStringAsync().Result;
                 }
-                else
-                {
-                    if ((result.StatusCode.Equals(HttpStatusCode.BadGateway) || result.StatusCode.Equals(HttpStatusCode.ServiceUnavailable) || result.StatusCode.Equals(HttpStatusCode.GatewayTimeout)) && i < 5)
-                    {
-                        return Post(jsonString, urlPost, accessToken, i++);
-                    }                    
-                }
 
                 retornoAjax.IsSuccessStatusCode = result.IsSuccessStatusCode;
                 retornoAjax.statusCode = result.StatusCode.ToString();
@@ -125,9 +118,9 @@ namespace OrganogramaApp.Apresentacao.Base
             }
         }
 
-        public static RetornoAjaxModel Delete(string url, string accessToken, int i = 0)
+        public static RetornoAjaxModel Delete(string urlDelete, string accessToken, int i = 0)
         {
-            using (MiniProfiler.Current.Step($"url{i}: {url}"))
+            using (MiniProfiler.Current.Step($"url{i}: {urlDelete}"))
             {
                 using (var client = new HttpClient())
                 {
@@ -137,19 +130,12 @@ namespace OrganogramaApp.Apresentacao.Base
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
-                    var result = client.DeleteAsync(url).Result;
+                    var result = client.DeleteAsync(urlDelete).Result;
                     RetornoAjaxModel retornoAjax = new RetornoAjaxModel();
 
                     if (result.IsSuccessStatusCode)
                     {
                         retornoAjax.result = result.Content.ReadAsStringAsync().Result;
-                    }
-                    else
-                    {
-                        if ((result.StatusCode.Equals(HttpStatusCode.BadGateway) || result.StatusCode.Equals(HttpStatusCode.ServiceUnavailable) || result.StatusCode.Equals(HttpStatusCode.GatewayTimeout)) && i < 5)
-                        {
-                            return Delete(url, accessToken, i++);
-                        }
                     }
 
                     retornoAjax.IsSuccessStatusCode = result.IsSuccessStatusCode;

@@ -739,6 +739,7 @@
     <Content Include="Views\Unidade\_campoEmail.cshtml" />
     <Content Include="Views\Unidade\_campoTelefone.cshtml" />
     <Content Include="Views\Unidade\Visualizar.cshtml" />
+    <Content Include="Views\Unidade\Excluir.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

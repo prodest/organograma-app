@@ -108,6 +108,24 @@ namespace OrganogramaApp.Apresentacao
             }
         }
 
+        public UnidadeConsultarViewModel Consultar(string guid, string accessToken)
+        {
+            var url = urlOrganogramaApiBase + "unidades/" + guid;
+            UnidadeConsultarViewModel unidade = null;
+
+            RetornoAjaxModel retornoAjaxModel = Get(url, accessToken);
+
+            if (retornoAjaxModel.IsSuccessStatusCode)
+                unidade = JsonConvert.DeserializeObject<UnidadeConsultarViewModel>(retornoAjaxModel.result);
+            else
+            {
+                string conteudo = retornoAjaxModel.content.Replace("-------------------------------\n", "");
+                throw new OrganogramaException(retornoAjaxModel.statusCode + ": " + conteudo);
+            }
+
+            return unidade;
+        }
+
         public RetornoAjaxModel GetUnidade(string guidOrganizacao, string token)
         {
             var url = urlOrganogramaApiBase + "unidades/" + guidOrganizacao;
@@ -219,6 +237,19 @@ namespace OrganogramaApp.Apresentacao
             }
 
             return unidades;
+        }
+
+        public void Excluir(string guid, string accessToken)
+        {
+            string url = urlOrganogramaApiBase + "unidades/" + guid;
+
+            RetornoAjaxModel retornoAjaxModel = Delete(url, accessToken);
+
+            if (!retornoAjaxModel.IsSuccessStatusCode)
+            {
+                string conteudo = retornoAjaxModel.content.Replace("-------------------------------\n", "");
+                throw new OrganogramaException(retornoAjaxModel.statusCode + ": " + conteudo);
+            }
         }
     }
 }

@@ -20,4 +20,9 @@ namespace OrganogramaApp.Apresentacao.ViewModel
         [Display(Name = "Telefone")]
         public string Telefone { get; set; }
     }
+
+    public class ContatoConsultarUnidadeViewModel
+    {
+        public string Telefone { get; set; }
+    }
 }

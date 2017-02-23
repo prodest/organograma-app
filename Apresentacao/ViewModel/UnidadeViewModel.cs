@@ -1,5 +1,4 @@
-﻿using OrganogramaApp.Apresentacao.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -36,7 +35,8 @@ namespace OrganogramaApp.Apresentacao.ViewModel
         public string Guid { get; set; }
         public string Nome { get; set; }
         public string Sigla { get; set; }
-        public string SiglaNome {
+        public string SiglaNome
+        {
             get
             {
                 return Sigla + " - " + Nome;
@@ -71,5 +71,41 @@ namespace OrganogramaApp.Apresentacao.ViewModel
         public List<EmailInsercaoViewModel> Emails { get; set; }
 
         public List<SiteInsercaoViewModel> Sites { get; set; }
+    }
+
+    public class UnidadeConsultarViewModel
+    {
+        public string Guid { get; set; }
+        [Display(Name = "Unidade")]
+        public string Nome { get; set; }
+        [Display(Name = "Sigla")]
+        public string Sigla { get; set; }
+        [Display(Name = "Tipo")]
+        public TipoUnidadeConsultarUnidadeViewModel TipoUnidade { get; set; }
+        [Display(Name = "Organização")]
+        public OrganizacaoConsultarUnidadeViewModel Organizacao { get; set; }
+        [Display(Name = "Unidade Pai")]
+        public UnidadePaiConsultarUnidadeViewModel UnidadePai { get; set; }
+        [Display(Name = "Endereço")]
+        public EnderecoConsultarUnidadeViewModel Endereco { get; set; }
+        [Display(Name = "Contatos")]
+        public List<ContatoConsultarUnidadeViewModel> Contatos { get; set; }
+        [Display(Name = "E-mails")]
+        public List<EmailConsultarUnidadeViewModel> Emails { get; set; }
+        [Display(Name = "Sites")]
+        public List<SiteConsultarUnidadeViewModel> Sites { get; set; }
+    }
+
+    public class UnidadePaiConsultarUnidadeViewModel
+    {
+        public string Nome { get; set; }
+        public string Sigla { get; set; }
+        public string SiglaNome
+        {
+            get
+            {
+                return Sigla + " - " + Nome;
+            }
+        }
     }
 }

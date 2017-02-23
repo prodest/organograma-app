@@ -15,4 +15,10 @@ namespace OrganogramaApp.Apresentacao.ViewModel
         public string Guid { get; set; }
         public string Nome { get; set; }
     }
+
+    public class MunicipioConsultarUnidadeViewModel
+    {
+        public string Nome { get; set; }
+        public string Uf { get; set; }
+    }
 }

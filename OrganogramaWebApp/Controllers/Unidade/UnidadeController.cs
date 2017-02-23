@@ -58,20 +58,25 @@ namespace OrganogramaApp.WebApp.Controllers.Unidade
 
         public ActionResult Visualizar(string guid)
         {
-            UnidadeGetModel unidade = new UnidadeGetModel();
-
-            var retorno = workService.GetUnidade(guid, usuario.AccessToken);
-
-            if (retorno.IsSuccessStatusCode)
+            UnidadeConsultarViewModel unidade = null;
+            try
             {
-                unidade = JsonConvert.DeserializeObject<UnidadeGetModel>(retorno.content);
-            }
-            else
-            {
-                AdicionarMensagem(TipoMensagem.Atencao, retorno.content);
-            }
+                unidade = workService.Consultar(guid, usuario.AccessToken);
 
-            return PartialView("Visualizar", unidade);
+                return PartialView("Visualizar", unidade);
+            }
+            catch (OrganogramaException oe)
+            {
+                AdicionarMensagem(TipoMensagem.Atencao, oe.Message);
+
+                return Json(unidade, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                AdicionarMensagem(TipoMensagem.Erro, e.Message);
+
+                return Json(unidade, JsonRequestBehavior.AllowGet);
+            }
         }
 
         public ActionResult Cadastrar(string guidOrganizacao)
@@ -201,22 +206,49 @@ namespace OrganogramaApp.WebApp.Controllers.Unidade
             }
         }
 
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Excluir(string guid)
         {
             try
             {
-                // TODO: Add delete logic here
-                return RedirectToAction("Index");
+                UnidadeConsultarViewModel unidade = workService.Consultar(guid, usuario.AccessToken);
+
+                return PartialView("Excluir", unidade);
             }
-            catch
+            catch (OrganogramaException oe)
             {
-                return View();
+                AdicionarMensagem(TipoMensagem.Atencao, oe.Message);
+
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                AdicionarMensagem(TipoMensagem.Erro, e.Message);
+
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult Delete(string guid)
+        {
+            try
+            {
+                workService.Excluir(guid, usuario.AccessToken);
+
+                AdicionarMensagem(TipoMensagem.Sucesso, "Unidade excluída com sucesso!");
+                return Json(true, JsonRequestBehavior.AllowGet);
+            }
+            catch (OrganogramaException oe)
+            {
+                AdicionarMensagem(TipoMensagem.Atencao, oe.Message);
+
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                AdicionarMensagem(TipoMensagem.Erro, e.Message);
+
+                return Json(false, JsonRequestBehavior.AllowGet);
             }
         }
     }

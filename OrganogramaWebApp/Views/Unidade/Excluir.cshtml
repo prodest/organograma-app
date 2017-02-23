@@ -1,0 +1,160 @@
+﻿@model OrganogramaApp.Apresentacao.ViewModel.UnidadeConsultarViewModel
+<div>
+    <h4>@Html.DisplayFor(model => model.Nome)</h4>
+    <table class="table table-bordered table-condensed table-hover table-striped">
+        <tbody>
+            <tr>
+                <th class="text-right col-md-2">
+                    @Html.DisplayNameFor(model => model.Nome)
+                </th>
+                <td>
+                    @Html.DisplayFor(model => model.Nome)
+                </td>
+            </tr>
+            <tr>
+                <th class="text-right">
+                    @Html.DisplayNameFor(model => model.Sigla)
+                </th>
+                <td>
+                    @Html.DisplayFor(model => model.Sigla)
+                </td>
+            </tr>
+            <tr>
+                <th class="text-right">
+                    @Html.DisplayNameFor(model => model.TipoUnidade)
+                </th>
+                <td>
+                    @Html.DisplayFor(model => model.TipoUnidade.Descricao)
+                </td>
+            </tr>
+            <tr>
+                <th class="text-right">
+                    @Html.DisplayNameFor(model => model.Organizacao)
+                </th>
+                <td>
+                    @Html.DisplayFor(model => model.Organizacao.SiglaRazaoSocial)
+                </td>
+            </tr>
+            @if (Model.UnidadePai != null)
+            {
+                <tr>
+                    <th class="text-right">
+                        @Html.DisplayNameFor(model => model.UnidadePai)
+                    </th>
+                    <td>
+                        @Html.DisplayFor(model => model.UnidadePai.Sigla) - @Html.DisplayFor(model => model.UnidadePai.Nome)
+                    </td>
+                </tr>
+            }
+            @if (Model.Endereco != null)
+            {
+                <tr>
+                    <th class="text-right">
+                        @Html.DisplayNameFor(model => model.Endereco)
+                    </th>
+                    <td>
+                        <dl class="dl-horizontal">
+                            <dt>Logradouro</dt>
+                            <dd>@Html.DisplayFor(model => model.Endereco.Logradouro)</dd>
+                            <dt>Número</dt>
+                            <dd>@Html.DisplayFor(model => model.Endereco.Numero)</dd>
+                            <dt>Complmento</dt>
+                            <dd>@Html.DisplayFor(model => model.Endereco.Complemento)</dd>
+                            <dt>Bairro</dt>
+                            <dd>@Html.DisplayFor(model => model.Endereco.Bairro)</dd>
+                            <dt>CEP</dt>
+                            <dd>@Html.DisplayFor(model => model.Endereco.Cep)</dd>
+                            <dt>Municipio</dt>
+                            <dd>@Html.DisplayFor(model => model.Endereco.Municipio.Nome)</dd>
+                            <dt>Estado</dt>
+                            <dd>@Html.DisplayFor(model => model.Endereco.Municipio.Uf)</dd>
+                        </dl>
+                    </td>
+                </tr>
+            }
+            @if (Model.Contatos != null)
+            {
+                <tr>
+                    <th class="text-right">
+                        @Html.DisplayNameFor(model => model.Contatos)
+                    </th>
+                    <td>
+                        @foreach (var item in Model.Contatos)
+                        {
+                            <dl>
+                                <dt>Telefone</dt>
+                                <dd>@item.Telefone</dd>
+                            </dl>
+                        }
+                    </td>
+                </tr>
+            }
+            @if (Model.Emails != null)
+            {
+                <tr>
+                    <th class="text-right">
+                        @Html.DisplayNameFor(model => model.Emails)
+                    </th>
+                    <td>
+                        @foreach (var item in Model.Emails)
+                        {
+                            <dl>
+                                <dt>Endereço</dt>
+                                <dd>@item.Endereco</dd>
+                            </dl>
+                        }
+                    </td>
+                </tr>
+            }
+            @if (Model.Sites != null)
+            {
+                <tr>
+                    <th class="text-right">
+                        @Html.DisplayNameFor(model => model.Sites)
+                    </th>
+                    <td>
+                        @foreach (var item in Model.Sites)
+                        {
+                            <dl>
+                                <dt>Url</dt>
+                                <dd>@item.Url</dd>
+                            </dl>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div>
+    @using (Ajax.BeginForm("Delete", "Unidade",
+        new AjaxOptions
+        {
+            HttpMethod = "POST"
+            ,
+            InsertionMode = InsertionMode.Replace
+            ,
+            OnSuccess = "onSuccessExcluirUnidade"
+        },
+        new { @id = "formCadastrarUnidade" }))
+    {
+        @Html.HiddenFor(model => model.Guid)
+        <div id="resultForm" class="form-group text-right">
+            <button class="btn btn-default" type="button" data-dismiss="modal">Fechar</button>
+            <button class="btn btn-danger" type="submit"><i class="fa fa-close" aria-hidden="true"></i>Excluir</button>
+        </div>
+    }
+</div>
+
+<script>
+    function onSuccessExcluirUnidade(dados)
+    {
+        if (dados) {
+            $('#btnCarregarUnidades').trigger('click');
+            $('#modalCriar').modal('hide');
+        }
+
+        ExibirMensagens();
+
+    }
+</script>

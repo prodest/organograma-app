@@ -168,10 +168,11 @@ $('body').on('click', '.btnModalUnidade', function () {
 
     $.ajax(this.href)
       .done(function (tela) {          
-
-          $('#modalTipoUnidadeLabel').text(evento);
-          $('#update').html(tela);
-          $('#modalCriar').modal('show');
+          if (tela != null) {
+              $('#modalTipoUnidadeLabel').text(evento);
+              $('#update').html(tela);
+              $('#modalCriar').modal('show');
+          }
       })
       .fail(function () {
           //toastr["warning"]("Não foi possível realizar esta operação!");

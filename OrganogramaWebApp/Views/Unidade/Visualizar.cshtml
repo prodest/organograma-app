@@ -1,131 +1,131 @@
-﻿@model OrganogramaApp.Apresentacao.Models.UnidadeGetModel
+﻿@model OrganogramaApp.Apresentacao.ViewModel.UnidadeConsultarViewModel
 
 <div>
-    <h4>@Html.DisplayFor(model => model.nome)</h4>    
+    <h4>@Html.DisplayFor(model => model.Nome)</h4>    
 
     <table class="table table-bordered table-condensed table-hover table-striped">
         <tbody>
             <tr>
                 <th class="text-right col-md-2">
-                    @Html.DisplayNameFor(model => model.nome)
+                    @Html.DisplayNameFor(model => model.Nome)
                 </th>
                 <td>
-                    @Html.DisplayFor(model => model.nome)
+                    @Html.DisplayFor(model => model.Nome)
                 </td>                                
             </tr>
 
             <tr>
                 <th class="text-right">
-                    @Html.DisplayNameFor(model => model.sigla)
+                    @Html.DisplayNameFor(model => model.Sigla)
                 </th>
                 <td>
-                    @Html.DisplayFor(model => model.sigla)
+                    @Html.DisplayFor(model => model.Sigla)
                 </td>
             </tr>
 
             <tr>
                 <th class="text-right">
-                    @Html.DisplayNameFor(model => model.tipoUnidade)
+                    @Html.DisplayNameFor(model => model.TipoUnidade)
                 </th>
                 <td>
-                    @Html.DisplayFor(model => model.tipoUnidade.descricao)
+                    @Html.DisplayFor(model => model.TipoUnidade.Descricao)
                 </td>
             </tr>
 
             <tr>
                 <th class="text-right">
-                    @Html.DisplayNameFor(model => model.organizacao)
+                    @Html.DisplayNameFor(model => model.Organizacao)
                 </th>
                 <td>
-                    @Html.DisplayFor(model => model.organizacao.sigla) - @Html.DisplayFor(model => model.organizacao.razaoSocial)
+                    @Html.DisplayFor(model => model.Organizacao.SiglaRazaoSocial)
                 </td>
             </tr>
 
-            @if (Model.unidadePai != null) { 
+            @if (Model.UnidadePai != null) { 
             <tr>
                 <th class="text-right">
-                    @Html.DisplayNameFor(model => model.unidadePai)
+                    @Html.DisplayNameFor(model => model.UnidadePai)
                 </th>
                 <td>
-                    @Html.DisplayFor(model => model.unidadePai.sigla) - @Html.DisplayFor(model => model.unidadePai.nome)
+                    @Html.DisplayFor(model => model.UnidadePai.SiglaNome)
                 </td>
             </tr>
             }
 
-            @if (Model.endereco != null)
+            @if (Model.Endereco != null)
             {
                 <tr>
                     <th class="text-right">
-                        @Html.DisplayNameFor(model => model.endereco)
+                        @Html.DisplayNameFor(model => model.Endereco)
                     </th>
                     <td>
                         <dl class="dl-horizontal">
                             <dt>Logradouro</dt>
-                            <dd>@Html.DisplayFor(model => model.endereco.logradouro)</dd>
+                            <dd>@Html.DisplayFor(model => model.Endereco.Logradouro)</dd>
                             <dt>Número</dt>
-                            <dd>@Html.DisplayFor(model => model.endereco.numero)</dd>
+                            <dd>@Html.DisplayFor(model => model.Endereco.Numero)</dd>
                             <dt>Complmento</dt>
-                            <dd>@Html.DisplayFor(model => model.endereco.complemento)</dd>
+                            <dd>@Html.DisplayFor(model => model.Endereco.Complemento)</dd>
                             <dt>Bairro</dt>
-                            <dd>@Html.DisplayFor(model => model.endereco.bairro)</dd>
+                            <dd>@Html.DisplayFor(model => model.Endereco.Bairro)</dd>
                             <dt>CEP</dt>
-                            <dd>@Html.DisplayFor(model => model.endereco.cep)</dd>
+                            <dd>@Html.DisplayFor(model => model.Endereco.Cep)</dd>
                             <dt>Municipio</dt>
-                            <dd>@Html.DisplayFor(model => model.endereco.municipio.nome)</dd>
+                            <dd>@Html.DisplayFor(model => model.Endereco.Municipio.Nome)</dd>
                             <dt>Estado</dt>
-                            <dd>@Html.DisplayFor(model => model.endereco.municipio.uf)</dd>
+                            <dd>@Html.DisplayFor(model => model.Endereco.Municipio.Uf)</dd>
                         </dl>
                     </td>
                 </tr>
             }
 
-            @if (Model.contatos != null)
+            @if (Model.Contatos != null)
             {
                 <tr>
                     <th class="text-right">
-                        @Html.DisplayNameFor(model => model.contatos)
+                        @Html.DisplayNameFor(model => model.Contatos)
                     </th>
                     <td>
-                        @foreach(var item in Model.contatos) { 
+                        @foreach(var item in Model.Contatos) { 
                         <dl>
                             <dt>Telefone</dt>
-                            <dd>@item.telefone</dd>                            
+                            <dd>@item.Telefone</dd>                            
                         </dl>
                         }
                     </td>
                 </tr>
             }
 
-            @if (Model.emails != null)
+            @if (Model.Emails != null)
             {
                 <tr>
                     <th class="text-right">
-                        @Html.DisplayNameFor(model => model.emails)
+                        @Html.DisplayNameFor(model => model.Emails)
                     </th>
                     <td>
-                        @foreach (var item in Model.emails)
+                        @foreach (var item in Model.Emails)
                         {
                             <dl>
                                 <dt>Endereço</dt>
-                                <dd>@item.endereco</dd>
+                                <dd>@item.Endereco</dd>
                             </dl>
                         }
                     </td>
                 </tr>
             }
 
-            @if (Model.sites != null)
+            @if (Model.Sites != null)
             {
                 <tr>
                     <th class="text-right">
-                        @Html.DisplayNameFor(model => model.sites)
+                        @Html.DisplayNameFor(model => model.Sites)
                     </th>
                     <td>
-                        @foreach (var item in Model.sites)
+                        @foreach (var item in Model.Sites)
                         {
                             <dl>
                                 <dt>Url</dt>
-                                <dd>@item.url</dd>
+                                <dd>@item.Url</dd>
                             </dl>
                         }
                     </td>

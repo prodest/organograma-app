@@ -16,4 +16,9 @@ namespace OrganogramaApp.Apresentacao.ViewModel
         [Display(Name = "URL")]
         public string Url { get; set; }
     }
+
+    public class SiteConsultarUnidadeViewModel
+    {
+        public string Url { get; set; }
+    }
 }

@@ -16,4 +16,9 @@ namespace OrganogramaApp.Apresentacao.ViewModel
         [Display(Name = "E-mail")]
         public string Endereco { get; set; }
     }
+
+    public class EmailConsultarUnidadeViewModel
+    {
+        public string Endereco { get; set; }
+    }
 }
