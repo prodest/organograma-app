@@ -108,4 +108,9 @@ namespace OrganogramaApp.Apresentacao.ViewModel
             }
         }
     }
+
+    public class UnidadeEditarViewModel : UnidadeInsercaoViewModel
+    {
+        public string Guid { get; set; }
+    }
 }

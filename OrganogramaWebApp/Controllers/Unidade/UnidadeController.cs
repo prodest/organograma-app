@@ -187,9 +187,27 @@ namespace OrganogramaApp.WebApp.Controllers.Unidade
             }
         }
 
-        public ActionResult Edit(int id)
+        public ActionResult Editar(string guid)
         {
-            return View();
+            UnidadeEditarViewModel unidade = null;
+            try
+            {
+                unidade = workService.ConsultarEdicao(guid, usuario.AccessToken);
+
+                return PartialView("Editar", unidade);
+            }
+            catch (OrganogramaException oe)
+            {
+                AdicionarMensagem(TipoMensagem.Atencao, oe.Message);
+
+                return Json(unidade, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                AdicionarMensagem(TipoMensagem.Erro, e.Message);
+
+                return Json(unidade, JsonRequestBehavior.AllowGet);
+            }
         }
 
         [HttpPost]

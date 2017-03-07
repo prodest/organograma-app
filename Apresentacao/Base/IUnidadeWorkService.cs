@@ -16,5 +16,6 @@ namespace OrganogramaApp.Apresentacao.Base
         List<TipoUnidadeModel> GetTiposUnidade(string token);
         RetornoAjaxModel PostUnidade(UnidadePostModel unidade, string token);
         void Excluir(string guid, string accessToken);
+        UnidadeEditarViewModel ConsultarEdicao(string guidUnidade, string accessToken);
     }
 }

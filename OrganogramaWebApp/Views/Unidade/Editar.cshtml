@@ -1,7 +1,7 @@
-﻿@model OrganogramaApp.Apresentacao.ViewModel.UnidadeInsercaoViewModel
+﻿@model OrganogramaApp.Apresentacao.ViewModel.UnidadeEditarViewModel
 @{
     ViewBag.Title = "Unidade";
-    ViewBag.SubTitle = "Cadastrar Unidade";
+    ViewBag.SubTitle = "Editar Unidade";
 }
 <section class="content-header">
     <h1>
@@ -19,7 +19,7 @@
 <section id="content" class="content">
     <div class="row">
         <div id="formCadastroUnidade" class="col-lg-12 col-md-12 col-xs-12">
-            @using (Ajax.BeginForm("Create", "Unidade",
+            @using (Ajax.BeginForm("Edit", "Unidade",
                                             new AjaxOptions
                                             {
                                                 HttpMethod = "POST"

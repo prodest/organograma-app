@@ -740,6 +740,7 @@
     <Content Include="Views\Unidade\_campoTelefone.cshtml" />
     <Content Include="Views\Unidade\Visualizar.cshtml" />
     <Content Include="Views\Unidade\Excluir.cshtml" />
+    <Content Include="Views\Unidade\Editar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

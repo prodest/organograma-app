@@ -251,5 +251,23 @@ namespace OrganogramaApp.Apresentacao
                 throw new OrganogramaException(retornoAjaxModel.statusCode + ": " + conteudo);
             }
         }
+
+        public UnidadeEditarViewModel ConsultarEdicao(string guidUnidade, string accessToken)
+        {
+            var url = urlOrganogramaApiBase + "unidades/" + guidUnidade;
+            UnidadeGetModel unidade = null;
+
+            RetornoAjaxModel retornoAjaxModel = Get(url, accessToken);
+
+            if (retornoAjaxModel.IsSuccessStatusCode)
+                unidade = JsonConvert.DeserializeObject<UnidadeGetModel>(retornoAjaxModel.result);
+            else
+            {
+                string conteudo = retornoAjaxModel.content.Replace("-------------------------------\n", "");
+                throw new OrganogramaException(retornoAjaxModel.statusCode + ": " + conteudo);
+            }
+
+            return new UnidadeEditarViewModel();
+        }
     }
 }
