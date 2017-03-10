@@ -23,6 +23,8 @@ namespace OrganogramaApp.WebApp.Config
             builder.RegisterInstance(new TipoOrganizacaoWorkService(urlBase)).As<ITipoOrganizacaoWorkService>();
             builder.RegisterInstance(new TipoUnidadeWorkService(urlBase)).As<ITipoUnidadeWorkService>();
             builder.RegisterInstance(new UnidadeWorkService(urlBase)).As<IUnidadeWorkService>();
+            builder.RegisterInstance(new OrganogramaWorkService(urlBase)).As<IOrganogramaWorkService>();
+            builder.RegisterInstance(new OrganizacaoWorkService(urlBase)).As<IOrganizacaoWorkService>();
             #endregion
 
             // Set the dependency resolver to be Autofac.

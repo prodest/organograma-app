@@ -1,0 +1,184 @@
+﻿@model OrganogramaApp.Apresentacao.ViewModel.OrganizacaoInsercaoViewModel
+
+@{
+    ViewBag.Title = "Organização";
+    ViewBag.SubTitle = "Cadastrar Organização";
+}
+<section class="content-header">
+    <h1>
+        @ViewBag.Title
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> MENU PRINCIPAL</a></li>
+        <li class="active">@ViewBag.Title</li>
+    </ol>
+</section>
+<div class="col-lg-12 col-md-12 col-xs-12">
+</div>
+
+<!-- Main content -->
+<section id="content" class="content">
+    <div class="row">
+        <div id="formCadastroOrganizacao" class="col-lg-12 col-md-12 col-xs-12">
+            @using (Ajax.BeginForm("Create", "Organizacao",
+                                            new AjaxOptions
+                                            {
+                                                HttpMethod = "POST"
+                                                ,
+                                                InsertionMode = InsertionMode.Replace                                                                                                
+                                                //,
+                                                //OnSuccess = "onSuccessOrganizacao"
+                                            },
+                                            new { @id = "formCadastrarOrganizacao" }))
+            {
+                <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#tab_1" title="Dados Gerais" data-toggle="tab" aria-expanded="false"><h4><i class="fa fa-file-text-o"></i> Dados Gerais</h4></a></li>
+                        <li class=""><a href="#tab_2" title="Endereço" data-toggle="tab" aria-expanded="false"><h4><i class="fa fa-map-marker" aria-hidden="true"></i> Endereço</h4></a></li>
+                        <li class=""><a href="#tab_3" title="Telefone" data-toggle="tab" aria-expanded="false"><h4><i class="fa fa-phone" aria-hidden="true"></i> Telefone</h4></a></li>
+                        <li class=""><a href="#tab_4" title="E-mail" data-toggle="tab" aria-expanded="false"><h4><i class="fa fa-envelope-o" aria-hidden="true"></i> E-mail</h4></a></li>
+                        <li class=""><a href="#tab_5" title="Site" data-toggle="tab" aria-expanded="false"><h4><i class="fa fa-globe" aria-hidden="true"></i> Site</h4></a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tab_1">
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Cnpj, htmlAttributes: new { @class = "control-label" })
+                                @Html.EditorFor(model => model.Cnpj, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Cnpj, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.RazaoSocial, htmlAttributes: new { @class = "control-label" })
+                                @Html.EditorFor(model => model.RazaoSocial, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.RazaoSocial, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Sigla, htmlAttributes: new { @class = "control-label" })
+                                @Html.EditorFor(model => model.Sigla, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Sigla, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.IdTipoOrganizacao, htmlAttributes: new { @class = "control-label" })
+                                @Html.DropDownListFor(model => model.IdTipoOrganizacao, new SelectList(Model.TiposOrganizacao, "Id", "Descricao"), "Selecione um Tipo de Organização", new { @class = "form-control" } )
+                                @Html.ValidationMessageFor(model => model.IdTipoOrganizacao, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.GuidOrganizacaoPai, htmlAttributes: new { @class = "control-label" })
+                                @Html.DropDownListFor(m => m.GuidOrganizacaoPai, new SelectList(Model.OrganizacoesPai, "Guid", "SiglaNome"), "Selecione uma Organização", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.GuidOrganizacaoPai, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Poder, htmlAttributes: new { @class = "control-label" })
+                                @Html.TextBoxFor(model => model.Poder, new { @class = "form-control", type = "text", disabled = "disabled" })
+                                @Html.ValidationMessageFor(model => model.Poder, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Esfera, htmlAttributes: new { @class = "control-label" })
+                                @Html.TextBoxFor(model => model.Esfera, new { @class = "form-control", type = "text", disabled = "disabled" })
+                                @Html.ValidationMessageFor(model => model.Esfera, "", new { @class = "text-danger" })
+                            </div>
+                                                        
+                            <div class="box-footer">
+                                <ul class="list-inline pull-right">
+                                    <li><a href="#tab_2" class="btn btn-primary pull-right next-step" data-toggle="tab">Próximo <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="tab_2">
+                            <h4>Endereço</h4>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Endereco.Logradouro, htmlAttributes: new { @class = "control-label" })
+                                @Html.EditorFor(model => model.Endereco.Logradouro, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Endereco.Logradouro, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Endereco.Numero, htmlAttributes: new { @class = "control-label" })
+                                @Html.EditorFor(model => model.Endereco.Numero, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Endereco.Numero, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Endereco.Complemento, htmlAttributes: new { @class = "control-label" })
+                                @Html.EditorFor(model => model.Endereco.Complemento, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Endereco.Complemento, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Endereco.Bairro, htmlAttributes: new { @class = "control-label" })
+                                @Html.EditorFor(model => model.Endereco.Bairro, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Endereco.Bairro, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Endereco.Cep, htmlAttributes: new { @class = "control-label" })
+                                @Html.EditorFor(model => model.Endereco.Cep, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Endereco.Cep, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Endereco.Estados, htmlAttributes: new { @class = "control-label" })
+                                @Html.DropDownList("siglaEstado", new SelectList(Model.Endereco.Estados, "Sigla", "Nome"), "Selecione um Estado", new { @class = "form-control", @id = "siglaEstado" })
+                                @Html.ValidationMessageFor(model => model.Endereco.Estados, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Endereco.GuidMunicipio, htmlAttributes: new { @class = "control-label" })
+                                @Html.DropDownListFor(m => m.Endereco.GuidMunicipio, new SelectList(Model.Endereco.Municipios, "Guid", "Nome"), "Selecione um Município", new { @class = "form-control", })
+                                @Html.ValidationMessageFor(model => model.Endereco.GuidMunicipio, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="box-footer">
+                                <ul class="list-inline pull-right">
+                                    <li><a href="#tab_1" class="btn btn-default pull-right prev-step" data-toggle="tab"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Anterior</a></li>
+                                    <li><a href="#tab_3" class="btn btn-primary pull-right next-step" data-toggle="tab">Próximo <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="tab_3">
+                            <div class="box-body" id="campotelefone">
+                                <div class="form-group text-right">
+                                    <button type="button" data-value="0" class="btn btn-sm btn-info" id="addCampoTelefone"><i class="fa fa-plus" aria-hidden="true"></i> Telefone</button>
+                                </div>
+                            </div>
+                            <div class="box-footer">
+                                <ul class="list-inline pull-right">
+                                    <li><a href="#tab_2" class="btn btn-default pull-right prev-step" data-toggle="tab"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Anterior</a></li>
+                                    <li><a href="#tab_4" class="btn btn-primary pull-right next-step" data-toggle="tab">Próximo <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="tab_4">
+                            <div class="box-body" id="campoemail">
+                                <div class="form-group text-right">
+                                    <button type="button" data-value="0" class="btn btn-sm btn-info" id="addCampoEmail"><i class="fa fa-plus" aria-hidden="true"></i> E-mail</button>
+                                </div>
+                            </div>
+                            <div class="box-footer">
+                                <ul class="list-inline pull-right">
+                                    <li><a href="#tab_3" class="btn btn-default pull-right prev-step" data-toggle="tab"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Anterior</a></li>
+                                    <li><a href="#tab_5" class="btn btn-primary pull-right next-step" data-toggle="tab">Próximo <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="tab_5">
+                            <div class="box-body" id="camposite">
+                                <div class="form-group text-right">
+                                    <button type="button" data-value="0" class="btn btn-sm btn-info" id="addCampoSite"><i class="fa fa-plus" aria-hidden="true"></i> Url</button>
+                                </div>
+                            </div>
+                            <div class="box-footer">
+                                <ul class="list-inline pull-right">
+                                    <li><a href="#tab_4" class="btn btn-default prev-step" data-toggle="tab"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Anterior</a></li>
+                                    <li><button type="submit" class="btn btn-danger"><i class="fa fa-save"></i> Cadastrar</button></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+@section scripts{
+    <script src="~/js/organizacao.js"></script>
+}

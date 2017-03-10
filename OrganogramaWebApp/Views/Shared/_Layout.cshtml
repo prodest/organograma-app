@@ -21,6 +21,8 @@
 
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
 
+    @RenderSection("styles", required: false)
+
     <style>
         .error {
             color: indianred;
@@ -76,9 +78,8 @@
                 <!-- Sidebar Menu -->
                 <ul class="sidebar-menu">
                     <li class="header">MENU PRINCIPAL</li>
-                    <!-- Optionally, you can add icons to the links -->
-                    <li class="active"><a href=""><i class="fa fa-sitemap" aria-hidden="true"></i> <span>Organograma</span></a></li>
-                    <li><a href=""><i class="fa fa-building" aria-hidden="true"></i> <span>Organizações</span></a></li>
+                    <!-- Optionally, you can add icons to the links -->                    
+                    <li class="active"><a href="@Url.Action("Index", "Organizacao")"><i class="fa fa-sitemap"></i> <span>Organizações</span></a></li>
                     <li><a href="@Url.Action("Index", "Unidade")"><i class="fa fa-building-o"></i> <span>Unidades</span></a></li>
                     <li><a href="@Url.Action("Index", "TipoOrganizacao")"><i class="fa fa-file-text-o"></i> <span>Tipo de Organização</span></a></li>
                     <li><a href="@Url.Action("Index", "TipoUnidade")"><i class="fa fa-file-text-o"></i> <span>Tipo de Unidade</span></a></li>
@@ -96,11 +97,11 @@
         <footer class="main-footer">
             <!-- To the right -->
             <div class="pull-right hidden-xs">
-
             </div>
             <!-- Default to the left -->
-            <strong>Copyright &copy; 2016 <a href="#">Prodest</a></strong>
+            Copyright © 2016-2017 <strong>Prodest</strong>. <a data-placement="top" data-trigger="hover" class="pull-right" data-toggle="popover" title="Organograma" data-content="Versão 1.0.0, publicada em 10/03/2017 às 17h.">ProcessoEletrônico 1.0.0</a>
         </footer>
+
         <!-- Control Sidebar -->
         <aside class="control-sidebar control-sidebar-dark">
             <!-- Create the tabs -->
@@ -219,17 +220,13 @@
         <!-- /.modal-dialog -->
     </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/bundles/modernizr")
-
     <!-- REQUIRED JS SCRIPTS -->
-    <!-- jQuery 2.2.3 -->
-    <script src="~/Scripts/jQuery/jquery-2.2.3.min.js"></script>
+    <!-- jQuery 2.2.3 -->    
+    <script src="~/Scripts/jQuery/jquery-2.2.3.min.js"></script>    
     <!-- Bootstrap 3.3.6 -->
     <script src="~/Scripts/bootstrap/js/bootstrap.min.js"></script>
     <!--jQueryMask-->
-    @*<script src="~/Scripts/jQueryMask/jquery.mask.min.js"></script>*@
+    <script src="~/Scripts/jQueryMask/jquery.mask.min.js"></script>
     <!--Validate-->
     <script src="~/Scripts/validate/jquery.validate.min.js"></script>
     <!--Toastr-->
@@ -238,6 +235,10 @@
     <link href="~/Scripts/select2/css/select2.css" rel="stylesheet" />
     <link href="~/Scripts/select2/css/select2-bootstrap.css" rel="stylesheet" />
     <script src="~/Scripts/select2/js/select2.min.js"></script>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/modernizr")
 
     <!-- AdminLTE App -->
     <script src="~/js/app.min.js"></script>

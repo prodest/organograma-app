@@ -65,7 +65,7 @@ namespace OrganogramaApp.Apresentacao
         {
             UnidadeInsercaoViewModel unidadeIVM = new UnidadeInsercaoViewModel();
 
-            OrganizacaoModel organizacao = organizacaoWS.Pesquisar(guidOrganizacao, accessToken);
+            OrganizacaoVisualizacaoViewModel organizacao = organizacaoWS.Pesquisar(guidOrganizacao, accessToken);
             unidadeIVM.GuidOrganizacao = organizacao.guid;
             unidadeIVM.SiglaNomeOrganizacao = organizacao.sigla + " - " + organizacao.razaoSocial;
 

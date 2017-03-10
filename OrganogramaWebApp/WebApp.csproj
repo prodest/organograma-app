@@ -215,6 +215,7 @@
     <Compile Include="Config\InjecaoDependencia.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\Organizacao\OrganizacaoController.cs" />
     <Compile Include="Controllers\TipoOrganizacao\TipoOrganizacaoController.cs" />
     <Compile Include="Controllers\TipoUnidade\TipoUnidadeController.cs" />
     <Compile Include="Controllers\Unidade\UnidadeController.cs" />
@@ -300,6 +301,7 @@
     <Content Include="js\app.js" />
     <Content Include="js\app.min.js" />
     <Content Include="js\Site.js" />
+    <Content Include="js\organizacao.js" />
     <Content Include="js\unidade.js" />
     <Content Include="nlb.asp" />
     <Content Include="Scripts\ai.0.22.19-build00125.js" />
@@ -324,6 +326,8 @@
     <Content Include="Scripts\datatables\extensions\TableTools\images\psd\file_types.psd" />
     <Content Include="Scripts\datatables\extensions\TableTools\images\psd\printer.psd" />
     <Content Include="Scripts\datatables\extensions\TableTools\Readme.md" />
+    <None Include="Properties\PublishProfiles\DESENVOLVIMENTO.pubxml" />
+    <None Include="Properties\PublishProfiles\HOMOLOGACAO.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap\css\bootstrap.css" />
     <Content Include="Scripts\bootstrap\css\bootstrap.min.css" />
@@ -526,8 +530,16 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\jQueryMask\jquery.mask.js" />
+    <Content Include="Scripts\jQueryMask\jquery.mask.min.js" />
     <Content Include="Scripts\jQuery\jquery-2.2.3.min.js" />
+    <Content Include="Scripts\jQuery\jquery-3.1.1.min.js" />
+    <Content Include="Scripts\jsPDF\jspdf.debug.js" />
+    <Content Include="Scripts\jsPDF\jspdf.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\OrgChart\jquery.orgchart.css" />
+    <Content Include="Scripts\OrgChart\jquery.orgchart.js" />
+    <Content Include="Scripts\OrgChart\orgchartCustom.css" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\select2\css\select2-bootstrap.css" />
@@ -741,6 +753,18 @@
     <Content Include="Views\Unidade\Visualizar.cshtml" />
     <Content Include="Views\Unidade\Excluir.cshtml" />
     <Content Include="Views\Unidade\Editar.cshtml" />
+    <Content Include="Views\Organizacao\Index.cshtml" />
+    <Content Include="Views\Organizacao\Consultar.cshtml" />
+    <Content Include="Views\Organizacao\Cadastrar.cshtml" />
+    <Content Include="Views\Organizacao\_campoEmail.cshtml" />
+    <Content Include="Views\Organizacao\_campoSite.cshtml" />
+    <Content Include="Views\Organizacao\_campoTelefone.cshtml" />
+    <None Include="Web.Desenvolvimento.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Homologacao.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -762,6 +786,12 @@
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Desenvolvimento|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Homologacao|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />

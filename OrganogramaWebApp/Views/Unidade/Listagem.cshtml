@@ -44,7 +44,7 @@
                             @Html.DisplayFor(modelItem => item.UnidadePai)
                         </td>
                         <td>
-                            <a href="@Url.Action("Editar","Unidade",new { guid = item.Guid })" data-evento="2" class="btn btn-xs btn-primary btnModalUnidade" data-toggle="tooltip" title="Editar Unidade"><i class="fa fa-edit" aria-hidden="true"></i></a>
+                            @*<a href="@Url.Action("Editar","Unidade",new { guid = item.Guid })" data-evento="2" class="btn btn-xs btn-primary btnModalUnidade" data-toggle="tooltip" title="Editar Unidade"><i class="fa fa-edit" aria-hidden="true"></i></a>*@
                             <a href="@Url.Action("Visualizar","Unidade",new { guid = item.Guid })" data-evento="4" class="btn btn-xs btn-success btnModalUnidade" data-toggle="tooltip" title="Visualizar Unidade"><i class="fa fa-eye" aria-hidden="true"></i></a>
                             <a href="@Url.Action("Excluir","Unidade",new { guid = item.Guid })" data-evento="3" class="btn btn-xs btn-danger btnModalUnidade" data-toggle="tooltip" title="Excluir Unidade"><i class="fa fa-close" aria-hidden="true"></i></a>
 

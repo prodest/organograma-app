@@ -39,10 +39,50 @@ namespace OrganogramaApp.Apresentacao.Config
                 ;
                 #endregion
 
+                #region Organizacao
+                cfg.CreateMap<OrganizacaoInsercaoViewModel, OrganizacaoPostModel>();
+                #endregion
+
+                #region Organograma                
+                cfg.CreateMap<OrganogramaModel, OrganogramaViewModel > ()
+                   .ForMember(dest => dest.name, opt => opt.MapFrom(s => s.sigla))
+                   .ForMember(dest => dest.title, opt => opt.MapFrom(s => s.razaoSocial))
+                   .ForMember(dest => dest.children, opt => opt.MapFrom(s => s.unidades))                   
+                   //.ForMember(dest => dest.guidOrganizacao, opt => opt.MapFrom(s => s.GuidOrganizacao))
+                   //.ForMember(dest => dest.idTipoUnidade, opt => opt.MapFrom(s => s.IdTipoUnidade))
+                   //.ForMember(dest => dest.guidUnidadePai, opt => opt.MapFrom(s => !string.IsNullOrWhiteSpace(s.GuidUnidadePai) ? s.GuidUnidadePai : null ))
+                   ;
+
+                cfg.CreateMap<OrganogramaModel, ChartViewModel>()
+                   .ForMember(dest => dest.name, opt => opt.MapFrom(s => s.sigla))
+                   .ForMember(dest => dest.title, opt => opt.MapFrom(s => s.razaoSocial))
+                   .ForMember(dest => dest.organizacoes, opt => opt.MapFrom(s => s.organizacoesFilhas))
+                   .ForMember(dest => dest.unidades, opt => opt.MapFrom(s => s.unidades))
+                   .ForMember(dest => dest.tipo, opt => opt.MapFrom(s => s.razaoSocial))
+                   ;
+                #endregion
+
                 #region Unidade
+                cfg.CreateMap<UnidadeFilhaModel, ChartViewModel>()
+                   .ForMember(dest => dest.name, opt => opt.MapFrom(s => s.sigla))
+                   .ForMember(dest => dest.title, opt => opt.MapFrom(s => s.nome))
+                   .ForMember(dest => dest.unidades, opt => opt.MapFrom(s => s.unidadesFilhas))
+                   ;
+
                 cfg.CreateMap<UnidadeInsercaoViewModel, UnidadePostModel>()
                    //.ForMember(dest => dest.nome, opt => opt.MapFrom(s => s.Nome))
                    //.ForMember(dest => dest.sigla, opt => opt.MapFrom(s => s.Sigla))
+                   //.ForMember(dest => dest.guidOrganizacao, opt => opt.MapFrom(s => s.GuidOrganizacao))
+                   //.ForMember(dest => dest.idTipoUnidade, opt => opt.MapFrom(s => s.IdTipoUnidade))
+                   //.ForMember(dest => dest.guidUnidadePai, opt => opt.MapFrom(s => !string.IsNullOrWhiteSpace(s.GuidUnidadePai) ? s.GuidUnidadePai : null ))
+                   ;
+                #endregion
+
+                #region UnidadeFilha
+                cfg.CreateMap<UnidadeFilhaModel, UnidadeFilhaViewModel>()
+                   .ForMember(dest => dest.name, opt => opt.MapFrom(s => s.sigla))
+                   .ForMember(dest => dest.title, opt => opt.MapFrom(s => s.nome))
+                   .ForMember(dest => dest.children, opt => opt.MapFrom(s => s.unidadesFilhas))
                    //.ForMember(dest => dest.guidOrganizacao, opt => opt.MapFrom(s => s.GuidOrganizacao))
                    //.ForMember(dest => dest.idTipoUnidade, opt => opt.MapFrom(s => s.IdTipoUnidade))
                    //.ForMember(dest => dest.guidUnidadePai, opt => opt.MapFrom(s => !string.IsNullOrWhiteSpace(s.GuidUnidadePai) ? s.GuidUnidadePai : null ))

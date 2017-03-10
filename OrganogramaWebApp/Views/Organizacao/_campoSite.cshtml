@@ -1,0 +1,7 @@
+﻿@model OrganogramaApp.Apresentacao.ViewModel.OrganizacaoInsercaoViewModel
+
+<div class="form-group">
+    @Html.LabelFor(model => model.Sites[0].Url, htmlAttributes: new { @class = "control-label", @For = "sites[" + ViewBag.i + "].url" })
+    @Html.EditorFor(model => model.Sites[0].Url, new { htmlAttributes = new { @class = "form-control", @Name = "sites["+ ViewBag.i +"].url" } })
+    @Html.ValidationMessageFor(model => model.Sites[0].Url, "", new { @class = "text-danger" })
+</div>

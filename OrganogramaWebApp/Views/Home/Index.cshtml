@@ -1,4 +1,20 @@
-﻿@{
+﻿@model OrganogramaApp.Apresentacao.ViewModel.ChartViewModel
+
+@helper OrganizacoesFilhas(List<OrganogramaApp.Apresentacao.ViewModel.ChartViewModel> arvore)
+{
+    foreach (var item in arvore)
+    {
+            <li>
+                @item.name - @item.title
+                @if(item.children!=null && item.children.Count > 0)
+                {
+                    @OrganizacoesFilhas(item.children)
+                }
+            </li>
+    }
+}
+
+@{
     ViewBag.Title = "Organograma";
 }
 
@@ -14,5 +30,39 @@
 <!-- Main content -->
 <section id="content" class="content">
     <div class="row">
+        <h2>
+            @Model.name - @Model.title
+        </h2>
+
+        @if (Model.children.Count > 0 && Model.children != null)
+        {   
+            <ul>
+                @foreach (var und in Model.children)
+                {
+                    <li>
+                        @und.name - @und.title
+
+                        @if (und.children != null)
+                        {
+                            <ul>
+                                @foreach (var unf in und.children)
+                                {
+                                    <li>
+                                        @unf.name - @unf.title
+
+                                        @if (unf.children != null && unf.children.Count > 0)
+                                        {
+                                            <ul>
+                                                @OrganizacoesFilhas(unf.children)
+                                            </ul>
+                                        }                                         
+                                    </li>
+                                }
+                            </ul>
+                        }
+                    </li>
+                }
+            </ul>
+        }        
     </div>
 </section>
