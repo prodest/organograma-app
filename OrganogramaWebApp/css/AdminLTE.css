@@ -4969,3 +4969,7 @@ table.text-center th {
     white-space: normal !important;
   }
 }
+
+.modal-full{
+    width:95%;
+}

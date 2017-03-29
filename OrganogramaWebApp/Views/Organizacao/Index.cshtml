@@ -88,28 +88,72 @@
 
             idEvento = $(this).attr('data-evento');
 
+            $.ajax({
+                url: this.href,
+                global: false,
+                type: 'GET',                
+                async: false,
+                success: function(dados) {
+                    if (dados != null) {
+                        $('#modalTipoUnidadeLabel').text(evento);
+                        $('#update').empty();
 
-            $.ajax(this.href)
-              .done(function (dados) {
-                  if (dados != null) {
-                      $('#modalTipoUnidadeLabel').text(evento);
-                      $('#update').empty();
+                        if (idEvento == 4) {
+                            $('#update').append('<div class="organogramachart"></div>')
+                            organograma('.organogramachart', dados);
 
-                      if (idEvento == 4) {
-                          $('#update').append('<div class="organogramachart"></div>')
-                          organograma('.organogramachart', dados);
-                      }
-                      else {
-                          $('#update').append('<div class="detalhes"></div>')
-                          $('.detalhes').append(dados);
-                      }
+                            //Exibe modal full
+                            $('.orgchart').parents('.modal-lg').addClass('modal-full');
 
-                      $('#modalCriar').modal('show');
-                  }
-              })
-              .fail(function () {
-                  toastr["warning"]("Não foi possível monstar o organograma solicitado!");
-              });
+                            //Centraliza chart no evento após exibir modal
+                            $('#modalCriar').on('shown.bs.modal', function (e) {
+                                $('.orgchart').css('transform', 'translateX(-' + (($('.orgchart').width() / 2) - ($(window).width() / 2) + (65)) + 'px)');
+                            });
+                        }
+                        else {
+                            $('#update').append('<div class="detalhes"></div>')                          
+                            $('.detalhes').append(dados);
+
+                            //Exibe modal tamanho padrão
+                            $('.detalhes').parents('.modal-lg').removeClass('modal-full');
+                        }
+
+                        $('#modalCriar').modal('show');
+                    }
+                },
+                error:function () {
+                    toastr["warning"]("Não foi possível monstar o organograma solicitado!");
+                }
+            });
+
+
+            //$.ajax(this.href)
+            //  .done(function (dados) {
+            //      if (dados != null) {
+            //          $('#modalTipoUnidadeLabel').text(evento);
+            //          $('#update').empty();
+
+            //          if (idEvento == 4) {
+            //              $('#update').append('<div class="organogramachart"></div>')
+            //              organograma('.organogramachart', dados);
+
+            //              //Exibe modal full
+            //              $('.orgchart').parents('.modal-lg').addClass('modal-full');
+            //          }
+            //          else {
+            //              $('#update').append('<div class="detalhes"></div>')                          
+            //              $('.detalhes').append(dados);
+
+            //              //Exibe modal tamanho padrão
+            //              $('.detalhes').parents('.modal-lg').removeClass('modal-full');
+            //          }
+                      
+            //          $('#modalCriar').modal('show');                      
+            //      }
+            //  })
+            //  .fail(function () {
+            //      toastr["warning"]("Não foi possível monstar o organograma solicitado!");
+            //  });            
 
             return false;
         });
@@ -117,7 +161,7 @@
         var organograma = function exibeOrganograma(divContent, dados) {
             $(divContent).orgchart({
                 'data': dados,
-                'depth': 2,
+                //'depth': 2,
                 'nodeContent': 'title',
                 //'exportButton': true,
                 //'exportFilename': 'Organograma',
@@ -163,6 +207,7 @@
                       $('.organogramachart').hide();
                       $('.detalhes').append(dados);
                       $('.detalhes').append('<div id="resultForm" class="form-group text-right"><button type="button" id="btn-voltar" class="btn btn-primary"><i class="fa fa-long-arrow-left" aria-hidden="true"></i> Voltar</button></div>');
+                      $('.detalhes').parents('.modal-lg').removeClass('modal-full');
                   }
               })
               .fail(function () {
@@ -173,6 +218,8 @@
         $('body').on('click', '#btn-voltar', function () {
             $('.organogramachart').show();
             $('.detalhes').hide();
+
+            $('.orgchart').parents('.modal-lg').addClass('modal-full');
         });
 
     </script>

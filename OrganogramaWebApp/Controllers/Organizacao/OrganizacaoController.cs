@@ -8,8 +8,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
+using Thinktecture.IdentityModel.Mvc;
 using static OrganogramaApp.Apresentacao.Models.Endereco;
 
 namespace OrganogramaApp.WebApp.Controllers.Organizacao
@@ -18,26 +20,30 @@ namespace OrganogramaApp.WebApp.Controllers.Organizacao
     {
         private IOrganizacaoWorkService workService;
 
-        public OrganizacaoController (IOrganizacaoWorkService workService)
+        public OrganizacaoController(IOrganizacaoWorkService workService)
         {
             this.workService = workService;
         }
 
         // GET: Organizacao
+        [ResourceAuthorize("Inserir", "Organizacao")]
+        [HandleForbidden]
         public ActionResult Index()
         {
             try
-            {                
+            {
                 return View(workService.Pesquisar(usuario.AccessToken));
             }
             catch (OrganogramaException oe)
             {
                 AdicionarMensagem(TipoMensagem.Erro, oe.Message);
 
-                return View(new OrganizacaoViewModel());
+                return View(new List<OrganizacaoListagemViewModel>());
             }
         }
 
+        [ResourceAuthorize("Inserir", "Organizacao")]
+        [HandleForbidden]
         public ActionResult Consultar(string guid)
         {
             try
@@ -52,10 +58,12 @@ namespace OrganogramaApp.WebApp.Controllers.Organizacao
             }
         }
 
+        [ResourceAuthorize("Inserir", "Organizacao")]
+        [HandleForbidden]
         public ActionResult Cadastrar(string guidOrganizacao)
         {
             try
-            {   
+            {
                 OrganizacaoInsercaoViewModel oivm = workService.Inserir(usuario.Organizacoes, usuario.AccessToken);
 
                 oivm.Endereco = new EnderecoInsercaoViewModel();
@@ -126,10 +134,12 @@ namespace OrganogramaApp.WebApp.Controllers.Organizacao
         }
 
         public ActionResult IncluirPoderEsfera(string guid)
-        {            
+        {
             return Json(workService.PesquisaPoderEsfera(guid, usuario.AccessToken), JsonRequestBehavior.AllowGet);
         }
 
+        [ResourceAuthorize("Inserir", "Organizacao")]
+        [HandleForbidden]
         [HttpPost]
         public ActionResult Create(OrganizacaoInsercaoViewModel oivm)
         {
@@ -145,7 +155,23 @@ namespace OrganogramaApp.WebApp.Controllers.Organizacao
                     oivm.Endereco = null;
                 }
 
+                if (oivm.Contatos != null && oivm.Contatos.Count > 0)
+                {
+                    string pattern = "[(]|[)]|[-]|[/]|[\\s]";
+                    Regex rgx = new Regex(pattern);
+
+                    foreach (var contato in oivm.Contatos)
+                    {
+                        var telUnMask = rgx.Replace(contato.Telefone, "");
+                        contato.Telefone = telUnMask;
+                    }
+                }
+
                 oivm.Cnpj = oivm.Cnpj.Replace(".", "").Replace("-", "").Replace("/", "");
+                oivm.Endereco.Cep = oivm.Endereco.Cep.Replace("-", "");
+
+                if (string.IsNullOrWhiteSpace(oivm.NomeFantasia))
+                    oivm.NomeFantasia = "";
 
                 workService.Inserir(oivm, usuario.AccessToken);
 

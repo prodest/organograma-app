@@ -23,15 +23,15 @@
                 <!-- /.box-header -->
                 <div class="box-body table-responsive">
                     @using (Ajax.BeginForm("Consultar", "Unidade",
-                                    new AjaxOptions
-                                    {
-                                        HttpMethod = "POST",
-                                        InsertionMode = InsertionMode.Replace,
-                                        UpdateTargetId = "listaUnidades",
-                                        OnBegin = "load",
-                                        OnComplete = "complete"
-                                    }
-                    , new { @id = "formUnidade" }))
+                            new AjaxOptions
+                            {
+                                HttpMethod = "POST",
+                                InsertionMode = InsertionMode.Replace,
+                                UpdateTargetId = "listaUnidades",
+                                OnBegin = "load",
+                                OnComplete = "complete"
+                            }
+            , new { @id = "formUnidade" }))
                     {
                         if (Model.Organizacoes != null)
                         {
@@ -62,24 +62,24 @@
         </div>
     </div>
 </section>
-<script>
-    ExibirMensagens();
-
-    function limpalista() {
-        $("#listaUnidades").html("");
-    }
-
-    function load() {
-        $('#modalWaiting').modal('show');
-    }
-
-    function complete() {
-        $('#modalWaiting').modal('hide');
-    }
-
-</script>
 @section scripts{
     <script src="~/Scripts/datatables/jquery.dataTables.min.js"></script>
     <script src="~/Scripts/datatables/dataTables.bootstrap.min.js"></script>
     <script src="~/js/unidade.js"></script>
+    <script>
+        ExibirMensagens();
+
+        function limpalista() {
+            $("#listaUnidades").html("");
+        }
+
+        function load() {
+            $('#modalWaiting').modal('show');
+        }
+
+        function complete() {
+            $('#modalWaiting').modal('hide');
+        }
+
+    </script>
 }

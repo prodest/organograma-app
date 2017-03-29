@@ -139,7 +139,7 @@ function onSuccessOrganizacao(dados) {
           console.log(dados);
           //ExibirMensagens();
           if (dados) {
-              var delay = 0;
+              var delay = 3000;
               setTimeout(function () { window.location.href = '/Organizacao' }, delay);
           }
           else
@@ -176,4 +176,87 @@ $('body').on('click', '.btnModalOrganizacao', function () {
       });
 
     return false;
+});
+
+/****************************************************************************************************************************************************************************/
+/*EXIBE TELA DE EDICAO, VISUALIZAO E EXCLUSAO DE DE UNIDADE*/
+$('body').on('click', '#btn-cadastrar-organizacao', function () {
+    //if (!validaForm('#formCadastrarOrganizacao')) {
+    //    toastr["warning"]("Não foi possíve cadastrar organização! Verifique os campos obrigatórios e tente novamente!");
+    //    return false;
+    //} else {
+    //    return true;
+    //}    
+});
+
+$('#formCadastrarOrganizacao').validator().on('submit', function (e) {
+    if (e.isDefaultPrevented()) {
+        return false;
+    } else {
+        return true;
+    }
+})
+
+/****************************************************************************************************************************************************************************/
+/*VALIDAR FORMULARIO*/
+//validaElemento('#formCadastrarOrganizacao');
+
+function validaElemento(form) {
+    $(form).on('blur', '[required="required"]', function () {
+        verificaElemento(this);
+    });
+}
+
+function validaForm(form) {
+    var result = true;
+
+    $.each($(form).find('[required="required"]'), function (i, e) {
+        if (!verificaElemento(e)) {
+            result = false;
+        }
+    });
+
+    return result;
+}
+
+function verificaElemento(e) {
+    var result = true;
+    var elementError = '#' + $(e).prop('id') + '-error';
+
+    if ($(elementError) != null) {
+        $(elementError).remove();
+    }
+
+    if ($(e).val() == '' || $(e).val() == 0 || $(e).val() == null) {
+        $(e).before('<label id="' + $(e).prop('id') + '-error" class="error" for="' + $(e).prop('id') + '">' + $(e).attr('title') + '</label>');
+        result = false;
+    }
+
+    return result;
+}
+
+/*INSERE MASCARA CONFORME TIPO DE CONTATO SELECIONADO*/
+$('body').on('change', '[id*="TipoContato"]', function () {
+    try {
+        var tipo = $(this).val();
+        var campo = $(this).prop('id').split('.')[0];
+        var telefone = '[id="' + campo + '.telefone"]';        
+
+        switch (tipo) {
+            case '1':
+                $('body ' + telefone).mask('(99) 9999-9999');
+                break;
+            case '3':
+                $('body ' + telefone).mask('(99) 9999-9999');
+                break;
+            case '2':
+                $('body ' + telefone).mask('(99) 99999-9999');
+                break;
+            case '4':
+                $('body ' + telefone).mask('(99) 9999-9999/9999');
+        }
+    }
+    catch (error) {
+        //console.log(error);
+    }
 });

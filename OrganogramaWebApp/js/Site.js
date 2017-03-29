@@ -122,30 +122,52 @@ function onSuccessTipoUnidade(dados) {
 /****************************************************************************************************************************************************************************/
 /*EXIBE TELA DE EDICAO DE TIPO DE ORGANIZACAO*/
 $('body').on('click', '.btnModalTipoOrganizacao', function () {
-    var evento = $(this).attr('title');
+    //var evento = $(this).attr('title');
+
+    //$.ajax(this.href)
+    //  .done(function (tela) {
+
+    //      //switch (evento) {
+    //      //    case '1':
+    //      //        $('#modalTipoUnidadeLabel').text('Cadastrar Tipo de Organização');
+    //      //        break;
+    //      //    case '2':
+    //      //        $('#modalTipoUnidadeLabel').text('Editar Tipo de Organização');
+    //      //        break;
+    //      //    case '3':
+    //      //        $('#modalTipoUnidadeLabel').text('Excluir Tipo de Organização');
+    //      //}
+
+    //      $('#modalTipoUnidadeLabel').text(evento);
+
+    //      $('#update').html(tela);
+    //      $('#modalCriar').modal('show');
+    //  })
+    //  .fail(function () {
+    //      //toastr["warning"]("Não foi possível realizar esta operação!");
+    //  });
+
+
+    var evento = "";
+
+    if ($(this).attr('title') != "") {
+        evento = $(this).attr('title')
+    }
+    else {
+        evento = $(this).attr('data-original-title')
+    }
 
     $.ajax(this.href)
       .done(function (tela) {
-
-          //switch (evento) {
-          //    case '1':
-          //        $('#modalTipoUnidadeLabel').text('Cadastrar Tipo de Organização');
-          //        break;
-          //    case '2':
-          //        $('#modalTipoUnidadeLabel').text('Editar Tipo de Organização');
-          //        break;
-          //    case '3':
-          //        $('#modalTipoUnidadeLabel').text('Excluir Tipo de Organização');
-          //}
-
-          $('#modalTipoUnidadeLabel').text(evento);
-
-          $('#update').html(tela);
-          $('#modalCriar').modal('show');
+          if (tela != null) {
+              $('#modalTipoUnidadeLabel').text(evento);
+              $('#update').html(tela);
+              $('#modalCriar').modal('show');
+          }
       })
       .fail(function () {
           //toastr["warning"]("Não foi possível realizar esta operação!");
-      });
+      });    
 
     return false;
 });

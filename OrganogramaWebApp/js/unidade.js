@@ -1,28 +1,16 @@
 ﻿/****************************************************************************************************************************************************************************/
-/*FORMATA TABELA CAIXA DE ENTRADA*/
+/*SELECT2*/
 $(document).ready(function () {
-    var caixaEntradaOrgao = $('#tabelaUnidades').DataTable({
-        //"dom": '<"pull-left"l><"pull-right"f>rt<"pull-left"i><"pull-right"p>',
-        "dom": '<"pull-right"f>rt<"pull-left"i><"pull-right"p>',
-        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-        "sPaginationType": "full_numbers",
-        "language": {
-            "lengthMenu": " _MENU_ Unidades por página",
-            "zeroRecords": "Nenhuma unidade encontrado",
-            "info": "Página _PAGE_ de _PAGES_",
-            "infoEmpty": "",
-            "infoFiltered": "(Registros filtrados do total de _MAX_ unidades.)",
-            "sSearch": "Filtrar: ",
-            "paginate": {
-                "previous": "‹",
-                "next": "›",
-                "first": "«",
-                "last": "»"
-            }
-        }        
-    });
+    /*SELECT*/
+    $("#GuidUnidadePai").select2({ width: '100%' });
+    $("#IdTipoUnidade").select2({ width: '100%' });
+    $("#siglaEstado").select2({ width: '100%' });
+    $("#Endereco_GuidMunicipio").select2({ width: '100%' });
 
-    caixaEntradaOrgao.draw();
+    /*MASCARAS*/
+    $("#Cnpj").mask('00.000.000/0000-00', { reverse: true });
+    $("#Endereco_Numero").mask('000000', { reverse: true });
+    $("#Endereco_Cep").mask('00000-000', { reverse: true });
 });
 
 /****************************************************************************************************************************************************************************/
@@ -179,4 +167,31 @@ $('body').on('click', '.btnModalUnidade', function () {
       });
 
     return false;
+});
+
+/****************************************************************************************************************************************************************************/
+/*INSERE MASCARA CONFORME TIPO DE CONTATO SELECIONADO*/
+$('body').on('change', '[id*="TipoContato"]', function () {
+    try {
+        var tipo = $(this).val();
+        var campo = $(this).prop('id').split('.')[0];
+        var telefone = '[id="' + campo + '.telefone"]';        
+
+        switch (tipo) {
+            case '1':
+                $('body ' + telefone).mask('(99) 9999-9999');
+                break;
+            case '3':
+                $('body ' + telefone).mask('(99) 9999-9999');
+                break;
+            case '2':
+                $('body ' + telefone).mask('(99) 99999-9999');
+                break;
+            case '4':
+                $('body ' + telefone).mask('(99) 9999-9999/9999 ');
+        }
+    }
+    catch (error) {
+        //console.log(error);
+    }
 });

@@ -4,7 +4,7 @@
 @MiniProfiler.RenderIncludes()
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge; IE=11; IE=10; IE=9;" />
     <title>Organograma ES</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -99,7 +99,7 @@
             <div class="pull-right hidden-xs">
             </div>
             <!-- Default to the left -->
-            Copyright © 2016-2017 <strong>Prodest</strong>. <a data-placement="top" data-trigger="hover" class="pull-right" data-toggle="popover" title="Organograma" data-content="Versão 1.0.0, publicada em 10/03/2017 às 17h.">ProcessoEletrônico 1.0.0</a>
+            Copyright © 2016-2017 <strong>Prodest</strong>. <a data-placement="top" data-trigger="hover" class="pull-right" data-toggle="popover" title="Organograma" data-content="Versão 1.0.0, publicada em 10/03/2017 às 17h.">Organograma 1.0.0</a>
         </footer>
 
         <!-- Control Sidebar -->
@@ -129,7 +129,7 @@
         <div class="control-sidebar-bg"></div>
     </div>
     <!-- ./wrapper -->
-    <!--Modal Visualizacao Processo-->
+    <!--Modal -->
     <div class="modal fade" id="modalProcesso" tabindex="-1" role="dialog" aria-labelledby="modalProcessoLabel">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -152,7 +152,7 @@
         <!-- /.modal-dialog -->
     </div>
 
-    <!--Modal Despacho Processo-->
+    <!--Modal -->
     <div class="modal fade" id="modalDespacho" tabindex="-1" role="dialog" aria-labelledby="modalDespachoLabel">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -190,7 +190,7 @@
     </div>
 
     <!-- Modal Waiting -->
-    <div class="modal fade" id="modalWaiting" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal fade" id="modalWaiting" style="z-index:9999999" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-body">
@@ -202,7 +202,7 @@
         </div>
     </div>
 
-    <!--Modal Visualizacao Processo-->
+    <!--Modal Visualizacao-->
     <div class="modal fade" id="modalCriar" tabindex="-1" role="dialog" aria-labelledby="modalTipoUnidadeLabel">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -227,6 +227,7 @@
     <script src="~/Scripts/bootstrap/js/bootstrap.min.js"></script>
     <!--jQueryMask-->
     <script src="~/Scripts/jQueryMask/jquery.mask.min.js"></script>
+    
     <!--Validate-->
     <script src="~/Scripts/validate/jquery.validate.min.js"></script>
     <!--Toastr-->
@@ -235,16 +236,15 @@
     <link href="~/Scripts/select2/css/select2.css" rel="stylesheet" />
     <link href="~/Scripts/select2/css/select2-bootstrap.css" rel="stylesheet" />
     <script src="~/Scripts/select2/js/select2.min.js"></script>
-
-    @Scripts.Render("~/bundles/jquery")
+    
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    
 
     <!-- AdminLTE App -->
     <script src="~/js/app.min.js"></script>
     <script src="~/js/Site.js"></script>
-
-    @RenderSection("scripts", required: false)
 
     <script>
         function ExibirMensagens() {
@@ -260,5 +260,9 @@
 
         ExibirMensagens();
     </script>
+
+    @RenderSection("scripts", required: false)
+
+    
 </body>
 </html>

@@ -8,7 +8,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web.Mvc;
+using Thinktecture.IdentityModel.Mvc;
 using static OrganogramaApp.Apresentacao.Models.Endereco;
 
 namespace OrganogramaApp.WebApp.Controllers.Unidade
@@ -22,6 +24,8 @@ namespace OrganogramaApp.WebApp.Controllers.Unidade
             this.workService = workService;
         }
 
+        [ResourceAuthorize("Inserir", "Unidade")]
+        [HandleForbidden]
         public ActionResult Index(string guidOrganizacao)
         {
             try
@@ -41,6 +45,8 @@ namespace OrganogramaApp.WebApp.Controllers.Unidade
             }
         }
 
+        [ResourceAuthorize("Inserir", "Unidade")]
+        [HandleForbidden]
         public ActionResult Consultar(UnidadeViewModel unidadeViewModel)
         {
             try
@@ -56,6 +62,8 @@ namespace OrganogramaApp.WebApp.Controllers.Unidade
             }
         }
 
+        [ResourceAuthorize("Inserir", "Unidade")]
+        [HandleForbidden]
         public ActionResult Visualizar(string guid)
         {
             UnidadeConsultarViewModel unidade = null;
@@ -79,6 +87,8 @@ namespace OrganogramaApp.WebApp.Controllers.Unidade
             }
         }
 
+        [ResourceAuthorize("Inserir", "Unidade")]
+        [HandleForbidden]
         public ActionResult Cadastrar(string guidOrganizacao)
         {
             try
@@ -152,6 +162,8 @@ namespace OrganogramaApp.WebApp.Controllers.Unidade
             return PartialView("_campoTelefone", uivm);
         }
 
+        [ResourceAuthorize("Inserir", "Unidade")]
+        [HandleForbidden]
         [HttpPost]
         public ActionResult Create(UnidadeInsercaoViewModel uivm)
         {
@@ -166,6 +178,20 @@ namespace OrganogramaApp.WebApp.Controllers.Unidade
                 {
                     uivm.Endereco = null;
                 }
+
+                if (uivm.Contatos != null && uivm.Contatos.Count > 0)
+                {
+                    string pattern = "[(]|[)]|[-]|[/]|[\\s]";
+                    Regex rgx = new Regex(pattern);
+
+                    foreach (var contato in uivm.Contatos)
+                    {
+                        var telUnMask = rgx.Replace(contato.Telefone, "");
+                        contato.Telefone = telUnMask;
+                    }
+                }
+
+                uivm.Endereco.Cep = uivm.Endereco.Cep.Replace("-", "");
 
                 workService.Inserir(uivm, usuario.AccessToken);
 
@@ -187,6 +213,8 @@ namespace OrganogramaApp.WebApp.Controllers.Unidade
             }
         }
 
+        [ResourceAuthorize("Inserir", "Unidade")]
+        [HandleForbidden]
         public ActionResult Editar(string guid)
         {
             UnidadeEditarViewModel unidade = null;
@@ -210,6 +238,8 @@ namespace OrganogramaApp.WebApp.Controllers.Unidade
             }
         }
 
+        [ResourceAuthorize("Inserir", "Unidade")]
+        [HandleForbidden]
         [HttpPost]
         public ActionResult Edit(int id, FormCollection collection)
         {
@@ -224,6 +254,8 @@ namespace OrganogramaApp.WebApp.Controllers.Unidade
             }
         }
 
+        [ResourceAuthorize("Inserir", "Unidade")]
+        [HandleForbidden]
         public ActionResult Excluir(string guid)
         {
             try
@@ -246,6 +278,8 @@ namespace OrganogramaApp.WebApp.Controllers.Unidade
             }
         }
 
+        [ResourceAuthorize("Inserir", "Unidade")]
+        [HandleForbidden]
         [HttpPost]
         public ActionResult Delete(string guid)
         {

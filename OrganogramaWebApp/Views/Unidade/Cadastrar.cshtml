@@ -30,7 +30,7 @@
                                                 ,
                                                 OnSuccess = "onSuccessUnidades"
                                             },
-                                            new { @id = "formCadastrarUnidade" }))
+                                            new { @id = "formCadastrarUnidade", data_toggle = "validator" }))
             {
                 @*<form id="formCadastrarUnidade" method="post">*@
                 <!--Início do TABS-->
@@ -43,9 +43,8 @@
                         <li class=""><a href="#tab_5" title="Site" data-toggle="tab" aria-expanded="false"><h4><i class="fa fa-globe" aria-hidden="true"></i> Site</h4></a></li>
                     </ul>
                     <div class="tab-content">
-                        <div class="tab-pane active" id="tab_1">
-                            <h4>Dados Gerais</h4>
-                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="tab-pane active" id="tab_1">                            
+                            @Html.ValidationSummary(true, "", new { @class = "help-block with-errors" })
                             @Html.HiddenFor(model => model.GuidOrganizacao)
                             <div class="form-group">
                                 @Html.LabelFor(model => model.SiglaNomeOrganizacao, htmlAttributes: new { @class = "control-label" })
@@ -53,23 +52,23 @@
                             </div>
                             <div class="form-group">
                                 @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "control-label" })
-                                @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control", required = "required" } })
-                                @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
+                                @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control", required = "required", data_error = "Informe o Nome da unidade" } })
+                                @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "help-block with-errors" })
                             </div>
                             <div class="form-group">
                                 @Html.LabelFor(model => model.Sigla, htmlAttributes: new { @class = "control-label" })
-                                @Html.EditorFor(model => model.Sigla, new { htmlAttributes = new { @class = "form-control", required = "required" } })
-                                @Html.ValidationMessageFor(model => model.Sigla, "", new { @class = "text-danger" })
+                                @Html.EditorFor(model => model.Sigla, new { htmlAttributes = new { @class = "form-control", required = "required", data_error = "Informe a Sigla da unidade" } })
+                                @Html.ValidationMessageFor(model => model.Sigla, "", new { @class = "help-block with-errors" })
                             </div>
                             <div class="form-group">
                                 @Html.LabelFor(model => model.IdTipoUnidade, htmlAttributes: new { @class = "control-label" })
-                                @Html.DropDownListFor(m => m.IdTipoUnidade, new SelectList(Model.TiposUnidade, "Id", "Descricao"), "Selecione um Tipo de Unidade", new { @class = "form-control", required = "required" })
-                                @Html.ValidationMessageFor(model => model.IdTipoUnidade, "", new { @class = "text-danger" })
+                                @Html.DropDownListFor(m => m.IdTipoUnidade, new SelectList(Model.TiposUnidade, "Id", "Descricao"), "Selecione um Tipo de Unidade", new { @class = "form-control", required = "required", data_error = "Informe o Tipo de unidade" })
+                                @Html.ValidationMessageFor(model => model.IdTipoUnidade, "", new { @class = "help-block with-errors" })
                             </div>
                             <div class="form-group">
                                 @Html.LabelFor(model => model.GuidUnidadePai, htmlAttributes: new { @class = "control-label" })
                                 @Html.DropDownListFor(m => m.GuidUnidadePai, new SelectList(Model.UnidadesPai, "Guid", "SiglaNome"), "Selecione uma Unidade", new { @class = "form-control", })
-                                @Html.ValidationMessageFor(model => model.GuidUnidadePai, "", new { @class = "text-danger" })
+                                @Html.ValidationMessageFor(model => model.GuidUnidadePai, "", new { @class = "help-block with-errors" })
                             </div>
                             <div class="box-footer">
                                 <ul class="list-inline pull-right">
@@ -77,42 +76,41 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="tab-pane" id="tab_2">
-                            <h4>Endereço</h4>
+                        <div class="tab-pane" id="tab_2">                            
                             <div class="form-group">
                                 @Html.LabelFor(model => model.Endereco.Logradouro, htmlAttributes: new { @class = "control-label" })
-                                @Html.EditorFor(model => model.Endereco.Logradouro, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.Endereco.Logradouro, "", new { @class = "text-danger" })
+                                @Html.EditorFor(model => model.Endereco.Logradouro, new { htmlAttributes = new { @class = "form-control", required = "required", data_error = "Informe o Logradouro" } })
+                                @Html.ValidationMessageFor(model => model.Endereco.Logradouro, "", new { @class = "help-block with-errors" })
                             </div>
                             <div class="form-group">
                                 @Html.LabelFor(model => model.Endereco.Numero, htmlAttributes: new { @class = "control-label" })
                                 @Html.EditorFor(model => model.Endereco.Numero, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.Endereco.Numero, "", new { @class = "text-danger" })
+                                @Html.ValidationMessageFor(model => model.Endereco.Numero, "", new { @class = "help-block with-errors" })
                             </div>
                             <div class="form-group">
                                 @Html.LabelFor(model => model.Endereco.Complemento, htmlAttributes: new { @class = "control-label" })
                                 @Html.EditorFor(model => model.Endereco.Complemento, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.Endereco.Complemento, "", new { @class = "text-danger" })
+                                @Html.ValidationMessageFor(model => model.Endereco.Complemento, "", new { @class = "help-block with-errors" })
                             </div>
                             <div class="form-group">
                                 @Html.LabelFor(model => model.Endereco.Bairro, htmlAttributes: new { @class = "control-label" })
-                                @Html.EditorFor(model => model.Endereco.Bairro, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.Endereco.Bairro, "", new { @class = "text-danger" })
+                                @Html.EditorFor(model => model.Endereco.Bairro, new { htmlAttributes = new { @class = "form-control", required = "required", data_error = "Informe o Bairro" } })
+                                @Html.ValidationMessageFor(model => model.Endereco.Bairro, "", new { @class = "help-block with-errors" })
                             </div>
                             <div class="form-group">
                                 @Html.LabelFor(model => model.Endereco.Cep, htmlAttributes: new { @class = "control-label" })
-                                @Html.EditorFor(model => model.Endereco.Cep, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.Endereco.Cep, "", new { @class = "text-danger" })
+                                @Html.EditorFor(model => model.Endereco.Cep, new { htmlAttributes = new { @class = "form-control", required = "required", data_error = "Informe o CEP" } })
+                                @Html.ValidationMessageFor(model => model.Endereco.Cep, "", new { @class = "help-block with-errors" })
                             </div>
                             <div class="form-group">
                                 @Html.LabelFor(model => model.Endereco.Estados, htmlAttributes: new { @class = "control-label" })
-                                @Html.DropDownList("siglaEstado", new SelectList(Model.Endereco.Estados, "Sigla", "Nome"), "Selecione um Estado", new { @class = "form-control", @id = "siglaEstado" })
-                                @Html.ValidationMessageFor(model => model.Endereco.Estados, "", new { @class = "text-danger" })
+                                @Html.DropDownList("siglaEstado", new SelectList(Model.Endereco.Estados, "Sigla", "Nome"), "Selecione um Estado", new { @class = "form-control", @id = "siglaEstado", required = "required", data_error = "Informe o Estado" })
+                                @Html.ValidationMessageFor(model => model.Endereco.Estados, "", new { @class = "help-block with-errors" })
                             </div>
                             <div class="form-group">
                                 @Html.LabelFor(model => model.Endereco.GuidMunicipio, htmlAttributes: new { @class = "control-label" })
-                                @Html.DropDownListFor(m => m.Endereco.GuidMunicipio, new SelectList(Model.Endereco.Municipios, "Guid", "Nome"), "Selecione um Município", new { @class = "form-control", })
-                                @Html.ValidationMessageFor(model => model.Endereco.GuidMunicipio, "", new { @class = "text-danger" })
+                                @Html.DropDownListFor(m => m.Endereco.GuidMunicipio, new SelectList(Model.Endereco.Municipios, "Guid", "Nome"), "Selecione um Município", new { @class = "form-control", required = "required", data_error = "Informe o Município" })
+                                @Html.ValidationMessageFor(model => model.Endereco.GuidMunicipio, "", new { @class = "help-block with-errors" })
                             </div>
                             <div class="box-footer">
                                 <ul class="list-inline pull-right">
@@ -168,5 +166,15 @@
     </div>
 </section>
 @section scripts{
+    <script src="~/Scripts/BootstrapValidate/validator.min.js"></script>
     <script src="~/js/unidade.js"></script>
+    <script>        
+        $('#formCadastrarUnidade').validator().on('submit', function (e) {
+            if (e.isDefaultPrevented()) {
+                return false;
+            } else {
+                return true;
+            }
+        })
+    </script>
 }

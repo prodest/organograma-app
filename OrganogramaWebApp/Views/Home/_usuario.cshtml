@@ -12,11 +12,18 @@
                 <span class="hidden-xs">@Model.Nome</span>
             </a>
 
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu dropdown-menu-right">
                 <!-- The user image in the menu -->
                 <li class="user-header">
                     @*<img src="img/avatar5.png" class="img-circle" alt="User Image">*@
-                    <img src="~/img/usergeneric.png" class="img-circle" alt="User Image"/>                    
+                    <img src="~/img/usergeneric.png" class="img-circle" alt="User Image" />
+                    @if (Model.Organizacoes != null && Model.Organizacoes.Count > 0)
+                    {
+                        foreach (var orgao in @Model.Organizacoes)
+                        {
+                            <span class="label label-warning">@orgao.sigla</span>
+                        }
+                    }
                     <p>
                         @Model.Nome
                         <small>@Model.Email</small>
@@ -25,8 +32,8 @@
                 <!-- Menu Footer-->
                 <li class="user-footer">
                     @*<div class="pull-left">
-                        <a href="#" class="btn btn-default btn-flat">Perfil</a>
-                    </div>*@
+                            <a href="#" class="btn btn-default btn-flat">Perfil</a>
+                        </div>*@
                     <div class="pull-right">
                         @Html.ActionLink("Sair", "Signout", "Home", new { @class = "btn btn-default btn-flat" })
                     </div>

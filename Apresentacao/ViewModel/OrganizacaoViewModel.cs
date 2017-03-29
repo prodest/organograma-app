@@ -76,7 +76,7 @@ namespace OrganogramaApp.Apresentacao.ViewModel
         public int IdTipoOrganizacao { get; set; }
         public List<TipoOrganizacaoDropDownViewModel> TiposOrganizacao { get; set; }
 
-        [Display(Name = "Organização Pai")]
+        [Display(Name = "Organização Pai"), Required(ErrorMessage = "Informe a Organização Pai.")]
         public string GuidOrganizacaoPai { get; set; }
         public List<OrganizacaoDropDownList> OrganizacoesPai { get; set; }
 
