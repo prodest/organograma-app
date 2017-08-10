@@ -12,5 +12,6 @@ namespace OrganogramaApp.Apresentacao.Base
     {
         //OrganogramaViewModel Pesquisar(string guid, string accessToken);
         ChartViewModel Pesquisar(string guid, string accessToken);
+        List<OrganizacaoDropDownList> PesquisarFilhas(string guid, string accessToken);
     }
 }

@@ -35,7 +35,7 @@ namespace OrganogramaApp.WebApp
 
         protected void Application_BeginRequest()
         {
-            if (!Request.Url.Host.Contains("processoeletronico.es.gov.br"))
+            if (!Request.Url.Host.Contains("novoorganograma.es.gov.br"))
             //if (Request.IsLocal)
             {
                 MiniProfiler.Start();

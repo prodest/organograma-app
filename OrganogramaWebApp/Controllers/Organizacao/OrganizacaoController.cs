@@ -32,13 +32,19 @@ namespace OrganogramaApp.WebApp.Controllers.Organizacao
         {
             try
             {
-                return View(workService.Pesquisar(usuario.AccessToken));
+                if(usuario.Organizacoes != null)
+                {
+                    return View(workService.Pesquisar(usuario.AccessToken));
+                }
+                else
+                {
+                    return RedirectToAction("SemOrgao", "Home");
+                }
             }
             catch (OrganogramaException oe)
             {
                 AdicionarMensagem(TipoMensagem.Erro, oe.Message);
-
-                return View(new List<OrganizacaoListagemViewModel>());
+                return RedirectToAction("Index", "Home");
             }
         }
 

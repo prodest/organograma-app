@@ -30,18 +30,25 @@ namespace OrganogramaApp.WebApp.Controllers.Unidade
         {
             try
             {
-                var uvm = workService.Pesquisar(usuario.Organizacoes, guidOrganizacao, usuario.AccessToken);
+                if (usuario.Organizacoes != null)
+                {
+                    var uvm = workService.Pesquisar(usuario.Organizacoes, guidOrganizacao, usuario.AccessToken);
 
-                if (uvm.Unidades != null && uvm.Unidades.Count > 0)
-                    ViewBag.GuidOrganizacao = uvm.GuidOrganizacao;
+                    if (uvm.Unidades != null && uvm.Unidades.Count > 0)
+                        ViewBag.GuidOrganizacao = uvm.GuidOrganizacao;
 
-                return View(uvm);
+                    return View(uvm);
+                }
+                else
+                {
+                    return RedirectToAction("SemOrgao", "Home");
+                }
             }
             catch (OrganogramaException oe)
             {
                 AdicionarMensagem(TipoMensagem.Erro, oe.Message);
 
-                return View(new UnidadeViewModel());
+                return RedirectToAction("Index", "Home");
             }
         }
 

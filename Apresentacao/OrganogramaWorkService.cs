@@ -12,10 +12,10 @@ using System.Threading.Tasks;
 
 namespace OrganogramaApp.Apresentacao
 {
-    public class OrganogramaWorkService: WorkServiceBase, IOrganogramaWorkService
+    public class OrganogramaWorkService : WorkServiceBase, IOrganogramaWorkService
     {
         public OrganogramaWorkService(string urlBaseurlOrganogramaApiBase) : base(urlBaseurlOrganogramaApiBase)
-        {            
+        {
         }
 
         public ChartViewModel Pesquisar(string guid, string accessToken)
@@ -32,7 +32,7 @@ namespace OrganogramaApp.Apresentacao
 
                 organograma = Mapper.Map<OrganogramaModel, ChartViewModel>(organogramamd);
             }
-                
+
             else
             {
                 string conteudo = retornoAjaxModel.content.Replace("-------------------------------\n", "");
@@ -40,6 +40,36 @@ namespace OrganogramaApp.Apresentacao
             }
 
             return organograma;
+        }
+
+        public List<OrganizacaoDropDownList> PesquisarFilhas(string guid, string accessToken)
+        {
+            List<OrganizacaoDropDownList> filhas = null;
+
+            string url = urlOrganogramaApiBase + "organizacoes/" + guid + "/filhas";
+
+            RetornoAjaxModel retornoAjaxModel = Get(url, accessToken);
+
+            if (retornoAjaxModel.IsSuccessStatusCode)
+            {
+                List<OrganogramaModel> organogramamd = JsonConvert.DeserializeObject<List<OrganogramaModel>>(retornoAjaxModel.result);
+
+                filhas = organogramamd.Select(o => new OrganizacaoDropDownList
+                {
+                    Guid = o.guid,
+                    Nome = o.razaoSocial,
+                    Sigla = o.sigla
+                })
+                .ToList();
+
+            }
+            else
+            {
+                string conteudo = retornoAjaxModel.content.Replace("-------------------------------\n", "");
+                throw new OrganogramaException(retornoAjaxModel.statusCode + ": " + conteudo);
+            }
+
+            return filhas;
         }
 
         //public OrganogramaViewModel Pesquisar(string guid, string accessToken)

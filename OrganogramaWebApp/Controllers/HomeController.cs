@@ -21,17 +21,13 @@ namespace OrganogramaApp.WebApp.Controllers
 
         public ActionResult Index()
         {
-            try
-            {
-                var ovm = workService.Pesquisar(usuario.Organizacoes[0].guid, usuario.AccessToken);                
-                return View(ovm);
-            }
-            catch (OrganogramaException oe)
-            {
-                AdicionarMensagem(TipoMensagem.Erro, oe.Message);
+            //return View("Index");
+            return View("_minhasOrganizacoes", usuario);
+        }
 
-                return View(new OrganogramaViewModel());
-            }
+        public ActionResult SemOrgao()
+        {
+            return View("_semOrgao");
         }
 
         public ActionResult Organograma(string guid)
@@ -52,6 +48,11 @@ namespace OrganogramaApp.WebApp.Controllers
         public ActionResult GetUsuarioLogado()
         {
             return PartialView("_usuario", usuario);
-        }        
+        }
+
+        public ActionResult MinhasOrganizacoes()
+        {
+            return View("_minhasOrganizacoes", usuario);
+        }
     }
 }

@@ -9,11 +9,11 @@
     <div class="box-header with-border">
         <h3 class="box-title">@ViewBag.SubTitle</h3>
 
-        <div class="pull-right box-tools">
+        @*<div class="pull-right box-tools">
             <a href="@Url.Action("Cadastrar","Unidade", new {guidOrganizacao = ViewData["GuidOrganizacao"] })" class="btn btn-info btn-sm" data-toggle="tooltip" title="Cadastrar Unidade.">
                 <i class="fa fa-plus"></i> Novo
             </a>
-        </div>
+        </div>*@
     </div>
     <!-- /.box-header -->
     <div class="box-body table-responsive">
@@ -23,8 +23,8 @@
                     <th class="col-xs-4">@Html.DisplayNameFor(model => model.Nome)</th>
                     <th class="col-xs-2">@Html.DisplayNameFor(model => model.Sigla)</th>
                     <th class="col-xs-2">@Html.DisplayNameFor(model => model.Tipo)</th> 
-                    <th class="col-xs-2">@Html.DisplayNameFor(model => model.UnidadePai)</th> 
-                    <th>Ações</th>
+                    <th class="col-xs-3">@Html.DisplayNameFor(model => model.UnidadePai)</th> 
+                    <th class="text-center">Ações</th>
                 </tr>
             </thead>
             <tbody>
@@ -43,10 +43,10 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.UnidadePai)
                         </td>
-                        <td>
+                        <td class="text-center">
                             @*<a href="@Url.Action("Editar","Unidade",new { guid = item.Guid })" data-evento="2" class="btn btn-xs btn-primary btnModalUnidade" data-toggle="tooltip" title="Editar Unidade"><i class="fa fa-edit" aria-hidden="true"></i></a>*@
                             <a href="@Url.Action("Visualizar","Unidade",new { guid = item.Guid })" data-evento="4" class="btn btn-xs btn-success btnModalUnidade" data-toggle="tooltip" title="Visualizar Unidade"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                            <a href="@Url.Action("Excluir","Unidade",new { guid = item.Guid })" data-evento="3" class="btn btn-xs btn-danger btnModalUnidade" data-toggle="tooltip" title="Excluir Unidade"><i class="fa fa-close" aria-hidden="true"></i></a>
+                            @*<a href="@Url.Action("Excluir","Unidade",new { guid = item.Guid })" data-evento="3" class="btn btn-xs btn-danger btnModalUnidade" data-toggle="tooltip" title="Excluir Unidade"><i class="fa fa-close" aria-hidden="true"></i></a>*@
 
                         </td>
                     </tr>

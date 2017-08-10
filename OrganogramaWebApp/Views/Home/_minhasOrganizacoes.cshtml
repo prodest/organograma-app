@@ -1,0 +1,57 @@
+﻿@model OrganogramaApp.WebApp.Autorizacao.UsuarioLogado
+
+@{
+    ViewBag.Title = "Home";
+}
+
+<section class="content-header">
+    <h1>
+        <i class="fa fa-home"></i> @ViewBag.Title
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> MENU PRINCIPAL</a></li>
+        <li class="active">@ViewBag.Title</li>
+    </ol>
+
+    <hr />
+
+    <div class="row">
+        <div class="col-sm-12 col-md-6">
+
+            @if (Model.Autenticado)
+            {
+
+
+                <div class="box box-widget widget-user-2">
+                    <!-- Add the bg color to the header using any of the bg-* classes -->
+                    <div class="widget-user-header bg-green">
+                        <div class="widget-user-image pull-left">
+                            <i class="fa fa-user-circle-o fa-5x"></i>
+                        </div>
+                        <h3 class="widget-user-username">@Model.Nome</h3>
+                        <h5 class="widget-user-desc">@Model.Email</h5>
+                    </div>
+                    <div class="box-footer">
+                        @if (Model.Organizacoes != null && Model.Organizacoes.Count > 0)
+                        {
+
+                            <ul class="nav nav-stacked">
+                                @foreach (var orgao in @Model.Organizacoes)
+                                {
+                                    <li><a href="@Url.Action("index", "organizacao")"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i> @orgao.sigla - @orgao.razaoSocial</a></li>
+                                }
+                            </ul>
+
+                        }
+                        else
+                        {
+                            <div class="label label-danger">Não há Organização vinculada.</div>
+                        }
+                    </div>
+                </div>
+
+            }
+
+        </div>
+    </div>
+</section>
