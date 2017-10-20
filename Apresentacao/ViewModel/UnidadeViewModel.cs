@@ -94,6 +94,8 @@ namespace OrganogramaApp.Apresentacao.ViewModel
         public List<EmailConsultarUnidadeViewModel> Emails { get; set; }
         [Display(Name = "Sites")]
         public List<SiteConsultarUnidadeViewModel> Sites { get; set; }
+        [Display(Name = "Responsável")]
+        public ResponsavelViewModel Responsavel { get; set; }
     }
 
     public class UnidadePaiConsultarUnidadeViewModel

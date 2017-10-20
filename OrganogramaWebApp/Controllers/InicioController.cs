@@ -2,6 +2,7 @@
 using OrganogramaApp.Apresentacao.Base;
 using OrganogramaApp.Apresentacao.Comum;
 using OrganogramaApp.Apresentacao.ViewModel;
+using OrganogramaApp.WebApp.Config;
 using OrganogramaApp.WebApp.Models;
 using System;
 using System.Collections.Generic;
@@ -15,51 +16,105 @@ namespace OrganogramaApp.WebApp.Controllers
 {
     //Trocar BaseController por Controller
 
-    public class InicioController : BaseController
+    //public class InicioController : BaseController
+    public class InicioController: MessageController
     {
-        private IOrganogramaWorkService workService;
+        private IOrganogramaWorkService _workServiceOrganograma;
+        private IUnidadeWorkService _workServiceunidade;
+        private IOrganizacaoWorkService _workServiceOrganizacao; 
 
-        public InicioController(IOrganogramaWorkService workService)
+        public InicioController(IOrganogramaWorkService workServiceOrganograma, IUnidadeWorkService workServiceunidade, IOrganizacaoWorkService workServiceOrganizacao)
         {
-            this.workService = workService;
+            this._workServiceOrganograma = workServiceOrganograma;
+            this._workServiceunidade = workServiceunidade;
+            this._workServiceOrganizacao = workServiceOrganizacao;
         }
         // GET: Inicio
-        public ActionResult Index()
-        {   
+        public async Task<ActionResult> Index()
+        {
             try
             {
-                //var ovm = workService.Pesquisar(usuario.Organizacoes[0].guid, usuario.AccessToken);
-                //var ovm = workService.Pesquisar(usuario.Organizacoes[0].guid, usuario.AccessToken);
-                var ovm = workService.PesquisarFilhas(usuario.Organizacoes[0].organizacaoPai.guid, usuario.AccessToken);
-                return View(ovm);
+                TokenResponse token = await ApplicationToken.GetToken();
+                ViewBag.teste = token;
+
+                return View(_workServiceOrganograma.PesquisarFilhas("fe88eb2a-a1f3-4cb1-a684-87317baf5a57", token.AccessToken));                
             }
             catch (OrganogramaException oe)
             {
                 AdicionarMensagem(TipoMensagem.Erro, oe.Message);
-
-                return View(new OrganogramaViewModel());
+                return View(new List<OrganogramaViewModel>());
             }
         }
 
-        private async Task<object> GetToken()
+        public async Task<ActionResult> Organograma(string guid)
         {
-            TokenResponse tokenResponse = await GetOrganogramaAccessTokenAsync();
-            return tokenResponse;
+            try
+            {
+                TokenResponse token = await ApplicationToken.GetToken();
+
+                var ovm = _workServiceOrganograma.Pesquisar(guid, token.AccessToken);
+                return Json(ovm, JsonRequestBehavior.AllowGet);
+            }
+            catch (OrganogramaException oe)
+            {
+                AdicionarMensagem(TipoMensagem.Erro, oe.Message);
+                return Json(new OrganogramaViewModel(), JsonRequestBehavior.AllowGet);
+            }
         }
 
-        private async Task<TokenResponse> GetOrganogramaAccessTokenAsync()
+        public async Task<ActionResult> Consultar(string guid)
         {
-            //var _clientId = ConfigurationManager.AppSettings["clientApiOrganograma"];
-            //var _secret = ConfigurationManager.AppSettings["SecretApiOrganograma"];
-
-            var _clientId = ConfigurationManager.AppSettings["ClientIdOrganogramaApp"];
-            var _secret = ConfigurationManager.AppSettings["SecretOrganogramaApp"];
-
-            var authority = "https://acessocidadao.es.gov.br/is//connect/token";
-
-            TokenClient tokenClient = new TokenClient(authority, _clientId, _secret);
-
-            return await tokenClient.RequestClientCredentialsAsync("ApiOrganograma");            
+            try
+            {
+                TokenResponse token = await ApplicationToken.GetToken();
+                return PartialView(_workServiceOrganizacao.Pesquisar(guid, token.AccessToken));
+            }
+            catch (OrganogramaException oe)
+            {
+                AdicionarMensagem(TipoMensagem.Erro, oe.Message);
+                return PartialView(new OrganizacaoVisualizacaoViewModel());
+            }
         }
+
+        public async Task<ActionResult> VisualizarUnidade(string guid)
+        {
+            UnidadeConsultarViewModel unidade = null;
+            try
+            {
+                TokenResponse token = await ApplicationToken.GetToken();
+                unidade = _workServiceunidade.Consultar(guid, token.AccessToken);
+                unidade.Responsavel = _workServiceunidade.ConsultarResponsavel(guid, token.AccessToken);
+
+                return PartialView("VisualizarUnidade", unidade);
+            }
+            catch (OrganogramaException oe)
+            {
+                AdicionarMensagem(TipoMensagem.Erro, oe.Message);
+                return Json(unidade, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                AdicionarMensagem(TipoMensagem.Erro, e.Message);
+                return Json(unidade, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public async Task<ActionResult> VisualizarOrganizacao(string guid)
+        {
+            OrganizacaoVisualizacaoViewModel organizacao = null;
+
+            try
+            {
+                TokenResponse token = await ApplicationToken.GetToken();
+                organizacao = _workServiceOrganizacao.Pesquisar(guid, token.AccessToken);
+                return PartialView("VisualizarOrganizacao", organizacao);
+            }
+            catch (OrganogramaException oe)
+            {
+                AdicionarMensagem(TipoMensagem.Erro, oe.Message);
+                return Json(organizacao, JsonRequestBehavior.AllowGet);
+            }
+        }
+
     }
 }

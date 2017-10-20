@@ -17,5 +17,6 @@ namespace OrganogramaApp.Apresentacao.Base
         RetornoAjaxModel PostUnidade(UnidadePostModel unidade, string token);
         void Excluir(string guid, string accessToken);
         UnidadeEditarViewModel ConsultarEdicao(string guidUnidade, string accessToken);
+        ResponsavelViewModel ConsultarResponsavel(string guid, string accessToken);
     }
 }

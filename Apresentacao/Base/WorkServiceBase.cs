@@ -9,7 +9,7 @@ using System.Text;
 namespace OrganogramaApp.Apresentacao.Base
 {
     public class WorkServiceBase
-    {
+    {  
         protected string urlOrganogramaApiBase;
 
         public WorkServiceBase(string urlOrganogramaApiBase)

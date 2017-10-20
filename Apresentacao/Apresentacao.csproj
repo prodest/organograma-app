@@ -93,6 +93,7 @@
     <Compile Include="TipoUnidadeWorkService.cs" />
     <Compile Include="UnidadeWorkService.cs" />
     <Compile Include="ViewModel\ContatoViewModel.cs" />
+    <Compile Include="ViewModel\ResponsavelViewModel.cs" />
     <Compile Include="ViewModel\EmailViewModel.cs" />
     <Compile Include="ViewModel\EnderecoViewModel.cs" />
     <Compile Include="ViewModel\EstadoViewModel.cs" />

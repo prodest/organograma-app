@@ -1,7 +1,7 @@
 ﻿@model OrganogramaApp.Apresentacao.ViewModel.UnidadeConsultarViewModel
 
 <div>
-    @*<h4>@Html.DisplayFor(model => model.Nome)</h4>*@
+    @*<h4>@Html.DisplayFor(model => model.Nome)</h4>*@    
 
     <table class="table table-bordered table-condensed table-hover table-striped">
         <tbody>
@@ -11,7 +11,7 @@
                 </th>
                 <td>
                     @Html.DisplayFor(model => model.Nome)
-                </td>
+                </td>                                
             </tr>
 
             <tr>
@@ -41,16 +41,15 @@
                 </td>
             </tr>
 
-            @if (Model.UnidadePai != null)
-            {
-                <tr>
-                    <th class="text-right">
-                        @Html.DisplayNameFor(model => model.UnidadePai)
-                    </th>
-                    <td>
-                        @Html.DisplayFor(model => model.UnidadePai.SiglaNome)
-                    </td>
-                </tr>
+            @if (Model.UnidadePai != null) { 
+            <tr>
+                <th class="text-right">
+                    @Html.DisplayNameFor(model => model.UnidadePai)
+                </th>
+                <td>
+                    @Html.DisplayFor(model => model.UnidadePai.SiglaNome)
+                </td>
+            </tr>
             }
 
             @if (Model.Endereco != null)
@@ -87,12 +86,11 @@
                         @Html.DisplayNameFor(model => model.Contatos)
                     </th>
                     <td>
-                        @foreach (var item in Model.Contatos)
-                        {
-                            <dl>
-                                <dt>Telefone</dt>
-                                <dd>@item.Telefone</dd>
-                            </dl>
+                        @foreach(var item in Model.Contatos) { 
+                        <dl>
+                            <dt>Telefone</dt>
+                            <dd>@item.Telefone</dd>                            
+                        </dl>
                         }
                     </td>
                 </tr>
@@ -140,11 +138,10 @@
                     <th class="text-right">
                         @Html.DisplayNameFor(model => model.Responsavel)
                     </th>
-                    <td>
-                        <dl>
-                            <dt>@Html.DisplayNameFor(model => model.Responsavel.Nome)</dt>
-                            <dd>@Model.Responsavel.Nome</dd>
-                        </dl>
+                    <td><dl>
+                                <dt>@Html.DisplayNameFor(model => model.Responsavel.Nome)</dt>
+                                <dd>@Model.Responsavel.Nome</dd>
+                            </dl>
                     </td>
                 </tr>
             }

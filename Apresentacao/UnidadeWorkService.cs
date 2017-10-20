@@ -126,6 +126,24 @@ namespace OrganogramaApp.Apresentacao
             return unidade;
         }
 
+        public ResponsavelViewModel ConsultarResponsavel(string guid, string accessToken)
+        {
+            var url = urlOrganogramaApiBase + "unidades/" + guid + "/responsavel";
+            ResponsavelViewModel responsavel = null;
+
+            RetornoAjaxModel retornoAjaxModel = Get(url, accessToken);
+
+            if (retornoAjaxModel.IsSuccessStatusCode)
+                responsavel = JsonConvert.DeserializeObject<ResponsavelViewModel>(retornoAjaxModel.result);
+            else
+            {
+                string conteudo = retornoAjaxModel.content.Replace("-------------------------------\n", "");
+                throw new OrganogramaException(retornoAjaxModel.statusCode + ": " + conteudo);
+            }
+
+            return responsavel;
+        }
+
         public RetornoAjaxModel GetUnidade(string guidOrganizacao, string token)
         {
             var url = urlOrganogramaApiBase + "unidades/" + guidOrganizacao;

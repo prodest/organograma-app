@@ -25,6 +25,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -213,9 +214,11 @@
     <Compile Include="Autorizacao\Usuario.cs" />
     <Compile Include="Config\AutoMapperConfiguration.cs" />
     <Compile Include="Config\InjecaoDependencia.cs" />
+    <Compile Include="Config\ApplicationToken.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InicioController.cs" />
+    <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\Organizacao\OrganizacaoController.cs" />
     <Compile Include="Controllers\TipoOrganizacao\TipoOrganizacaoController.cs" />
     <Compile Include="Controllers\TipoUnidade\TipoUnidadeController.cs" />
@@ -556,6 +559,8 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\OrgChart\jquery.orgchart.css" />
     <Content Include="Scripts\OrgChart\jquery.orgchart.js" />
+    <Content Include="Scripts\OrgChart\jquery.orgchart.min.css" />
+    <Content Include="Scripts\OrgChart\jquery.orgchart.min.js" />
     <Content Include="Scripts\OrgChart\orgchartCustom.css" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
@@ -785,6 +790,8 @@
     <Content Include="Views\Home\_minhasOrganizacoes.cshtml" />
     <Content Include="Views\Inicio\Index.cshtml" />
     <Content Include="Views\Shared\_LayoutPublico.cshtml" />
+    <Content Include="Views\Inicio\VisualizarUnidade.cshtml" />
+    <Content Include="Views\Inicio\VisualizarOrganizacao.cshtml" />
     <None Include="Web.Desenvolvimento.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -798,6 +805,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Base\" />
+    <Folder Include="Views\Message\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

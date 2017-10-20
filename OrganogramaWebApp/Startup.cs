@@ -45,7 +45,7 @@ namespace WebApp
                 RedirectUri = localApp,
                 PostLogoutRedirectUri = localApp,
                 ResponseType = "code id_token",
-                Scope = "openid profile offline_access cpf email nome ApiOrganograma",
+                Scope = "openid profile offline_access cpf email nome permissoes ApiOrganograma",
 
 
                 TokenValidationParameters = new TokenValidationParameters
