@@ -54,7 +54,8 @@ namespace OrganogramaApp.Apresentacao.Config
                    ;
 
                 cfg.CreateMap<OrganogramaModel, ChartViewModel>()
-                   .ForMember(dest => dest.name, opt => opt.MapFrom(s => s.sigla))
+                   //.ForMember(dest => dest.name, opt => opt.MapFrom(s => s.sigla))
+                   .ForMember(dest => dest.name, opt => opt.MapFrom(s => s.nomeCurto != null ? s.nomeCurto : s.sigla))
                    .ForMember(dest => dest.title, opt => opt.MapFrom(s => s.razaoSocial))
                    .ForMember(dest => dest.organizacoes, opt => opt.MapFrom(s => s.organizacoesFilhas))
                    .ForMember(dest => dest.unidades, opt => opt.MapFrom(s => s.unidades))
@@ -64,7 +65,8 @@ namespace OrganogramaApp.Apresentacao.Config
 
                 #region Unidade
                 cfg.CreateMap<UnidadeFilhaModel, ChartViewModel>()
-                   .ForMember(dest => dest.name, opt => opt.MapFrom(s => s.sigla))
+                   //.ForMember(dest => dest.name, opt => opt.MapFrom(s => s.sigla))
+                   .ForMember(dest => dest.name, opt => opt.MapFrom(s => s.nomeCurto != null ? s.nomeCurto : s.sigla))
                    .ForMember(dest => dest.title, opt => opt.MapFrom(s => s.nome))
                    .ForMember(dest => dest.unidades, opt => opt.MapFrom(s => s.unidadesFilhas))
                    ;

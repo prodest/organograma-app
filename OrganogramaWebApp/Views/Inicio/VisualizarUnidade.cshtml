@@ -1,7 +1,7 @@
 ﻿@model OrganogramaApp.Apresentacao.ViewModel.UnidadeConsultarViewModel
 
 <div>
-    @*<h4>@Html.DisplayFor(model => model.Nome)</h4>*@    
+    @*<h4>@Html.DisplayFor(model => model.Nome)</h4>*@
 
     <table class="table table-bordered table-condensed table-hover table-striped">
         <tbody>
@@ -11,17 +11,31 @@
                 </th>
                 <td>
                     @Html.DisplayFor(model => model.Nome)
-                </td>                                
-            </tr>
-
-            <tr>
-                <th class="text-right">
-                    @Html.DisplayNameFor(model => model.Sigla)
-                </th>
-                <td>
-                    @Html.DisplayFor(model => model.Sigla)
                 </td>
             </tr>
+
+            @if (string.IsNullOrEmpty(Model.NomeCurto))
+            {
+                <tr>
+                    <th class="text-right">
+                        @Html.DisplayNameFor(model => model.Sigla)
+                    </th>
+                    <td>
+                        @Html.DisplayFor(model => model.Sigla)
+                    </td>
+                </tr>
+            }
+            else
+            {
+                <tr>
+                    <th class="text-right">
+                        @Html.DisplayNameFor(model => model.NomeCurto)
+                    </th>
+                    <td>
+                        @Html.DisplayFor(model => model.NomeCurto)
+                    </td>
+                </tr>
+            }
 
             <tr>
                 <th class="text-right">
@@ -41,15 +55,16 @@
                 </td>
             </tr>
 
-            @if (Model.UnidadePai != null) { 
-            <tr>
-                <th class="text-right">
-                    @Html.DisplayNameFor(model => model.UnidadePai)
-                </th>
-                <td>
-                    @Html.DisplayFor(model => model.UnidadePai.SiglaNome)
-                </td>
-            </tr>
+            @if (Model.UnidadePai != null)
+            {
+                <tr>
+                    <th class="text-right">
+                        @Html.DisplayNameFor(model => model.UnidadePai)
+                    </th>
+                    <td>
+                        @Html.DisplayFor(model => model.UnidadePai.SiglaNome)
+                    </td>
+                </tr>
             }
 
             @if (Model.Endereco != null)
@@ -86,11 +101,12 @@
                         @Html.DisplayNameFor(model => model.Contatos)
                     </th>
                     <td>
-                        @foreach(var item in Model.Contatos) { 
-                        <dl>
-                            <dt>Telefone</dt>
-                            <dd>@item.Telefone</dd>                            
-                        </dl>
+                        @foreach (var item in Model.Contatos)
+                        {
+                            <dl>
+                                <dt>Telefone</dt>
+                                <dd>@item.Telefone</dd>
+                            </dl>
                         }
                     </td>
                 </tr>
@@ -132,19 +148,26 @@
                 </tr>
             }
 
-            @if (Model.Responsavel != null)
-            {
-                <tr>
-                    <th class="text-right">
-                        @Html.DisplayNameFor(model => model.Responsavel)
-                    </th>
-                    <td><dl>
-                                <dt>@Html.DisplayNameFor(model => model.Responsavel.Nome)</dt>
-                                <dd>@Model.Responsavel.Nome</dd>
-                            </dl>
-                    </td>
-                </tr>
-            }
+
+            <tr>
+                <th class="text-right">
+                    @Html.DisplayNameFor(model => model.Responsavel)
+                </th>
+                <td>
+                    @if (Model.Responsavel != null)
+                    {
+                        <dl>
+                            <dt>@Html.DisplayNameFor(model => model.Responsavel.Nome)</dt>
+                            <dd>@Model.Responsavel.Nome</dd>
+                        </dl>
+                    }
+                    else
+                    {
+                        <span>NÃO INFORMADO</span>
+                    }
+                </td>
+            </tr>
+
         </tbody>
     </table>
 </div>

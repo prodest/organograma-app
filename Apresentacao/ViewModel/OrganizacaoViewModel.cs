@@ -20,7 +20,9 @@ namespace OrganogramaApp.Apresentacao.ViewModel
         [Display(Name = "Razão Social")]
         public string RazaoSocial { get; set; }
         [Display(Name = "Sigla")]
-        public string Sigla { get; set; }        
+        public string Sigla { get; set; }
+        [Display(Name = "Sigla")]
+        public string NomeCurto { get; set; }
         [Display(Name = "Organização Pai")]
         public Organizacaopai organizacaoPai { get; set; }
     }
@@ -30,6 +32,7 @@ namespace OrganogramaApp.Apresentacao.ViewModel
         public string Guid { get; set; }
         public string Nome { get; set; }
         public string Sigla { get; set; }
+        public string NomeCurto { get; set; }
         public string SiglaNome
         {
             get
@@ -105,6 +108,8 @@ namespace OrganogramaApp.Apresentacao.ViewModel
         public string nomeFantasia { get; set; }
         [Display(Name = "Sigla")]
         public string sigla { get; set; }
+        [Display(Name = "Sigla")]
+        public string nomeCurto { get; set; }
         [Display(Name = "Contato")]
         public List<Contato> contatos { get; set; }
         [Display(Name = "E-mail")]

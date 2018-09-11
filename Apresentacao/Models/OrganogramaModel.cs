@@ -13,6 +13,7 @@ namespace OrganogramaApp.Apresentacao.Models
         public string razaoSocial { get; set; }
         public string nomeFantasia { get; set; }
         public string sigla { get; set; }
+        public string nomeCurto { get; set; }
         public Esfera esfera { get; set; }
         public Poder poder { get; set; }
         public List<OrganogramaModel> organizacoesFilhas { get; set; }
@@ -25,6 +26,7 @@ namespace OrganogramaApp.Apresentacao.Models
         public string guid { get; set; }
         public string nome { get; set; }
         public string sigla { get; set; }
+        public string nomeCurto { get; set; }
         public List<UnidadeFilhaModel> unidadesFilhas { get; set; }
     }
 
@@ -33,7 +35,7 @@ namespace OrganogramaApp.Apresentacao.Models
         public string guid { get; set; }
         public string nome { get; set; }
         public string sigla { get; set; }
-
+        public string nomeCurto { get; set; }
     }
 
 }

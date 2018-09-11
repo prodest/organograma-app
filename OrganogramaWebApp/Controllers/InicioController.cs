@@ -1,4 +1,5 @@
 ﻿using IdentityModel.Client;
+using Newtonsoft.Json;
 using OrganogramaApp.Apresentacao.Base;
 using OrganogramaApp.Apresentacao.Comum;
 using OrganogramaApp.Apresentacao.ViewModel;
@@ -53,7 +54,11 @@ namespace OrganogramaApp.WebApp.Controllers
                 TokenResponse token = await ApplicationToken.GetToken();
 
                 var ovm = _workServiceOrganograma.Pesquisar(guid, token.AccessToken);
-                return Json(ovm, JsonRequestBehavior.AllowGet);
+
+                string serializado = JsonConvert.SerializeObject(ovm);                
+
+                //return Json(ovm, JsonRequestBehavior.AllowGet);
+                return Content(serializado);
             }
             catch (OrganogramaException oe)
             {

@@ -74,11 +74,11 @@ function prevTab(elem) {
 $('body').on('click', '.btnModalTipoUnidade', function () {
     var evento = "";
 
-    if ($(this).attr('title') != "") {
-        evento = $(this).attr('title')
+    if ($(this).attr('title') !== "") {
+        evento = $(this).attr('title');
     }
     else {
-        evento = $(this).attr('data-original-title')
+        evento = $(this).attr('data-original-title');
     }
 
     $.ajax(this.href)
@@ -150,16 +150,16 @@ $('body').on('click', '.btnModalTipoOrganizacao', function () {
 
     var evento = "";
 
-    if ($(this).attr('title') != "") {
-        evento = $(this).attr('title')
+    if ($(this).attr('title') !== "") {
+        evento = $(this).attr('title');
     }
     else {
-        evento = $(this).attr('data-original-title')
+        evento = $(this).attr('data-original-title');
     }
 
     $.ajax(this.href)
       .done(function (tela) {
-          if (tela != null) {
+          if (tela !== null) {
               $('#modalTipoUnidadeLabel').text(evento);
               $('#update').html(tela);
               $('#modalCriar').modal('show');

@@ -136,9 +136,9 @@ namespace OrganogramaApp.Apresentacao
             if (retornoAjaxModel.IsSuccessStatusCode)
                 responsavel = JsonConvert.DeserializeObject<ResponsavelViewModel>(retornoAjaxModel.result);
             else
-            {
+            {   
                 string conteudo = retornoAjaxModel.content.Replace("-------------------------------\n", "");
-                throw new OrganogramaException(retornoAjaxModel.statusCode + ": " + conteudo);
+                //throw new OrganogramaException(retornoAjaxModel.statusCode + ": " + conteudo);
             }
 
             return responsavel;

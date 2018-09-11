@@ -295,6 +295,7 @@
     <Content Include="img\credit\paypal2.png" />
     <Content Include="img\credit\visa.png" />
     <Content Include="img\default-50x50.gif" />
+    <Content Include="img\diamond.png" />
     <Content Include="img\icons.png" />
     <Content Include="img\manutencao.png" />
     <Content Include="img\photo1.png" />

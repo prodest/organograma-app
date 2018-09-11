@@ -8,7 +8,7 @@
 
     <div class="jumbotron sep-bg-jumbotron">
         <div class="container">
-            <h1>Novo Organograma</h1>
+            <h1>Organograma</h1>
             <p>É um sistema corporativo, que visa a manutenção das informações organizacionais dos órgão do Governo do Estado do Espírito Santo.</p>
         </div>
     </div>
@@ -98,7 +98,12 @@
                     global: false,
                     type: 'GET',
                     async: false,
-                    success: function (dados) {
+                    success: function (data) {                        
+
+                        let dados = JSON.parse(data);
+
+                        console.log(dados);
+
                         if (dados != null) {
                             $('#modalTipoUnidadeLabel').text(evento);
                             $('#update').empty();
@@ -130,7 +135,8 @@
                             $('#modalCriar').modal('show');
                         }
                     },
-                    error: function () {
+                    error: function (data) {
+                        console.log(data);
                         toastr["warning"]("Não foi possível exibir o organograma solicitado!");
                     }
                 });
@@ -190,7 +196,7 @@
                             $('.detalhes').parents('.modal-lg').removeClass('modal-full');
                         }
                     })
-                    .fail(function () {
+                    .fail(function (data) {                        
                         toastr["warning"]("Não foi possível exibir o organograma solicitado!");
                     });
             }

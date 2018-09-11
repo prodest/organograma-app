@@ -16,19 +16,33 @@
                 <th class="text-right col-md-2">
                     @Html.DisplayNameFor(model => model.cnpj)
                 </th>
-                <td>                    
+                <td>
                     @Convert.ToUInt64(Model.cnpj).ToString(@"00\.000\.000\/0000\-00")
                 </td>
             </tr>
-
-            <tr>
-                <th class="text-right">
-                    @Html.DisplayNameFor(model => model.sigla)
-                </th>
-                <td>
-                    @Html.DisplayFor(model => model.sigla)
-                </td>
-            </tr>
+            
+            @if (string.IsNullOrEmpty(Model.nomeCurto))
+            {
+                <tr>
+                    <th class="text-right">
+                        @Html.DisplayNameFor(model => model.sigla)
+                    </th>
+                    <td>
+                        @Html.DisplayFor(model => model.sigla)
+                    </td>
+                </tr>
+            }
+            else
+            {
+                <tr>
+                    <th class="text-right">
+                        @Html.DisplayNameFor(model => model.nomeCurto)
+                    </th>
+                    <td>
+                        @Html.DisplayFor(model => model.nomeCurto)
+                    </td>
+                </tr>
+            }
 
             <tr>
                 <th class="text-right">
@@ -37,7 +51,7 @@
                 <td>
                     @Html.DisplayFor(model => model.tipoOrganizacao.descricao)
                 </td>
-            </tr>            
+            </tr>
 
             @if (Model.organizacaoPai != null)
             {
@@ -70,9 +84,9 @@
                             <dt>CEP</dt>
                             <dd>@Convert.ToUInt64(Model.endereco.cep).ToString(@"00000\-000")</dd>
                             @*<dt>Municipio</dt>
-                            <dd>@Html.DisplayFor(model => model.endereco.municipio.Nome)</dd>
-                            <dt>Estado</dt>
-                            <dd>@Html.DisplayFor(model => model.endereco.municipio.uf)</dd>*@
+                                <dd>@Html.DisplayFor(model => model.endereco.municipio.Nome)</dd>
+                                <dt>Estado</dt>
+                                <dd>@Html.DisplayFor(model => model.endereco.municipio.uf)</dd>*@
                         </dl>
                     </td>
                 </tr>

@@ -35,6 +35,7 @@ namespace OrganogramaApp.Apresentacao.ViewModel
         public string Guid { get; set; }
         public string Nome { get; set; }
         public string Sigla { get; set; }
+        public string NomeCurto { get; set; }
         public string SiglaNome
         {
             get
@@ -80,6 +81,8 @@ namespace OrganogramaApp.Apresentacao.ViewModel
         public string Nome { get; set; }
         [Display(Name = "Sigla")]
         public string Sigla { get; set; }
+        [Display(Name = "Sigla")]
+        public string NomeCurto { get; set; }
         [Display(Name = "Tipo")]
         public TipoUnidadeConsultarUnidadeViewModel TipoUnidade { get; set; }
         [Display(Name = "Organização")]
@@ -102,6 +105,7 @@ namespace OrganogramaApp.Apresentacao.ViewModel
     {
         public string Nome { get; set; }
         public string Sigla { get; set; }
+        public string NomeCurto { get; set; }
         public string SiglaNome
         {
             get

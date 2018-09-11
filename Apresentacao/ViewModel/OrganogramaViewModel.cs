@@ -71,8 +71,9 @@ namespace OrganogramaApp.Apresentacao.ViewModel
     public class ChartViewModel
     {
         public string guid { get; set; }
+        public string nomeCurto { get; set; }
         public string title { get; set; }
-        public string name { get; set; }
+        public string name { get;set; }
         public string tipo { get; set; }
         public string className
         {
